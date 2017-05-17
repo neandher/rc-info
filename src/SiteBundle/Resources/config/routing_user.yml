@@ -1,0 +1,46 @@
+site_login:
+    path: /login
+    methods: [GET]
+    defaults:
+        _controller: app.user.controller.security:loginAction
+        _app_options:
+            template: "site/login.html.twig"
+            form: 'SiteBundle\Form\SiteSecurityLoginType'
+
+site_login_check:
+    path: /login-check
+    methods: [POST]
+    defaults:
+        _controller: app.user.controller.security:checkAction
+
+site_logout:
+    path: /logout
+    methods: [GET]
+
+site_resetting_request:
+    path: /resetting/request
+    methods: [GET, POST]
+    defaults:
+        _controller: app.controller.site_user:resettingRequestAction
+        _app_options:
+            template: "site/account/resetting/resettingRequest.html.twig"
+            redirect: site_login
+            email_params: {from: "%site_resetting_email.from%", route: "%site_resetting_email.route%", template: "%site_resetting_email.template%"}
+
+site_resetting_reset:
+    path: /resetting/reset/{token}
+    methods: [GET, POST]
+    defaults:
+        _controller: app.controller.site_user:resettingResetAction
+        _app_options:
+            template: "site/account/resetting/resettingReset.html.twig"
+            redirect: site_account_dashboard
+
+site_change_password:
+    path: /change-password
+    methods: [GET, POST]
+    defaults:
+        _controller: app.controller.site_user:changePasswordAction
+        _app_options:
+            template: "site/account/changePassword/changePassword.html.twig"
+            redirect: site_account_dashboard

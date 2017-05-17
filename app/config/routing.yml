@@ -1,3 +1,11 @@
-app:
-    resource: '@AppBundle/Controller/'
-    type: annotation
+site:
+    resource: "@SiteBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+site_account:
+    resource: '@SiteBundle/Controller/Account'
+    prefix: /account
+
+site_user:
+    resource: "@SiteBundle/Resources/config/routing_user.yml"

@@ -1,0 +1,35 @@
+services:
+
+    app.site_user_repository:
+        class:  Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - SiteBundle\Entity\SiteUser
+
+    app.site_user_provider.cnpj_or_email_based:
+        class: UserBundle\Provider\CNPJOrEmailProvider
+        arguments:
+            - 'SiteBundle\Entity\SiteUser'
+            - '@app.site_user_repository'
+            - '@app.canonicalizer'
+
+    app.controller.site_user:
+        class: UserBundle\Controller\UserController
+        arguments:
+            - '@form.factory'
+            - '@templating'
+            - '@app.site_user_repository'
+            - '@app.user.token_generator'
+            - '@event_dispatcher'
+            - '@doctrine.orm.entity_manager'
+            - '@translator.default'
+            - '%token_ttl%'
+            - '@router.default'
+            - '@app.util.flash_bag'
+            - '@security.token_storage'
+
+    app.site_authentication_subscriber:
+        class: UserBundle\EventListener\AuthenticationSubscriber
+        arguments: ['@app.user.login_manager', 'site']
+        tags:
+            - { name: kernel.event_subscriber}

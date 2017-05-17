@@ -4,6 +4,13 @@ parameters:
     #parameter_name: value
 
 services:
-    #service_name:
-    #    class: AppBundle\Directory\ClassName
-    #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
+    app.canonicalizer:
+        class: AppBundle\Util\Canonicalizer
+
+    app.util.flash_bag:
+        class: AppBundle\Util\FlashBag
+        autowire: true
+
+    app.util.pagination:
+        class: AppBundle\Util\Pagination
+        autowire: true

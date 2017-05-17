@@ -2,15 +2,28 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: "@UserBundle/Resources/config/services.yml" }
+    - { resource: "@SiteBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
+    locale: pt_BR
+    token_ttl: 86400
+
+    site_resetting_email.from: "noreply@dev.com"
+    site_resetting_email.template: "site/account/resetting/email.txt.twig"
+    site_resetting_email.route: "site_resetting_reset"
+
+    site_register_email:
+        from: "noreply@dev.com"
+        template: "site/account/register/email.txt.twig"
+        route: "site_register_confirm"
 
 framework:
     #esi: ~
     #translator: { fallbacks: ['%locale%'] }
+    translator: ~
     secret: '%secret%'
     router:
         resource: '%kernel.root_dir%/config/routing.yml'
@@ -38,6 +51,8 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    form_themes:
+        - 'bootstrap_3_layout.html.twig'
 
 # Doctrine Configuration
 doctrine:
@@ -68,3 +83,8 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            timestampable: true

@@ -1,0 +1,12 @@
+#AppBundle\Entity\AdminUser:
+#    admin_user_1:
+#        firstName: Admin
+#        lastName: Super
+#        email: admin@email.com
+#        emailCanonical: -
+#        username: admin@email.com
+#        usernameCanonical: -
+#        isEnabled: 1
+#        plainPassword: admin89
+#        password: -
+#        roles: [ROLE_ADMINISTRATION_ACCESS]

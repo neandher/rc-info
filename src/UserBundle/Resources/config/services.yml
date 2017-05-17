@@ -1,0 +1,53 @@
+services:
+
+    app.user.controller.security:
+        class: UserBundle\Controller\SecurityController
+        autowire: true
+
+    app.user.last_login_subscriber:
+        class: UserBundle\EventListener\LastLoginSubscriber
+        autowire: true
+        tags:
+            - { name: kernel.event_subscriber }
+
+    app.user.login_manager:
+        class: UserBundle\Security\LoginManager
+        autowire: true
+
+    app.user_encode_password.subscriber:
+        class: UserBundle\EventListener\EncodePasswordSubscriber
+        autowire: true
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    app.user.resetting_request_subscriber:
+        class: UserBundle\EventListener\ResettingRequestSubscriber
+        autowire: true
+        tags:
+            - { name: kernel.event_subscriber }
+
+    app.user.resetting_reset_subscriber:
+        class: UserBundle\EventListener\ResettingResetSubscriber
+        autowire: true
+        tags:
+            - { name: kernel.event_subscriber }
+
+    app.user.token_generator:
+        class: UserBundle\Security\TokenGenerator
+        autowire: true
+
+    app.user.mailer:
+        class: UserBundle\Mailer\UserMailer
+        autowire: true
+
+    app.user.canonicalizer.subscriber:
+        class: UserBundle\EventListener\CanonicalizerSubscriber
+        autowire: true
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    app.user.register_subscriber:
+        class: UserBundle\EventListener\RegisterSubscriber
+        autowire: true
+        tags:
+            - { name: kernel.event_subscriber }

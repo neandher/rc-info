@@ -1,24 +1,57 @@
 # To get started with security, check out the documentation:
 # http://symfony.com/doc/current/security.html
+
+parameters:
+    app.security.admin_regex: "^/admin"
+    app.security.site_regex: "^/"
+
 security:
 
     # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        in_memory:
-            memory: ~
-
+        #admin_user_provider:
+        #    id: app.admin_user_provider.email_or_name_based
+        site_user_provider:
+            id: app.site_user_provider.cnpj_or_email_based
+    
+    encoders:
+        UserBundle\Model\User: bcrypt
+    
     firewalls:
+    
+        site:
+            provider: site_user_provider
+            switch_user: { role: ROLE_ALLOWED_TO_SWITCH }
+            context: site
+            pattern: "%app.security.site_regex%"
+            form_login:
+                provider: site_user_provider
+                login_path: site_login
+                check_path: site_login_check
+                failure_path: site_login
+                default_target_path: site_account_dashboard
+                use_forward: false
+                use_referer: true
+            remember_me:
+                secret: "%secret%"
+                name: APP_SITE_REMEMBER_ME
+                lifetime: 31536000
+                remember_me_parameter: _remember_me
+            logout:
+                path: site_logout
+                target: site_login
+                invalidate_session: false
+            anonymous: true
+    
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        main:
-            anonymous: ~
-            # activate different ways to authenticate
+    access_control:
+        - { path: "%app.security.admin_regex%/login", role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "%app.security.admin_regex%/resetting", role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "%app.security.admin_regex%", role: ROLE_ADMINISTRATION_ACCESS }
 
-            # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-            #http_basic: ~
-
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
-            #form_login: ~
+        - { path: "%app.security.site_regex%account", role: ROLE_USER }
+        - { path: "%app.security.site_regex%login", role: IS_AUTHENTICATED_ANONYMOUSLY }

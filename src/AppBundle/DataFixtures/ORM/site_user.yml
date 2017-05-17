@@ -1,0 +1,30 @@
+SiteBundle\Entity\Customer:
+    customer_1:
+        name: Rc Informática
+        cnpj: 123
+    customer_2:
+        name: Balãozinho
+        cnpj: 456
+
+SiteBundle\Entity\SiteUser:
+    site_user_1:
+        customer: '@customer_1'
+        email: rc.info@email.com
+        emailCanonical: -
+        username: rc.info@email.com
+        usernameCanonical: -
+        isEnabled: 1
+        plainPassword: rcinfo89
+        password: -
+        roles: [ROLE_USER]
+
+    site_user_2:
+        customer: '@customer_2'
+        email: balaozinho@email.com
+        emailCanonical: -
+        username: balaozinho@email.com
+        usernameCanonical: -
+        isEnabled: 1
+        plainPassword: balaozinho89
+        password: -
+        roles: [ROLE_USER]
