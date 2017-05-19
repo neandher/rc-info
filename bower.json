@@ -1,0 +1,17 @@
+{
+  "name": "rc-info",
+  "homepage": "https://github.com/neandher/rc-info",
+  "authors": [
+    "Neandher Carlos <neandher89@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
