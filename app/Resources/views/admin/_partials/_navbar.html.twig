@@ -4,7 +4,7 @@
     <div class="page-header-inner ">
         <!-- BEGIN LOGO -->
         <div class="page-logo">
-            <a href="index.html">
+            <a href="{{ path('admin_dashboard') }}">
                 <img src="{{ asset('admin/assets/layouts/layout2/img/logo-default.png') }}" alt="logo" class="logo-default"/> </a>
             <div class="menu-toggler sidebar-toggler">
                 <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
@@ -31,6 +31,9 @@
                                 </span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default">
+                                <li><a href="{{ path('admin_change_password') }}">
+                                        <i class="icon-key"></i>Alterar Senha</a>
+                                </li>
                                 <li>
                                     <a href="{{ path('admin_logout') }}">
                                         <i class="icon-key"></i> Sair </a>
