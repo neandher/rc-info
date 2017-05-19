@@ -9,14 +9,18 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">SITE</a>
+            <a class="navbar-brand" href="{{ path('site_homepage') }}">RC INFO</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
             <ul class="nav navbar-nav">
-                <li><a href="{{ path('site_homepage') }}">Homepage</a></li>
+                <li><a href="{{ path('site_sobre') }}">Sobre</a></li>
+                <li><a href="{{ path('site_produtos') }}">Produtos</a></li>
+                <li><a href="{{ path('site_downloads') }}">Downloads</a></li>
+                <li><a href="{{ path('site_experimente') }}">Experimente</a></li>
+                <li><a href="{{ path('site_contato') }}">Contato</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
