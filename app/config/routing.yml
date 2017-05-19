@@ -9,3 +9,12 @@ site_account:
 
 site_user:
     resource: "@SiteBundle/Resources/config/routing_user.yml"
+
+admin:
+    resource: '@AdminBundle/Controller'
+    type: annotation
+    prefix: /admin
+
+admin_user:
+    resource: '@AdminBundle/Resources/config/routing_user.yml'
+    prefix: /admin

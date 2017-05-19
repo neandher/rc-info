@@ -1,0 +1,120 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+
+    <div class="panel panel-default">
+
+        <div class="panel-heading">
+
+            <h2 class="pull-left">
+                <i class="glyphicon glyphicon-list-alt"></i> Usuários
+            </h2>
+
+            <div class="pull-right" style="padding-top: 20px;">
+                <a href="{{ path('admin_user_new') ~ pagination.buildQuery }}" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-plus"></span> Novo
+                </a>
+            </div>
+
+            <div class="clearfix"></div>
+
+        </div>
+
+        <form class="form-inline" role="search" method="get" action="{{ path('admin_user_index') }}">
+
+            <div class="panel-body">
+
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="busca"
+                           name="search"
+                           value="{% if app.request.query.has('search') %}{{ app.request.query.get('search') }}{% endif %}">
+                </div>
+
+                <div class="form-group">
+                    <input type="number" class="form-control col-md-4"
+                           placeholder=""
+                           name="num_items"
+                           value="{{ app.request.query.get('num_items', pagination.routeParams('num_items')) }}"
+                           min="5" max="500">
+                </div>
+
+                <div class="form-group">
+                    <button type="submit"
+                            class="btn btn-default form-control">Buscar</button>
+                </div>
+
+                <div class="form-group">
+                    <a href="{{ path('admin_user_index') }}"
+                       class="btn btn-default form-control">Resetar</a>
+                </div>
+
+                <div class="clearfix"></div>
+
+                <hr>
+
+                {{ include('_partials/_alerts.html.twig') }}
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>
+                                <a href="{{ path('admin_user_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('firstName') ~ pagination.sortingFieldQuery('lastName') }}">
+                                    Nome
+                                </a>
+                            </th>
+                            <th>
+                                <a href="{{ path('admin_user_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('email') }}">
+                                    Email
+                                </a>
+                            </th>
+                            <th>
+                                <a href="{{ path('admin_user_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('user.lastLoginAt') }}">
+                                    Ultimo Login
+                                </a>
+                            </th>
+                            <th>
+                                <a href="{{ path('admin_user_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('user.createdAt') }}">
+                                    Criado Em
+                                </a>
+                            </th>
+                            <th>Ações</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in adminUsers %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('admin_user_edit', {id: user.id}) ~ pagination.buildQuery }}">{{ user.fullName }}</a>
+                                </td>
+                                <td>{{ user.email }}</td>
+                                <td>{% if user.lastLoginAt %}{{ user.lastLoginAt|date('d/m/Y H:i') }}{% endif %}</td>
+                                <td>{{ user.createdAt|date('d/m/Y H:i') }}</td>
+                                <td>
+                                    <div class="item-actions">
+                                        <a href="{{ path('admin_user_edit', { id: user.id }) ~ pagination.buildQuery }}"
+                                           class="btn btn-sm btn-primary">
+                                            <i class="glyphicon glyphicon-edit"></i> Editar
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4" align="center">Nenhum registro encontrado</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="navigation text-center">
+                    {{ pagerfanta(adminUsers, 'twitter_bootstrap3', { routeName: 'admin_user_index', routeParams: app.request.query.all }) }}
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+
+{% endblock %}

@@ -4,6 +4,7 @@ imports:
     - { resource: services.yml }
     - { resource: "@UserBundle/Resources/config/services.yml" }
     - { resource: "@SiteBundle/Resources/config/services.yml" }
+    - { resource: "@AdminBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -19,6 +20,10 @@ parameters:
         from: "noreply@dev.com"
         template: "site/account/register/email.txt.twig"
         route: "site_register_confirm"
+
+    admin_resetting_email.from: "noreply@dev.com"
+    admin_resetting_email.template: "admin/resetting/email.txt.twig"
+    admin_resetting_email.route: "admin_resetting_reset"
 
 framework:
     #esi: ~

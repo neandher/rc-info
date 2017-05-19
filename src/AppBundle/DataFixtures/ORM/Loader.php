@@ -14,7 +14,7 @@ class Loader implements FixtureInterface
         $objects = Fixtures::load(
             [
                 __DIR__ . '/site_user.yml',
-                //__DIR__ . '/admin_user.yml',
+                __DIR__ . '/admin_user.yml',
             ],
             $manager,
             [

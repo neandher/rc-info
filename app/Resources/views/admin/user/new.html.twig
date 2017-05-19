@@ -1,0 +1,53 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+
+    <div class="panel panel-default">
+
+        <div class="panel-heading">
+
+            <h2 class="pull-left">
+                <i class="glyphicon glyphicon-list-alt"></i> Usuários: [novo]
+            </h2>
+
+            <div class="pull-right" style="padding-top: 20px;">
+                <a href="{{ path('admin_index') }}" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-cancel"></span> Cancelar
+                </a>
+            </div>
+
+            <div class="clearfix"></div>
+
+        </div>
+
+        {{ form_start(form, { 'action': path('admin_user_new'), 'attr': {'novalidate': 'novalidate'} }) }}
+
+        <div class="panel-body">
+
+            {{ include('_partials/_alerts.html.twig') }}
+            {{ form_errors(form) }}
+
+            {{ form_row(form.firstName) }}
+            {{ form_row(form.lastName) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.plainPassword.first) }}
+            {{ form_row(form.plainPassword.second) }}
+            {{ form_row(form.isEnabled) }}
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-primary">{{ 'shop.register.btn_create'|trans }}</button>
+                </div>
+            </div>
+
+        </div>
+
+        {{ form_widget(form._token) }}
+
+        {{ form_end(form, {'render_rest': false}) }}
+
+    </div>
+
+{% endblock %}

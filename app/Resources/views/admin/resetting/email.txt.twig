@@ -1,0 +1,11 @@
+{% block subject %}
+{% autoescape false %}
+{{ 'user.resetting.request.email.subject'|trans }}
+{% endautoescape %}
+{% endblock %}
+{% block body_text %}
+{% autoescape false %}
+{{ 'user.resetting.request.email.message'|trans({'%full_name%': user.getFullName(), '%url%': url}) }}
+{% endautoescape %}
+{% endblock %}
+{% block body_html %}{% endblock %}

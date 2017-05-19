@@ -9,37 +9,35 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ path('site_homepage') }}">RC INFO</a>
+            <a class="navbar-brand" href="#">Admin</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-            <ul class="nav navbar-nav">
-                <li><a href="{{ path('site_sobre') }}">Sobre</a></li>
-                <li><a href="{{ path('site_produtos') }}">Produtos</a></li>
-                <li><a href="{{ path('site_downloads') }}">Downloads</a></li>
-                <li><a href="{{ path('site_experimente') }}">Experimente</a></li>
-                <li><a href="{{ path('site_contato') }}">Contato</a></li>
-            </ul>
+            {% if app.user %}
 
-            <ul class="nav navbar-nav navbar-right">
-                {% if not app.user %}
-                    <li><a href="{{ path('site_login') }}">Área do Cliente</a></li>
-                {% endif %}
-                {% if app.user %}
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ path('admin_index') }}">Home</a></li>
+                    <li><a href="{{ path('admin_user_index') }}">Usuários</a></li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">
-                            {{ app.user.customer.name }} <span class="caret"></span>
+                            {{ app.user.fullName }} <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ path('site_change_password') }}">Alterar Senha</a></li>
-                            <li><a href="{{ path('site_logout') }}">Logout</a></li>
+                            <li><a href="{{ path('admin_change_password') }}">Alterar Senha</a></li>
+                            <li><a href="{{ path('admin_logout') }}">Logout</a></li>
                         </ul>
                     </li>
-                {% endif %}
-            </ul>
+
+                </ul>
+
+            {% endif %}
 
         </div>
         <!-- /.navbar-collapse -->

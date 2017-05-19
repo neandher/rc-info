@@ -9,8 +9,8 @@ security:
 
     # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        #admin_user_provider:
-        #    id: app.admin_user_provider.email_or_name_based
+        admin_user_provider:
+            id: app.admin_user_provider.email_or_name_based
         site_user_provider:
             id: app.site_user_provider.cnpj_or_email_based
     
@@ -18,7 +18,31 @@ security:
         UserBundle\Model\User: bcrypt
     
     firewalls:
-    
+
+        admin:
+            provider: admin_user_provider
+            switch_user: true
+            context: admin
+            pattern: "%app.security.admin_regex%"
+            form_login:
+                provider: admin_user_provider
+                login_path: admin_login
+                check_path: admin_login_check
+                failure_path: admin_login
+                default_target_path: admin_dashboard
+                use_forward: false
+                use_referer: true
+            remember_me:
+                secret: "%secret%"
+                path: /admin
+                name: APP_ADMIN_REMEMBER_ME
+                lifetime: 31536000
+                remember_me_parameter: _remember_me
+            logout:
+                path: admin_logout
+                target: admin_login
+            anonymous: true
+
         site:
             provider: site_user_provider
             switch_user: { role: ROLE_ALLOWED_TO_SWITCH }

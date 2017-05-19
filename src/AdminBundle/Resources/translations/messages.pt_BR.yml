@@ -1,0 +1,17 @@
+admin:
+    customers:
+        title: Clientes
+        new: Novo Cliente
+        edit: Editar Cliente
+        not_found: Nenhum cliente encontrado
+        fields:
+            full_name: Nome Completo
+            first_name: Primeiro Nome
+            last_name: Sobrenome
+            email: E-mail
+            password: Senha
+            phone_number: Telefone
+            subscribed_to_newsletter: Receber novidades
+            last_login: Último Login
+            created_at: Data Criação
+        impersonate: Successfully impersonated customer %name%

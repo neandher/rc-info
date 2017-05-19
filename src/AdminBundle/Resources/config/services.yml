@@ -1,0 +1,44 @@
+services:
+
+    app.admin_user_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - AdminBundle\Entity\AdminUser
+
+    app.admin_user_provider.email_or_name_based:
+        class: UserBundle\Provider\UsernameOrEmailProvider
+        arguments:
+            - 'AdminBundle\Entity\AdminUser'
+            - '@app.admin_user_repository'
+            - '@app.canonicalizer'
+
+    app.controller.admin_user:
+        class: UserBundle\Controller\UserController
+        arguments:
+            - '@form.factory'
+            - '@templating'
+            - '@app.admin_user_repository'
+            - '@app.user.token_generator'
+            - '@event_dispatcher'
+            - '@doctrine.orm.entity_manager'
+            - '@translator.default'
+            - '%token_ttl%'
+            - '@router'
+            - '@app.util.flash_bag'
+            - '@security.token_storage'
+
+    app.security.user_impersonator:
+        class: UserBundle\Security\UserImpersonator
+        arguments: ['@session', 'shop']
+
+    app.controller.admin_impersonate_shop_user:
+        class: AdminBundle\Controller\ImpersonateUserController
+        arguments:
+            - '@app.security.user_impersonator'
+            - '@security.authorization_checker'
+            - '@app.site_user_provider.cnpj_or_email_based'
+            - '@router'
+            - 'ROLE_ADMINISTRATION_ACCESS'
+            - '@app.util.flash_bag'
+            - '@router'
