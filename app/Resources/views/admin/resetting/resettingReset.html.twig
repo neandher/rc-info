@@ -1,34 +1,62 @@
 {% extends 'admin/base.html.twig' %}
 
+{% block title %}{{ parent() }} - {{ 'user.resetting.request.title'|trans }}{% endblock %}
+
+{% block stylesheets %}
+    {% embed 'admin/_partials/_block_stylesheets.html.twig' %}
+        {% block page_level_styles %}
+            <link href="{{ asset('admin/assets/pages/css/login.css') }}" rel="stylesheet" type="text/css"/>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
 {% block body %}
+    <body class=" login">
 
-    <h3>{{ 'user.resetting.reset.title'|trans }}</h3>
+    <div class="content">
+        <!-- BEGIN FORM -->
+        {{ form_start(form, { 'action': path('admin_resetting_reset', {'token' : token}), 'attr': {'class': 'forget-form'} }) }}
 
-    {{ form_start(form, { 'action': path('admin_resetting_reset', {'token' : token}), 'attr': {'novalidate': 'novalidate'} }) }}
+        <h3 class="font-green">{{ 'user.resetting.reset.title'|trans }}</h3>
+        <p></p>
 
-    <div class="row">
-        <div class="col-lg-12">
+        {{ include('_partials/_flash_messages.html.twig') }}
+        {{ form_errors(form) }}
 
-            {{ include('_partials/_alerts.html.twig') }}
+        {{ form_row(form.plainPassword.first, {
+            'label_attr': {'class' : 'control-label visible-ie8 visible-ie9'},
+            'attr': {
+                'class' : 'form-control placeholder-no-fix',
+                'placeholder': form.plainPassword.first.vars.label
+            }
+        }) }}
 
-            {{ form_errors(form) }}
-            {{ form_row(form.plainPassword.first) }}
-            {{ form_row(form.plainPassword.second) }}
+        {{ form_row(form.plainPassword.second, {
+            'label_attr': {'class' : 'control-label visible-ie8 visible-ie9'},
+            'attr': {
+                'class' : 'form-control placeholder-no-fix',
+                'placeholder': form.plainPassword.second.vars.label
+            }
+        }) }}
 
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <button class="btn btn-primary">{{ 'user.resetting.reset.btns.send'|trans }}</button>
-
-                    <a class="pull-right"
-                       href="{{ path('admin_login') }}">{{ 'user.resetting.request.links.login'|trans }}
-                    </a>
-                </div>
-            </div>
+        <div class="form-actions">
+            <a href="{{ path('admin_login') }}" id="back-btn" class="btn green btn-outline">
+                {{ 'user.resetting.request.links.login'|trans }}
+            </a>
+            <button type="submit" class="btn green uppercase pull-right">
+                {{ 'user.resetting.reset.btns.send'|trans }}
+            </button>
         </div>
+
+        {{ form_widget(form._token) }}
+
+        {{ form_end(form, {'render_rest': false}) }}
+        <!-- END FORM -->
     </div>
 
-    {{ form_widget(form._token) }}
+    {% block footer %}
+        {% embed 'admin/_partials/_footer.html.twig' with {'visible': 'footer_security'} %}{% endembed %}
+    {% endblock %}
 
-    {{ form_end(form, {'render_rest': false}) }}
-
+    </body>
 {% endblock %}

@@ -19,7 +19,8 @@ class ResettingResetType extends PlainPasswordType
         $resolver->setDefaults(
             array(
                 'data_class' => UserInterface::class,
-                'validation_groups' => ['Default', 'resetting']
+                'validation_groups' => ['Default', 'resetting'],
+                'is_register' => false
             )
         );
     }

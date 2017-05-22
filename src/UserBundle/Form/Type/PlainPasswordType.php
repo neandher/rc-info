@@ -15,8 +15,9 @@ class PlainPasswordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $options['is_register'] = empty($options['is_register']) ? true : $options['is_register'];
-        
+        $options['is_register'] = empty($options['is_register']) && !isset($options['is_register'])
+            ? true : $options['is_register'];
+
         $labelFirstOptions = $options['is_register'] ? 'user.form.password' : 'user.form.new_password';
         $labelSecondOptions = $options['is_register'] ? 'user.form.confirm_password'
             : 'user.form.new_password_confirmation';

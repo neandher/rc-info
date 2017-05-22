@@ -4,7 +4,8 @@ admin_login:
     defaults:
         _controller: app.user.controller.security:loginAction
         _app_options:
-            template: "admin/login.html.twig"
+            template: "admin/security/login.html.twig"
+            form: 'AdminBundle\Form\Type\AdminSecurityLoginType'
 
 admin_login_check:
     path: /login-check
@@ -33,7 +34,7 @@ admin_resetting_reset:
         _controller: app.controller.admin_user:resettingResetAction
         _app_options:
             template: "admin/resetting/resettingReset.html.twig"
-            redirect: admin_login
+            redirect: admin_dashboard
 
 admin_change_password:
     path: /change-password

@@ -12,8 +12,9 @@ user:
     resetting:
         request:
             title: Resetar Senha
+            instructions: Digite seu e-mail abaixo para resetar sua senha.
             errors:
-                email_not_found: E-mail não existe.
+                email_not_found: E-mail não encontrado.
                 password_already_requested: Este usuário já solicitou uma senha nas últimas 24 horas.
             btns:
                 send: Enviar

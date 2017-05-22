@@ -1,0 +1,7 @@
+{% block mt_checkbox_widget %}
+    <label class="rememberme check mt-checkbox mt-checkbox-outline">
+        <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+        {% if label is defined %}{{ label|trans }}{% endif %}
+        <span></span>
+    </label>
+{% endblock mt_checkbox_widget %}
