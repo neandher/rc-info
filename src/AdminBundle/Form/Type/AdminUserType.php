@@ -18,8 +18,8 @@ class AdminUserType extends UserType
         parent::buildForm($builder, $options);
 
         $builder
-            ->add('firstName', TextType::class)
-            ->add('lastName', TextType::class);
+            ->add('firstName', TextType::class, ['label' => 'Primeiro Nome'])
+            ->add('lastName', TextType::class, ['label' => 'Segundo Nome']);
     }
 
     /**
@@ -31,6 +31,7 @@ class AdminUserType extends UserType
             'data_class' => AdminUser::class,
             'validation_groups' => ['Default', 'creating'],
             'is_edit' => false,
+            'required' => false
         ]);
     }
 

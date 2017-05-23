@@ -47,6 +47,8 @@ class AdminUserController extends Controller
      */
     public function newAction(Request $request)
     {
+        $pagination = $this->get('app.util.pagination')->handle($request, AdminUser::class);
+
         $adminUser = new AdminUser();
 
         $form = $this->createForm(AdminUserType::class, $adminUser);
@@ -70,7 +72,8 @@ class AdminUserController extends Controller
         }
 
         return $this->render('admin/user/new.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'pagination' => $pagination
         ]);
     }
 

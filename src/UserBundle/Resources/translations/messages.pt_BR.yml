@@ -53,4 +53,5 @@ user:
         new_password: Nova senha
         new_password_confirmation: Confirme a nova senha
         is_enabled: Ativo
+        is_not_enabled: Não Ativo
         remember_me: Lembrar-me

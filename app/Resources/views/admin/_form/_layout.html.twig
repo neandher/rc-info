@@ -1,0 +1,31 @@
+{% extends 'bootstrap_3_layout.html.twig' %}
+
+{#
+{% block form_row -%}
+    <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+        {{- form_errors(form) -}}
+    </div>
+{%- endblock form_row %}#}
+
+{% block form_row -%}
+
+    {% if fh_col_md is defined %}
+
+        <div class="form-group {% if (not compound or force_error|default(false)) and not valid %}has-error{% endif %}">
+            {{- form_label(form) -}}
+            <div class="{{ fh_col_md }}">
+                {{- form_widget(form) -}}
+            </div>
+            {{- form_errors(form) -}}
+        </div>
+    {% else %}
+        <div class="form-group {% if (not compound or force_error|default(false)) and not valid %}has-error{% endif %}">
+            {{- form_label(form) -}}
+            {{- form_widget(form) -}}
+            {{- form_errors(form) -}}
+        </div>
+    {% endif %}
+
+{%- endblock form_row %}

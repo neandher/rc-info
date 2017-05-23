@@ -10,28 +10,51 @@
         <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
         <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
         <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-        <ul class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false"
+        <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu" data-keep-expanded="false"
             data-auto-scroll="true" data-slide-speed="200">
-            <li class="nav-item start ">
+            <li class="nav-item start
+                {% if app.request.attributes.get('_route') == 'admin_dashboard' %}active{% endif %}">
                 <a href="{{ path('admin_dashboard') }}" class="nav-link">
                     <i class="icon-home"></i>
                     <span class="title">Dashboard</span>
+                    {% if 'admin_dashboard' in app.request.attributes.get('_route') %}
+                        <span class="selected"></span>
+                    {% endif %}
                 </a>
             </li>
-            <li class="nav-item start ">
+            <li class="nav-item
+                {% if 'admin_user' in app.request.attributes.get('_route') %}active{% endif %}">
                 <a href="{{ path('admin_user_index') }}" class="nav-link nav-toggle">
                     <i class="icon-user"></i>
                     <span class="title">Usuários</span>
-                    <span class="arrow"></span>
+                    {% if 'admin_user' in app.request.attributes.get('_route') %}
+                        <span class="selected"></span>
+                    {% endif %}
+                    <span class="arrow
+                    {% if 'admin_user' in app.request.attributes.get('_route') %}open{% endif %}"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-item start ">
+                    <li class="nav-item
+                        {% if 'admin_user_index' in app.request.attributes.get('_route') %}active{% endif %}">
+                        <a href="{{ path('admin_user_index') }}" class="nav-link ">
+                            <i class="icon-user"></i>
+                            <span class="title">Todos Usuários</span>
+                        </a>
+                    </li>
+                    <li class="nav-item
+                        {% if 'admin_user_new' in app.request.attributes.get('_route') %}active{% endif %}">
                         <a href="{{ path('admin_user_new') }}" class="nav-link ">
-                            <i class="icon-bar-chart"></i>
+                            <i class="icon-user"></i>
                             <span class="title">Novo Usuário</span>
                         </a>
                     </li>
                 </ul>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="icon-user"></i>
+                    <span class="title">Clientes</span>
+                </a>
             </li>
         </ul>
         <!-- END SIDEBAR MENU -->

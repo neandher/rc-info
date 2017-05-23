@@ -3,16 +3,16 @@
 }
 
 .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
-    background-color: #5e738b;
-    border-color: #5e738b;
+    background-color: #2ab4c0;
+    border-color: #2ab4c0;
 }
 
 .pagination > li > a:focus, .pagination > li > a:hover, .pagination > li > span:focus, .pagination > li > span:hover {
-    color: #5e738b;
+    color: #2ab4c0;
 }
 
 .pagination > li > a, .pagination > li > span {
-    color: #5e738b;
+    color: #2ab4c0;
 }
 
 .dropdown-menu {
@@ -50,4 +50,13 @@
 
 .login .content .forget-form {
     display: inherit !important;
+}
+
+.page-header.navbar .page-logo .logo-default {
+    margin: 24px 0 0;
+    color: #fff;
+}
+
+.page-header.navbar .page-logo a:hover {
+    text-decoration: none;
 }

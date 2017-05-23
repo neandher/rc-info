@@ -1,120 +1,87 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block body %}
+{% block page_content %}
 
-    <div class="panel panel-default">
+    {% embed 'admin/_partials/_default_table_list.html.twig' %}
 
-        <div class="panel-heading">
+        {% block caption_subject %}
+            Usuários ({{ adminUsers.nbResults }} registros)
+        {% endblock %}
 
-            <h2 class="pull-left">
-                <i class="glyphicon glyphicon-list-alt"></i> Usuários
-            </h2>
+        {% block actions %}
+            <a href="{{ path('admin_user_new') ~ pagination.buildQuery }}" class="btn green">
+                <i class="fa fa-plus"></i> Novo Usuário
+            </a>
+        {% endblock %}
 
-            <div class="pull-right" style="padding-top: 20px;">
-                <a href="{{ path('admin_user_new') ~ pagination.buildQuery }}" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-plus"></span> Novo
+        {% block filters %}
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="busca" name="search"
+                       value="{% if app.request.query.has('search') %}{{ app.request.query.get('search') }}{% endif %}">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-default form-control">
+                    <i class="fa fa-search"></i> Buscar
+                </button>
+            </div>
+            <div class="form-group">
+                <a href="{{ path('admin_user_index') }}"
+                   class="btn btn-default form-control">
+                    <i class="fa fa-times"></i> Limpar
                 </a>
             </div>
+        {% endblock %}
 
-            <div class="clearfix"></div>
+        {% block table_tr_th %}
+            <tr>
+                <th>
+                    <a href="{{ path('admin_user_index') ~ pagination.buildQuery('sorting')  ~ pagination.sortingFieldQuery('firstName') ~ pagination.sortingFieldQuery('lastName') }}">
+                        Nome
+                    </a>
+                </th>
+                <th>E-mail</th>
+                <th>Ativo</th>
+                <th>Último Login</th>
+                <th>
+                    <a href="{{ path('admin_user_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('createdAt') }}">
+                        Criado em
+                    </a>
+                </th>
+                <th width="10%">Ações</th>
+            </tr>
+        {% endblock %}
 
-        </div>
+        {% block table_tr_td %}
+            {% for user in adminUsers %}
+                <tr>
+                    <td>{{ user.fullName }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.isEnabled }}</td>
+                    <td>{{ user.lastLoginAt|date('d/m/Y H:i') }}</td>
+                    <td>{{ user.createdAt|date('d/m/Y H:i') }}</td>
+                    <td>
+                        <a href="{{ path('admin_user_edit', { id: user.id }) ~ pagination.buildQuery }}"
+                           title="Editar" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endblock %}
 
-        <form class="form-inline" role="search" method="get" action="{{ path('admin_user_index') }}">
+        {% block list_info %}
+            Exibindo {{ adminUsers.currentPageOffsetStart }} a
+            {{ adminUsers.currentPageOffsetEnd }} de
+            {{ adminUsers.nbResults }} registros
+        {% endblock %}
 
-            <div class="panel-body">
+        {% block list_pagination %}
+            {{ pagerfanta(adminUsers, 'twitter_bootstrap3',{
+                routeName: 'admin_user_index',
+                routeParams: app.request.query.all
+            }) }}
+        {% endblock %}
 
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="busca"
-                           name="search"
-                           value="{% if app.request.query.has('search') %}{{ app.request.query.get('search') }}{% endif %}">
-                </div>
-
-                <div class="form-group">
-                    <input type="number" class="form-control col-md-4"
-                           placeholder=""
-                           name="num_items"
-                           value="{{ app.request.query.get('num_items', pagination.routeParams('num_items')) }}"
-                           min="5" max="500">
-                </div>
-
-                <div class="form-group">
-                    <button type="submit"
-                            class="btn btn-default form-control">Buscar</button>
-                </div>
-
-                <div class="form-group">
-                    <a href="{{ path('admin_user_index') }}"
-                       class="btn btn-default form-control">Resetar</a>
-                </div>
-
-                <div class="clearfix"></div>
-
-                <hr>
-
-                {{ include('_partials/_alerts.html.twig') }}
-
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>
-                                <a href="{{ path('admin_user_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('firstName') ~ pagination.sortingFieldQuery('lastName') }}">
-                                    Nome
-                                </a>
-                            </th>
-                            <th>
-                                <a href="{{ path('admin_user_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('email') }}">
-                                    Email
-                                </a>
-                            </th>
-                            <th>
-                                <a href="{{ path('admin_user_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('user.lastLoginAt') }}">
-                                    Ultimo Login
-                                </a>
-                            </th>
-                            <th>
-                                <a href="{{ path('admin_user_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('user.createdAt') }}">
-                                    Criado Em
-                                </a>
-                            </th>
-                            <th>Ações</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for user in adminUsers %}
-                            <tr>
-                                <td>
-                                    <a href="{{ path('admin_user_edit', {id: user.id}) ~ pagination.buildQuery }}">{{ user.fullName }}</a>
-                                </td>
-                                <td>{{ user.email }}</td>
-                                <td>{% if user.lastLoginAt %}{{ user.lastLoginAt|date('d/m/Y H:i') }}{% endif %}</td>
-                                <td>{{ user.createdAt|date('d/m/Y H:i') }}</td>
-                                <td>
-                                    <div class="item-actions">
-                                        <a href="{{ path('admin_user_edit', { id: user.id }) ~ pagination.buildQuery }}"
-                                           class="btn btn-sm btn-primary">
-                                            <i class="glyphicon glyphicon-edit"></i> Editar
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% else %}
-                            <tr>
-                                <td colspan="4" align="center">Nenhum registro encontrado</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="navigation text-center">
-                    {{ pagerfanta(adminUsers, 'twitter_bootstrap3', { routeName: 'admin_user_index', routeParams: app.request.query.all }) }}
-                </div>
-
-            </div>
-        </form>
-
-    </div>
+    {% endembed %}
 
 {% endblock %}

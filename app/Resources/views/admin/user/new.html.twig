@@ -1,53 +1,106 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block body %}
+{% block page_content %}
 
-    <div class="panel panel-default">
+    <div class="row">
+        <div class="col-md-12">
 
-        <div class="panel-heading">
+            <div class="portlet light bordered">
 
-            <h2 class="pull-left">
-                <i class="glyphicon glyphicon-list-alt"></i> Usuários: [novo]
-            </h2>
+                <div class="portlet-title">
 
-            <div class="pull-right" style="padding-top: 20px;">
-                <a href="{{ path('admin_index') }}" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-cancel"></span> Cancelar
-                </a>
-            </div>
+                    <div class="caption">
+                        <i class="icon-plus font-green-sharp"></i>
+                        <span class="caption-subject font-green-sharp bold uppercase">
+                            Usuário Novo
+                        </span>
+                    </div>
 
-            <div class="clearfix"></div>
+                    <div class="actions">
+                        <a href="{{ path('admin_user_index') ~ pagination.buildQuery }}"
+                           class="btn blue-hoki btn-outline sbold">
+                            <span class="fa fa-arrow-circle-left"></span> Voltar
+                        </a>
 
-        </div>
+                    </div>
 
-        {{ form_start(form, { 'action': path('admin_user_new'), 'attr': {'novalidate': 'novalidate'} }) }}
-
-        <div class="panel-body">
-
-            {{ include('_partials/_alerts.html.twig') }}
-            {{ form_errors(form) }}
-
-            {{ form_row(form.firstName) }}
-            {{ form_row(form.lastName) }}
-            {{ form_row(form.email) }}
-            {{ form_row(form.plainPassword.first) }}
-            {{ form_row(form.plainPassword.second) }}
-            {{ form_row(form.isEnabled) }}
-        </div>
-
-        <div class="panel-footer">
-            <div class="row">
-                <div class="col-md-12">
-                    <button class="btn btn-primary">{{ 'shop.register.btn_create'|trans }}</button>
                 </div>
+
+                <div class="portlet-body">
+
+                    {{ form_start(form, {'action': path('admin_user_new') ~ pagination.buildQuery,
+                        'attr' : {'class' : '_form-horizontal'}}) }}
+
+                    {{ form_errors(form) }}
+
+                    {{ include('_partials/_flash_messages.html.twig') }}
+
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#geral" aria-controls="geral" role="tab" data-toggle="tab">Geral</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content"><br>
+
+                        <div role="tabpanel" class="tab-pane active" id="geral">
+
+                            {#{{ form_row(form.firstName, {
+                                fh_col_md: 'col-md-10',
+                                'label_attr': {'class' : 'col-md-2'},
+                                'attr': {'autofocus': true}
+                            }) }}
+                            {{ form_row(form.lastName, {
+                                fh_col_md: 'col-md-10',
+                                'label_attr': {'class' : 'col-md-2'},
+                            }) }}
+                            {{ form_row(form.email, {
+                                fh_col_md: 'col-md-10',
+                                'label_attr': {'class' : 'col-md-2'}
+                            }) }}
+                            {{ form_row(form.plainPassword.first, {
+                                fh_col_md: 'col-md-10',
+                                'label_attr': {'class' : 'col-md-2'}
+                            }) }}
+                            {{ form_row(form.plainPassword.second, {
+                                fh_col_md: 'col-md-10',
+                                'label_attr': {'class' : 'col-md-2'}
+                            }) }}
+                            {{ form_row(form.isEnabled, {
+                                fh_col_md: 'col-md-10',
+                                'label_attr': {'class' : 'col-md-2'}
+                            }) }}#}
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{ form_row(form.firstName, {'attr': {'autofocus': true}}) }}
+                                </div>
+                                <div class="col-md-6">{{ form_row(form.lastName) }}</div>
+                                <div class="col-md-6">{{ form_row(form.email) }}</div>
+                                <div class="col-md-6">{{ form_row(form.plainPassword.first) }}</div>
+                                <div class="col-md-6">{{ form_row(form.plainPassword.second) }}</div>
+                                <div class="col-md-6">{{ form_row(form.isEnabled) }}</div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn green">
+                            <i class="fa fa-check"></i> Save
+                        </button>
+                    </div>
+
+                    {{ form_widget(form._token) }}
+
+                    {{ form_end(form, {'render_rest': false}) }}
+
+                </div>
+
             </div>
 
         </div>
-
-        {{ form_widget(form._token) }}
-
-        {{ form_end(form, {'render_rest': false}) }}
-
     </div>
 
 {% endblock %}
