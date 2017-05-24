@@ -1,0 +1,27 @@
+flashbag:
+    success:
+        inserted: Registro inserido com sucesso
+        updated: Registro alterado com sucesso
+        deleted: Registro deletado com sucesso
+    error:
+        inserted: Houve um erro ao inserir o registro
+        updated: Houve um erro ao alterar o registro
+        deleted: Houve um erro ao deletar o registro
+
+form:
+    submit_actions:
+        save_and_new: Salvar e criar novo
+        save_and_keep: Salvar
+        save_and_close: Salvar e fechar
+        search: Buscar
+        reset: Limpar
+        send: Enviar
+    link:
+        cancel: Cancelar
+        go_back: Voltar
+        delete: Excluir Registro
+    placeholder:
+        search: Digite sua busca
+        num_items: Items por página
+        date_start: Data Inicial
+        date_end: Data Final

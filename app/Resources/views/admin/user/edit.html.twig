@@ -5,13 +5,13 @@
     {% embed 'admin/_partials/_default_resource.html.twig' with {'route_index' : 'admin_user_index'} %}
 
         {% block form_start %}
-            {{ form_start(form, {'action': path('admin_user_new') ~ pagination.buildQuery,
+            {{ form_start(form, {'action': path('admin_user_edit', {id : adminUser.id}) ~ pagination.buildQuery,
                 'attr' : {'class' : '_form-horizontal'}}) }}
         {% endblock %}
 
         {% block caption_subject %}
             <span class="caption-subject font-green-sharp bold uppercase">
-                Usuário Novo
+                Editar Usuário
             </span>
         {% endblock %}
 
@@ -29,8 +29,6 @@
                     </div>
                     <div class="col-md-6">{{ form_row(form.lastName) }}</div>
                     <div class="col-md-6">{{ form_row(form.email) }}</div>
-                    <div class="col-md-6">{{ form_row(form.plainPassword.first) }}</div>
-                    <div class="col-md-6">{{ form_row(form.plainPassword.second) }}</div>
                     <div class="col-md-6">{{ form_row(form.isEnabled) }}</div>
                 </div>
             </div>

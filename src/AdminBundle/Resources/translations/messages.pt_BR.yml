@@ -1,4 +1,5 @@
 admin:
+
     customers:
         title: Clientes
         new: Novo Cliente

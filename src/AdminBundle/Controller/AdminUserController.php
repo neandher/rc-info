@@ -3,12 +3,10 @@
 namespace AdminBundle\Controller;
 
 use AdminBundle\Form\Type\AdminUserType;
-use AppBundle\Controller\BaseController;
 use AdminBundle\Entity\AdminUser;
 use AppBundle\Event\FlashBagEvents;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use UserBundle\Event\UserEvents;
@@ -19,7 +17,7 @@ use UserBundle\Event\UserEvents;
  *
  * @Route("/user")
  */
-class AdminUserController extends Controller
+class AdminUserController extends BaseController
 {
     /**
      * @Route("/", name="admin_user_index")
@@ -52,10 +50,11 @@ class AdminUserController extends Controller
         $adminUser = new AdminUser();
 
         $form = $this->createForm(AdminUserType::class, $adminUser);
+        $this->addDefaultSubmitButtons($form);
 
         $form->handleRequest($request);
 
-        if ($form->isValid() && $form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $this->get('event_dispatcher')->dispatch(UserEvents::REGISTRATION_SUCCESS, new GenericEvent($adminUser));
 
@@ -68,7 +67,15 @@ class AdminUserController extends Controller
                 FlashBagEvents::MESSAGE_SUCCESS_INSERTED
             );
 
-            return $this->redirectToRoute('admin_user_index');
+            $handleSubmitButtons = $this->handleSubmitButtons(
+                $form,
+                'admin_user_new',
+                'admin_user_edit',
+                ['id' => $adminUser->getId()],
+                $pagination->getRouteParams()
+            );
+
+            return $handleSubmitButtons ? $handleSubmitButtons : $this->redirectToRoute('admin_user_index');
         }
 
         return $this->render('admin/user/new.html.twig', [
@@ -84,9 +91,48 @@ class AdminUserController extends Controller
      * @param AdminUser $adminUser
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function editAction(Request $request, AdminUser $adminUser)
+    public function editAction(AdminUser $adminUser, Request $request)
     {
+        $pagination = $this->get('app.util.pagination')->handle($request, AdminUser::class);
 
+        $form = $this->createForm(AdminUserType::class, $adminUser, [
+            'is_edit' => true,
+            'validation_groups' => []
+        ]);
+        
+        $this->addDefaultSubmitButtons($form);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->get('event_dispatcher')->dispatch(UserEvents::REGISTRATION_SUCCESS, new GenericEvent($adminUser));
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($adminUser);
+            $em->flush();
+
+            $this->get('app.util.flash_bag')->newMessage(
+                FlashBagEvents::MESSAGE_TYPE_SUCCESS,
+                FlashBagEvents::MESSAGE_SUCCESS_UPDATED
+            );
+
+            $handleSubmitButtons = $this->handleSubmitButtons(
+                $form,
+                'admin_user_new',
+                'admin_user_edit',
+                ['id' => $adminUser->getId()],
+                $pagination->getRouteParams()
+            );
+
+            return $handleSubmitButtons ? $handleSubmitButtons : $this->redirectToRoute('admin_user_index');
+        }
+
+        return $this->render('admin/user/edit.html.twig', [
+            'adminUser' => $adminUser,
+            'form' => $form->createView(),
+            'pagination' => $pagination
+        ]);
     }
 
     /**
