@@ -56,13 +56,32 @@
                 <tr>
                     <td>{{ user.fullName }}</td>
                     <td>{{ user.email }}</td>
-                    <td>{{ user.isEnabled }}</td>
+                    <td align="center">
+                        {% if user.isEnabled == '1' %}
+                            <span class="label label-sm label-success">
+                                <i class="fa fa-check"></i>
+                            </span>
+                        {% else %}
+                            <span class="label label-sm label-danger">
+                                <i class="fa fa-remove"></i>
+                            </span>
+                        {% endif %}
+                    </td>
                     <td>{{ user.lastLoginAt|date('d/m/Y H:i') }}</td>
                     <td>{{ user.createdAt|date('d/m/Y H:i') }}</td>
                     <td>
+                        <!-- add a dropdown menu for this options -->
                         <a href="{{ path('admin_user_edit', { id: user.id }) ~ pagination.buildQuery }}"
                            title="Editar" class="btn btn-default btn-sm">
-                            <span class="glyphicon glyphicon-edit"></span>
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                        <!-- add a confirmation popup -->
+                        <a href="javascript:;"
+                           class="btn btn-danger btn-sm delete-resource-form"
+                           data-path="{{ path('admin_user_delete', {id: user.id})|escape }}"
+                           data-crf="{{ form_widget(delete_forms[user.id]._token)|escape }}"
+                        >
+                            <span class="glyphicon glyphicon-trash"></span>
                         </a>
                     </td>
                 </tr>

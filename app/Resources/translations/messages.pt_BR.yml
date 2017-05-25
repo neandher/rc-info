@@ -25,3 +25,7 @@ form:
         num_items: Items por página
         date_start: Data Inicial
         date_end: Data Final
+
+resource:
+    is_enabled: Ativado
+    is_not_enabled: Desativado

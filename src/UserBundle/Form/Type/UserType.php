@@ -18,13 +18,13 @@ class UserType extends PlainPasswordType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailType::class, ['label' => 'E-mail'])
+            ->add('email', EmailType::class, ['label' => 'user.form.email'])
             ->add('isEnabled', ChoiceType::class, [
                 'required' => false,
-                'label' => 'user.form.is_enabled',
+                'label' => 'user.form.enabled',
                 'choices' => [
-                    'user.form.is_enabled' => 1,
-                    'user.form.is_not_enabled' => 0
+                    'resource.is_enabled' => 1,
+                    'resource.is_not_enabled' => 0
                 ]
             ]);
 

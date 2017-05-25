@@ -19,7 +19,9 @@ class AdminUserType extends UserType
 
         $builder
             ->add('firstName', TextType::class, ['label' => 'Primeiro Nome'])
-            ->add('lastName', TextType::class, ['label' => 'Segundo Nome']);
+            ->add('lastName', TextType::class, ['label' => 'Segundo Nome'])
+            ->remove('isEnabled')
+            ->add('isEnabled', SwitchType::class, ['required' => false]);
     }
 
     /**

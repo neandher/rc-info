@@ -5,3 +5,8 @@
         <span></span>
     </label>
 {% endblock mt_checkbox_widget %}
+
+{% block switch_widget %}
+    <input type="checkbox" class="make-switch"
+            {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+{% endblock switch_widget %}
