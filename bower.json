@@ -28,6 +28,7 @@
     "select2-bootstrap-theme": "https://github.com/select2/select2-bootstrap-theme.git#0.1.0-beta.4",
     "jquery-mask-plugin": "^1.14.10",
     "bootstrap-validator": "^0.11.9",
-    "jquery-validation": "http://github.com/jzaefferer/jquery-validation.git#1.14.0"
+    "jquery-validation": "http://github.com/jzaefferer/jquery-validation.git#1.14.0",
+    "ExplorerCanvas": "https://github.com/arv/ExplorerCanvas.git"
   }
 }

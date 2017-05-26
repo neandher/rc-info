@@ -1,6 +1,12 @@
+.page-header.navbar.navbar-fixed-top {
+    z-index: 995 !important;
+}
+
 .table-responsive .portlet {
     margin-bottom: 5px;
 }
+
+/* CUSTOM PAGINATION */
 
 .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
     background-color: #2ab4c0;
@@ -15,28 +21,37 @@
     color: #2ab4c0;
 }
 
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    display: none;
-    float: left;
-    min-width: 160px;
-    padding: 5px 0;
-    margin: 2px 0 0;
-    font-size: 14px;
-    text-align: left;
-    list-style: none;
-    background-color: #fff;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0, 0, 0, .15);
-    border-radius: 4px;
-    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+/* END CUSTOM PAGINATION */
+
+/* CUSTOM DROPDOWN TABLE LIST OPTIONS */
+
+.actions>.btn-group.dropdown-dark .dropdown-menu {
+    background: #374b6d;
+    border: 0;
+    color: #fff;
 }
+
+.actions>.btn-group.dropdown-dark .dropdown-menu >li a:hover{
+    background: #3e557a;
+}
+
+.actions>.btn-group.dropdown-dark .dropdown-menu >li a{
+    color: #b8c6db;
+}
+
+.actions .btn-group.dropdown-dark > .dropdown-menu > li > a i {
+    width: 15px;
+    display: inline-block;
+    margin-right: 9px;
+}
+
+.actions>.btn-group.dropdown-dark .dropdown-menu >li a>i {
+    color: #97aaca !important;
+}
+
+/* END CUSTOM DROPDOWN TABLE LIST OPTIONS */
+
+/* LOGIN FORM */
 
 .login .login-form .content .form-actions {
     padding: 0px 30px 25px 30px !important;
@@ -52,6 +67,9 @@
     display: inherit !important;
 }
 
+/* END LOGIN FORM */
+
+/* LOGO */
 .page-header.navbar .page-logo .logo-default {
     margin: 24px 0 0;
     color: #fff;
@@ -59,4 +77,10 @@
 
 .page-header.navbar .page-logo a:hover {
     text-decoration: none;
+}
+
+/* END LOGO */
+
+.table .btn {
+    margin-right: 0 !important;
 }

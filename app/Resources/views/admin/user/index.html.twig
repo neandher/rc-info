@@ -34,6 +34,7 @@
 
         {% block table_tr_th %}
             <tr>
+                <th>ID</th>
                 <th>
                     <a href="{{ path('admin_user_index') ~ pagination.buildQuery('sorting')  ~ pagination.sortingFieldQuery('firstName') ~ pagination.sortingFieldQuery('lastName') }}">
                         Nome
@@ -54,9 +55,10 @@
         {% block table_tr_td %}
             {% for user in adminUsers %}
                 <tr>
+                    <td>{{ user.id }}</td>
                     <td>{{ user.fullName }}</td>
                     <td>{{ user.email }}</td>
-                    <td align="center">
+                    <td>
                         {% if user.isEnabled == '1' %}
                             <span class="label label-sm label-success">
                                 <i class="fa fa-check"></i>
@@ -70,19 +72,37 @@
                     <td>{{ user.lastLoginAt|date('d/m/Y H:i') }}</td>
                     <td>{{ user.createdAt|date('d/m/Y H:i') }}</td>
                     <td>
-                        <!-- add a dropdown menu for this options -->
-                        <a href="{{ path('admin_user_edit', { id: user.id }) ~ pagination.buildQuery }}"
-                           title="Editar" class="btn btn-default btn-sm">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </a>
-                        <!-- add a confirmation popup -->
-                        <a href="javascript:;"
-                           class="btn btn-danger btn-sm delete-resource-form"
-                           data-path="{{ path('admin_user_delete', {id: user.id})|escape }}"
-                           data-crf="{{ form_widget(delete_forms[user.id]._token)|escape }}"
-                        >
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </a>
+                        {% embed 'admin/_partials/_actions_btn_group.html.twig' %}
+                            {% block buttons %}
+                                <a href="{{ path('admin_user_edit', { id: user.id }) ~ pagination.buildQuery }}"
+                                   title="Editar" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-pencil"></span> Editar
+                                </a>
+                                <button type="button" class="btn btn-default btn-sm dropdown-toggle"
+                                        data-toggle="dropdown" data-close-others="true">
+                                    <i class="fa fa-angle-down"></i>
+                                </button>
+                            {% endblock %}
+                            {% block li_actions %}
+                                <li>
+                                    <a href="javascript:;" data-toggle="modal"
+                                       data-target="#modalConfirmation"
+                                       data-path="{{ path('admin_user_delete', {id: user.id})|escape }}"
+                                       data-crf="{{ form_widget(delete_forms[user.id]._token)|escape }}"
+                                    >
+                                        <i class="fa fa-trash"></i> Deletar
+                                    </a>
+                                </li>
+                                {#<li>
+                                    <a href="javascript:;" class="delete-resource-form"
+                                       data-path="{{ path('admin_user_delete', {id: user.id})|escape }}"
+                                       data-crf="{{ form_widget(delete_forms[user.id]._token)|escape }}"
+                                    >
+                                        <i class="icon-trash"></i> Deletar
+                                    </a>
+                                </li>#}
+                            {% endblock %}
+                        {% endembed %}
                     </td>
                 </tr>
             {% endfor %}

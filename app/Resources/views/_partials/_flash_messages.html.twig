@@ -14,7 +14,14 @@
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
                 </button>
-                {{ message }}
+                <strong>
+                    {% if type == 'success' %}
+                        <span class="glyphicon glyphicon-ok"></span>
+                    {% elseif type == 'danger' %}
+                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    {% endif %}
+                    {{ message }}
+                </strong>
             </div>
         {% endfor %}
     {% endfor %}
