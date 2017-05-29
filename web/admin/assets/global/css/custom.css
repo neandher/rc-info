@@ -25,28 +25,28 @@
 
 /* CUSTOM DROPDOWN TABLE LIST OPTIONS */
 
-.actions>.btn-group.dropdown-dark .dropdown-menu {
-    background: #374b6d;
-    border: 0;
-    color: #fff;
+.actions > .btn-group.dropdown-custom .dropdown-menu {
+    background: #fff;
+    border: 1px solid #ccc;
+    color: #000;
 }
 
-.actions>.btn-group.dropdown-dark .dropdown-menu >li a:hover{
-    background: #3e557a;
+.actions > .btn-group.dropdown-custom .dropdown-menu > li a:hover {
+    background: #f1f1f1;
 }
 
-.actions>.btn-group.dropdown-dark .dropdown-menu >li a{
-    color: #b8c6db;
+.actions > .btn-group.dropdown-custom .dropdown-menu > li a {
+    color: #000;
 }
 
-.actions .btn-group.dropdown-dark > .dropdown-menu > li > a i {
+.actions .btn-group.dropdown-custom > .dropdown-menu > li > a i {
     width: 15px;
     display: inline-block;
     margin-right: 9px;
 }
 
-.actions>.btn-group.dropdown-dark .dropdown-menu >li a>i {
-    color: #97aaca !important;
+.actions > .btn-group.dropdown-custom .dropdown-menu > li a > i {
+    color: #000 !important;
 }
 
 /* END CUSTOM DROPDOWN TABLE LIST OPTIONS */
@@ -84,3 +84,16 @@
 .table .btn {
     margin-right: 0 !important;
 }
+
+/* REQUIRED LABEL */
+.control-label .required, .form-group .required {
+    color: #000;
+    font-size: inherit;
+    padding-left: 2px;
+}
+
+.has-error .checkbox, .has-error .checkbox-inline, .has-error .control-label, .has-error .help-block, .has-error .radio, .has-error .radio-inline, .has-error.checkbox label, .has-error.checkbox-inline label, .has-error.radio label, .has-error.radio-inline label {
+    color: #a94442;
+}
+
+/* END REQUIRED LABEL */

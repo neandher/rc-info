@@ -6,6 +6,7 @@ use AdminBundle\Entity\AdminUser;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -24,6 +25,7 @@ class AdminUserCreateCommand extends ContainerAwareCommand
             ->setDefinition(array(
                 new InputArgument('email', InputArgument::REQUIRED, 'The email'),
                 new InputArgument('password', InputArgument::REQUIRED, 'The password'),
+                new InputOption('super-admin', null, InputOption::VALUE_NONE, 'Set the user as super admin', false),
             ))
             ->setHelp('This command allows you to create a admin user');
     }
@@ -35,11 +37,13 @@ class AdminUserCreateCommand extends ContainerAwareCommand
     {
         $email = $input->getArgument('email');
         $password = $input->getArgument('password');
+        $superadmin = $input->getOption('super-admin');
 
         $adminUser = new AdminUser();
         $adminUser
             ->setEmail($email)
-            ->setPlainPassword($password);
+            ->setPlainPassword($password)
+            ->setSuperAdmin($superadmin);
 
         $this->getContainer()->get('event_dispatcher')
             ->dispatch(UserEvents::REGISTRATION_SUCCESS, new GenericEvent($adminUser));

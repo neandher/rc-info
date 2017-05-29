@@ -34,6 +34,9 @@
                                 <i class="fa fa-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default">
+                                <li><a href="{{ path('admin_user_edit', {id: app.user.id}) }}">
+                                        <i class="icon-user"></i>Meus Dados</a>
+                                </li>
                                 <li><a href="{{ path('admin_change_password') }}">
                                         <i class="icon-key"></i>Alterar Senha</a>
                                 </li>

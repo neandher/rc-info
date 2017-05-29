@@ -27,5 +27,5 @@ form:
         date_end: Data Final
 
 resource:
-    is_enabled: Ativado
-    is_not_enabled: Desativado
+    is_enabled: Sim
+    is_not_enabled: Não

@@ -4,6 +4,10 @@
 
     {% embed 'admin/_partials/_default_table_list.html.twig' %}
 
+        {% block icon_list %}
+            <i class="icon-user font-green-sharp bold"></i>
+        {% endblock %}
+
         {% block caption_subject %}
             Usuários ({{ adminUsers.nbResults }} registros)
         {% endblock %}

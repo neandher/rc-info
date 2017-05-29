@@ -7,22 +7,22 @@ var Login = function() {
             errorClass: 'help-block', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
             rules: {
-                username: {
+                _username: {
                     required: true
                 },
-                password: {
+                _password: {
                     required: true
                 },
-                remember: {
+                _remember_me: {
                     required: false
                 }
             },
 
             messages: {
-                username: {
+                _username: {
                     required: "Preencha o campo usuário."
                 },
-                password: {
+                _password: {
                     required: "Preencha o campo senha."
                 }
             },

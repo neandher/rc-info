@@ -7,6 +7,7 @@ use UserBundle\Model\UserInterface as BaseUserInterface;
 interface AdminUserInterface extends BaseUserInterface
 {
     const DEFAULT_ADMIN_ROLE = 'ROLE_ADMINISTRATION_ACCESS';
+    const SUPER_ADMIN_ROLE = 'ROLE_SUPER_ADMIN';
 
     /**
      * @return string
@@ -27,4 +28,20 @@ interface AdminUserInterface extends BaseUserInterface
      * @param string $lastName
      */
     public function setLastName($lastName);
+
+    /**
+     * Tells if the the given user has the super admin role.
+     *
+     * @return bool
+     */
+    public function isSuperAdmin();
+
+    /**
+     * Sets the super admin status.
+     *
+     * @param bool $boolean
+     *
+     * @return self
+     */
+    public function setSuperAdmin($boolean);
 }

@@ -4,10 +4,12 @@ namespace AdminBundle\Controller;
 
 use AdminBundle\Form\Type\AdminUserType;
 use AdminBundle\Entity\AdminUser;
+use AdminBundle\Model\AdminUserInterface;
 use AppBundle\Event\FlashBagEvents;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use UserBundle\Event\UserEvents;
 
@@ -32,7 +34,7 @@ class AdminUserController extends BaseController
         $adminUsers = $this->getDoctrine()->getRepository(AdminUser::class)->findLatest($pagination);
 
         $deleteForms = [];
-        foreach($adminUsers as $user) {
+        foreach ($adminUsers as $user) {
             $deleteForms[$user->getId()] = $this->createDeleteForm($user)->createView();
         }
 
@@ -64,6 +66,8 @@ class AdminUserController extends BaseController
 
             $this->get('event_dispatcher')->dispatch(UserEvents::REGISTRATION_SUCCESS, new GenericEvent($adminUser));
 
+            $this->handleSuperAdmin($form, $adminUser);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($adminUser);
             $em->flush();
@@ -85,6 +89,7 @@ class AdminUserController extends BaseController
         }
 
         return $this->render('admin/user/new.html.twig', [
+            'adminUser' => $adminUser,
             'form' => $form->createView(),
             'pagination' => $pagination
         ]);
@@ -99,6 +104,8 @@ class AdminUserController extends BaseController
      */
     public function editAction(AdminUser $adminUser, Request $request)
     {
+        $this->handleAuthorization($adminUser);
+
         $pagination = $this->get('app.util.pagination')->handle($request, AdminUser::class);
 
         $form = $this->createForm(AdminUserType::class, $adminUser, [
@@ -113,6 +120,8 @@ class AdminUserController extends BaseController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $this->get('event_dispatcher')->dispatch(UserEvents::REGISTRATION_SUCCESS, new GenericEvent($adminUser));
+
+            $this->handleSuperAdmin($form, $adminUser);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($adminUser);
@@ -150,6 +159,8 @@ class AdminUserController extends BaseController
      */
     public function deletAction(Request $request, AdminUser $adminUser)
     {
+        $this->handleAuthorization($adminUser);
+        
         $pagination = $this->get('app.util.pagination')->handle($request, AdminUser::class);
 
         $form = $this->createDeleteForm($adminUser);
@@ -157,7 +168,7 @@ class AdminUserController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             $em = $this->getDoctrine()->getManager();
             $em->remove($adminUser);
             $em->flush();
@@ -166,8 +177,7 @@ class AdminUserController extends BaseController
                 FlashBagEvents::MESSAGE_TYPE_SUCCESS,
                 FlashBagEvents::MESSAGE_SUCCESS_DELETED
             );
-        }
-        else{
+        } else {
             $this->get('app.util.flash_bag')->newMessage(
                 FlashBagEvents::MESSAGE_TYPE_ERROR,
                 FlashBagEvents::MESSAGE_ERROR_DELETED
@@ -188,5 +198,27 @@ class AdminUserController extends BaseController
             ->setMethod('DELETE')
             ->setData($adminUser)
             ->getForm();
+    }
+
+    private function handleSuperAdmin(FormInterface $form, AdminUserInterface $adminUser)
+    {
+        $data = $form->all();
+
+        if ($data['isSuperAdmin']->getData()) {
+            $adminUser->setSuperAdmin(true);
+        } else {
+            $adminUser->setSuperAdmin(false);
+        }
+    }
+
+    private function handleAuthorization($adminUser)
+    {
+        if ($this->getUser() !== $adminUser) {
+            $this->denyAccessUnlessGranted(
+                AdminUserInterface::SUPER_ADMIN_ROLE,
+                null,
+                'Somente usuários Super Admin podem alterar dados de outros usuários!'
+            );
+        }
     }
 }

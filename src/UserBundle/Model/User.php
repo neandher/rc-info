@@ -329,23 +329,6 @@ class User implements UserInterface
     /**
      * {@inheritdoc}
      */
-    public function addRole($role)
-    {
-        $role = strtoupper($role);
-        //if ($role === static::ROLE_DEFAULT) {
-        //    return $this;
-        //}
-
-        if (!in_array($role, $this->roles, true)) {
-            $this->roles[] = $role;
-        }
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getIsLocked()
     {
         return $this->isLocked;
@@ -524,6 +507,43 @@ class User implements UserInterface
     {
         return $this->getPasswordRequestedAt() instanceof \DateTime &&
         $this->getPasswordRequestedAt()->getTimestamp() + $ttl > time();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addRole($role)
+    {
+        $role = strtoupper($role);
+        //if ($role === static::ROLE_DEFAULT) {
+        //    return $this;
+        //}
+
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeRole($role)
+    {
+        if (false !== $key = array_search(strtoupper($role), $this->roles, true)) {
+            unset($this->roles[$key]);
+            $this->roles = array_values($this->roles);
+        }
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasRole($role)
+    {
+        return in_array(strtoupper($role), $this->getRoles(), true);
     }
 
     /**

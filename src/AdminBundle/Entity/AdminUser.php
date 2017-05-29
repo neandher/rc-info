@@ -93,4 +93,25 @@ class AdminUser extends BaseUser implements AdminUserInterface
     {
         return trim(sprintf('%s %s', $this->firstName, $this->lastName));
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isSuperAdmin()
+    {
+        return $this->hasRole(static::SUPER_ADMIN_ROLE);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setSuperAdmin($boolean)
+    {
+        if (true === $boolean) {
+            $this->addRole(static::SUPER_ADMIN_ROLE);
+        } else {
+            $this->removeRole(static::SUPER_ADMIN_ROLE);
+        }
+        return $this;
+    }
 }

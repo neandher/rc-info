@@ -7,6 +7,11 @@
 {% endblock mt_checkbox_widget %}
 
 {% block switch_widget %}
-    <input type="checkbox" class="make-switch"
-            {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    <div class="form-group">
+        {{ block('form_label') }}
+        <div class="clearfix"></div>
+        <input type="checkbox" class="make-switch"
+                {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+        {{ block('form_errors') }}
+    </div>
 {% endblock switch_widget %}

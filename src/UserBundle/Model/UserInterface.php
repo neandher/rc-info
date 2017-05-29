@@ -143,14 +143,6 @@ interface UserInterface extends AdvancedUserInterface, ToggleableInterface, Time
     public function setRoles(array $roles);
 
     /**
-     * Adds a role to the user.
-     *
-     * @param string $role
-     * @return User
-     */
-    public function addRole($role);
-
-    /**
      * @return bool
      */
     public function getIsLocked();
@@ -297,4 +289,35 @@ interface UserInterface extends AdvancedUserInterface, ToggleableInterface, Time
      * @return string
      */
     public function getObfuscatedEmail();
+
+    /**
+     * Adds a role to the user.
+     *
+     * @param string $role
+     * @return User
+     */
+    public function addRole($role);
+
+    /**
+     * Removes a role to the user.
+     *
+     * @param string $role
+     *
+     * @return self
+     */
+    public function removeRole($role);
+
+    /**
+     * Never use this to check if this user has access to anything!
+     *
+     * Use the AuthorizationChecker, or an implementation of AccessDecisionManager
+     * instead, e.g.
+     *
+     *         $authorizationChecker->isGranted('ROLE_USER');
+     *
+     * @param string $role
+     *
+     * @return bool
+     */
+    public function hasRole($role);
 }

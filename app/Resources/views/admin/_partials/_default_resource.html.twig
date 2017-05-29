@@ -15,12 +15,13 @@
                 </div>
 
                 <div class="actions btn-set">
-                    <a href="{{ path(route_index) ~ pagination.buildQuery }}"
-                       class="btn blue-hoki btn-outline _bold">
-                        <span class="glyphicon glyphicon-circle-arrow-left"></span> Voltar
-                    </a>
-                    {% include('admin/_partials/_form_submit_buttons.html.twig') %}
-                    {% block actions %}{% endblock %}
+                    {% block actions %}
+                        {% include('admin/_partials/_form_submit_buttons.html.twig') %}
+                        <a href="{{ path(route_index) ~ pagination.buildQuery }}"
+                           class="btn red">
+                            <span class="fa fa-remove"></span> Cancelar
+                        </a>
+                    {% endblock %}
                 </div>
 
             </div>

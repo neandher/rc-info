@@ -14,8 +14,7 @@ class AdminSecurityLoginType extends SecurityLoginType
         $builder
             ->remove('_remember_me')
             ->add('_remember_me', MtCheckboxType::class, [
-                'label' => 'user.form.remember_me',
-                'required' => false,
+                'label' => 'user.form.remember_me'
             ]);
     }
 }

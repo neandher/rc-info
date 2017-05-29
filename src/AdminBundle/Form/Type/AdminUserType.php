@@ -21,7 +21,13 @@ class AdminUserType extends UserType
             ->add('firstName', TextType::class, ['label' => 'Primeiro Nome'])
             ->add('lastName', TextType::class, ['label' => 'Segundo Nome'])
             ->remove('isEnabled')
-            ->add('isEnabled', SwitchType::class, ['required' => false]);
+            ->add('isEnabled', SwitchType::class, ['label' => 'user.form.enabled'])
+            ->add('isSuperAdmin', SwitchType::class, [
+                'label' => 'user.form.is_super_admin',
+                'mapped' => false,
+                'required' => false,
+                'data' => $options['data']->isSuperAdmin()
+            ]);
     }
 
     /**
@@ -33,7 +39,6 @@ class AdminUserType extends UserType
             'data_class' => AdminUser::class,
             'validation_groups' => ['Default', 'creating'],
             'is_edit' => false,
-            'required' => false
         ]);
     }
 

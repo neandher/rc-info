@@ -9,9 +9,13 @@
                 'attr' : {'class' : '_form-horizontal'}}) }}
         {% endblock %}
 
+        {% block icon_list %}
+            <i class="icon-user font-green-sharp bold"></i>
+        {% endblock %}
+
         {% block caption_subject %}
             <span class="caption-subject font-green-sharp bold uppercase">
-                Usuário Novo
+                Novo Usuário
             </span>
         {% endblock %}
 
@@ -32,14 +36,23 @@
                     <div class="col-md-6">{{ form_row(form.plainPassword.first) }}</div>
                     <div class="col-md-6">{{ form_row(form.plainPassword.second) }}</div>
                     <div class="col-md-6">
-                        <label class="control-label">&nbsp</label>
-                        {{ form_row(form.isEnabled, {'attr': {
+                        {{ form_widget(form.isEnabled, {'attr': {
                             'data-on-color': 'success',
                             'data-off-color': 'danger',
                             'data-on-text': 'resource.is_enabled'|trans,
                             'data-off-text': 'resource.is_not_enabled'|trans
                         }}) }}
                     </div>
+                    {% if is_granted(constant('SUPER_ADMIN_ROLE', adminUser)) %}
+                    <div class="col-md-6">
+                        {{ form_widget(form.isSuperAdmin, {'attr': {
+                            'data-on-color': 'success',
+                            'data-off-color': 'danger',
+                            'data-on-text': 'resource.is_enabled'|trans,
+                            'data-off-text': 'resource.is_not_enabled'|trans
+                        }}) }}
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         {% endblock %}

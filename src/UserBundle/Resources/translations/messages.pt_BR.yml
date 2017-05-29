@@ -53,4 +53,5 @@ user:
         new_password: Nova senha
         new_password_confirmation: Confirme a nova senha
         enabled: Ativo
+        is_super_admin: Super Admin
         remember_me: Lembrar-me
