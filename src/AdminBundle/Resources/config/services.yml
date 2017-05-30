@@ -30,7 +30,7 @@ services:
 
     app.security.user_impersonator:
         class: UserBundle\Security\UserImpersonator
-        arguments: ['@session', 'shop']
+        arguments: ['@session', 'site']
 
     app.controller.admin_impersonate_shop_user:
         class: AdminBundle\Controller\ImpersonateUserController
@@ -41,4 +41,3 @@ services:
             - '@router'
             - 'ROLE_ADMINISTRATION_ACCESS'
             - '@app.util.flash_bag'
-            - '@router'

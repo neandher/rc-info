@@ -35,13 +35,6 @@
                 </a>
                 <ul class="sub-menu">
                     <li class="nav-item
-                        {% if 'admin_user_index' in app.request.attributes.get('_route') %}active{% endif %}">
-                        <a href="{{ path('admin_user_index') }}" class="nav-link ">
-                            <i class="icon-user"></i>
-                            <span class="title">Todos Usuários</span>
-                        </a>
-                    </li>
-                    <li class="nav-item
                         {% if 'admin_user_new' in app.request.attributes.get('_route') %}active{% endif %}">
                         <a href="{{ path('admin_user_new') }}" class="nav-link ">
                             <i class="icon-user-follow"></i>
@@ -50,11 +43,26 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
+            <li class="nav-item
+            {% if 'admin_customer' in app.request.attributes.get('_route') %}active{% endif %}">
+                <a href="{{ path('admin_customer_index') }}" class="nav-link">
                     <i class="icon-globe"></i>
-                    <span class="title">Clientes</span>
+                    <span class="title">{{ 'admin.customers.title'|trans }}</span>
+                    {% if 'admin_customer' in app.request.attributes.get('_route') %}
+                        <span class="selected"></span>
+                    {% endif %}
+                    <span class="arrow
+                    {% if 'admin_customer' in app.request.attributes.get('_route') %}open{% endif %}"></span>
                 </a>
+                <ul class="sub-menu">
+                    <li class="nav-item
+                        {% if 'admin_customer_new' in app.request.attributes.get('_route') %}active{% endif %}">
+                        <a href="{{ path('admin_customer_new') }}" class="nav-link ">
+                            <i class="icon-globe"></i>
+                            <span class="title">{{ 'admin.customers.new'|trans }}</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link">

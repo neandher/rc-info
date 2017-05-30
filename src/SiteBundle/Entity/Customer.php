@@ -2,8 +2,8 @@
 
 namespace SiteBundle\Entity;
 
+use AppBundle\Resource\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\Timestampable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -17,8 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Customer
 {
-    use Timestampable;
-
     /**
      * @var int
      *
@@ -70,7 +68,7 @@ class Customer
     /**
      * @var SiteUser
      *
-     * @ORM\OneToOne(targetEntity="SiteBundle\Entity\SiteUser", mappedBy="customer", cascade={"all"})
+     * @ORM\OneToOne(targetEntity="SiteBundle\Entity\SiteUser", mappedBy="customer", cascade={"all"})     
      * @Assert\Valid()
      */
     protected $siteUser;

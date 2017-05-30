@@ -47,18 +47,12 @@ class ImpersonateUserController
     private $flashBag;
 
     /**
-     * @var UrlGeneratorInterface
-     */
-    private $urlGenerator;
-
-    /**
      * @param UserImpersonator $impersonator
      * @param AuthorizationCheckerInterface $authorizationChecker
      * @param UserProviderInterface $userProvider
      * @param RouterInterface $router
      * @param string $authorizationRole
-     * @param FlashBag $flashBag
-     * @param UrlGeneratorInterface $urlGenerator
+     * @param FlashBag $flashBag     
      */
     public function __construct(
         UserImpersonator $impersonator,
@@ -66,8 +60,7 @@ class ImpersonateUserController
         UserProviderInterface $userProvider,
         RouterInterface $router,
         $authorizationRole,
-        FlashBag $flashBag,
-        UrlGeneratorInterface $urlGenerator
+        FlashBag $flashBag
     )
     {
         $this->impersonator = $impersonator;
@@ -76,7 +69,6 @@ class ImpersonateUserController
         $this->router = $router;
         $this->authorizationRole = $authorizationRole;
         $this->flashBag = $flashBag;
-        $this->urlGenerator = $urlGenerator;
     }
 
     /**
@@ -104,7 +96,7 @@ class ImpersonateUserController
             return new RedirectResponse($request->headers->get('referer'));
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('admin_dashboard'));
+        return new RedirectResponse($this->router->generate('admin_customer_index'));
     }
 
     /**
@@ -115,7 +107,7 @@ class ImpersonateUserController
     {
         $this->flashBag->newMessage(
             FlashBagEvents::MESSAGE_TYPE_SUCCESS,
-            'security.customer.impersonate',
+            'admin.customers.impersonate',
             ['%name%' => $username],
             $request->getSession()
         );
