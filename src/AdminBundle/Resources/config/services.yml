@@ -32,7 +32,7 @@ services:
         class: UserBundle\Security\UserImpersonator
         arguments: ['@session', 'site']
 
-    app.controller.admin_impersonate_shop_user:
+    app.controller.admin_impersonate_site_user:
         class: AdminBundle\Controller\ImpersonateUserController
         arguments:
             - '@app.security.user_impersonator'

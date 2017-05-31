@@ -118,7 +118,7 @@ class UserController extends UserBaseController
         $this->flashBag = $flashBag;
         $this->tokenStorage = $tokenStorage;
     }
-    
+
     public function resettingRequestAction(Request $request)
     {
         $formType = $this->getAppAttibute($request, 'form', ResettingRequestType::class);
@@ -215,12 +215,19 @@ class UserController extends UserBaseController
         );
     }
 
-    public function changePasswordAction(Request $request)
+    public function changePasswordAction(Request $request, $id = null)
     {
-        /** @var UserInterface $user */
-        $user = $this->tokenStorage->getToken()->getUser();
-
-        $form = $this->formFactory->create(ChangePasswordType::class, $user);
+        if (!$id) {
+            /** @var UserInterface $user */
+            $user = $this->tokenStorage->getToken()->getUser();
+        } else {
+            /** @var UserInterface $user */
+            $user = $this->userRepository->findOneBy(['id' => $id]);
+        }
+        
+        $formType = $this->getAppAttibute($request, 'form', ChangePasswordType::class);
+        
+        $form = $this->formFactory->create($formType, $user);
 
         $form->handleRequest($request);
 
@@ -239,6 +246,7 @@ class UserController extends UserBaseController
 
         return $this->templatingEngine->renderResponse($this->getAppAttibute($request, 'template'), [
                 'form' => $form->createView(),
+                'user' => $user
             ]
         );
     }

@@ -48,5 +48,16 @@ admin_change_password:
 admin_impersonate_user:
     path: /impersonate/{username}
     defaults:
-        _controller: 'app.controller.admin_impersonate_shop_user:impersonateAction'
+        _controller: 'app.controller.admin_impersonate_site_user:impersonateAction'
         username: $username
+
+admin_customer_change_password:
+    path: /customer/{id}/change-password
+    methods: [GET, POST]
+    defaults:
+        id: $id
+        _controller: app.controller.site_user:changePasswordAction
+        _app_options:
+            form: 'AdminBundle\Form\Type\CustomerChangePasswordType'
+            template: "admin/customer/changePassword.html.twig"
+            redirect: admin_customer_index
