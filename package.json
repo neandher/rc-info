@@ -1,0 +1,10 @@
+{
+  "name": "rc-info",
+  "dependencies": {
+    "bower": "1.8.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "postinstall": "bower install"
+  }
+}
