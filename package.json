@@ -1,7 +1,10 @@
 {
   "name": "rc-info",
+  "engines": {
+    "node": "7.0.x"
+  },
   "dependencies": {
-    "bower": "1.8.0"
+    "bower": "1.8.x"
   },
   "scripts": {
     "start": "node index.js",
