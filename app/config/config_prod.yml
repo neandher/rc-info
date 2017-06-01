@@ -20,3 +20,11 @@ monolog:
             level: debug
         console:
             type: console
+
+doctrine:
+    dbal:
+        host: "%env(DATABASE_HOST)%"
+        port: "%env(DATABASE_PORT)%"
+        dbname: "%env(DATABASE_NAME)%"
+        user: "%env(DATABASE_USER)%"
+        password: "%env(DATABASE_PASS)%"
