@@ -18,7 +18,7 @@ class SiteUserType extends PlainPasswordType
 
         $builder->add('isEnabled', SwitchType::class, [
             'label' => 'user.form.enabled',
-            'required' => false
+            'required' => false,
         ]);
     }
 
