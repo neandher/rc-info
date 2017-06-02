@@ -1,11 +1,17 @@
 imports:
     - { resource: config.yml }
 
-#doctrine:
-#    orm:
-#        metadata_cache_driver: apc
-#        result_cache_driver: apc
-#        query_cache_driver: apc
+doctrine:
+    dbal:
+        host: "%env(DATABASE_HOST)%"
+        port: "%env(DATABASE_PORT)%"
+        dbname: "%env(DATABASE_NAME)%"
+        user: "%env(DATABASE_USER)%"
+        password: "%env(DATABASE_PASS)%"
+    orm:
+        metadata_cache_driver: apc
+        result_cache_driver: apc
+        query_cache_driver: apc
 
 monolog:
     handlers:
@@ -20,11 +26,3 @@ monolog:
             level: debug
         console:
             type: console
-
-doctrine:
-    dbal:
-        host: "%env(DATABASE_HOST)%"
-        port: "%env(DATABASE_PORT)%"
-        dbname: "%env(DATABASE_NAME)%"
-        user: "%env(DATABASE_USER)%"
-        password: "%env(DATABASE_PASS)%"
