@@ -1,6 +1,9 @@
 imports:
     - { resource: config.yml }
 
+parameters:
+    email_sender: "postmaster@app6b8d3e36f7864da3b5aac5ce497a6678.mailgun.org"
+
 doctrine:
     dbal:
         host: "%env(DATABASE_HOST)%"
@@ -12,6 +15,13 @@ doctrine:
         metadata_cache_driver: apc
         result_cache_driver: apc
         query_cache_driver: apc
+
+swiftmailer:
+    host: "%env(MAILGUN_SMTP_SERVER)%"
+    username: "%env(MAILGUN_SMTP_LOGIN)%"
+    password: "%env(MAILGUN_SMTP_PASSWORD)%"
+    port: "%env(MAILGUN_SMTP_PORT)%"
+
 
 monolog:
     handlers:

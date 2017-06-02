@@ -12,16 +12,18 @@ parameters:
     locale: pt_BR
     token_ttl: 86400
 
-    site_resetting_email.from: "noreply@dev.com"
+    email_sender: "noreply@dev.com"
+
+    site_resetting_email.from: "%email_sender%"
     site_resetting_email.template: "site/account/resetting/email.txt.twig"
     site_resetting_email.route: "site_resetting_reset"
 
     site_register_email:
-        from: "noreply@dev.com"
+        from: "%email_sender%"
         template: "site/account/register/email.txt.twig"
         route: "site_register_confirm"
 
-    admin_resetting_email.from: "noreply@dev.com"
+    admin_resetting_email.from: "%email_sender%"
     admin_resetting_email.template: "admin/resetting/email.txt.twig"
     admin_resetting_email.route: "admin_resetting_reset"
 
