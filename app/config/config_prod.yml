@@ -21,7 +21,8 @@ swiftmailer:
     username: "%env(MAILGUN_SMTP_LOGIN)%"
     password: "%env(MAILGUN_SMTP_PASSWORD)%"
     port: "%env(MAILGUN_SMTP_PORT)%"
-
+    delivery_address: "%env(MAILGUN_SMTP_LOGIN)%"
+    sender_address: "%env(MAILGUN_SMTP_LOGIN)%"
 
 monolog:
     handlers:
