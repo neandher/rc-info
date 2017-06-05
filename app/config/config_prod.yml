@@ -37,3 +37,4 @@ monolog:
             level: debug
         console:
             type: console
+            process_psr_3_messages: false

@@ -1,3 +1,4 @@
+/.web-server-pid
 /app/config/parameters.yml
 /build/
 /phpunit.xml
@@ -16,3 +17,4 @@
 /web/bundles/
 /web/bower_components
 .idea/*
+/_files/
