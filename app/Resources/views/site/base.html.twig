@@ -4,8 +4,10 @@
     <title>{% block title %}RC Informática{% endblock %}</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
     <!--[if lte IE 8]>
-    <script src="{{ preload(asset('site/assets/js/ie/html5shiv.js')) }}"></script><![endif]-->
+    <script src="{{ asset('site/assets/js/ie/html5shiv.js') }}"></script>
+    <![endif]-->
 
     {% block stylesheets %}
         {% embed 'site/_partials/_block_stylesheets.html.twig' %}{% endembed %}
