@@ -1,31 +1,71 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
-    <meta charset="UTF-8"/>
-    <title>{% block title %}Welcome!{% endblock %}</title>
-    {% block stylesheets %}{% endblock %}
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <title>{% block title %}RC Informática{% endblock %}</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!--[if lte IE 8]>
+    <script src="{{ preload(asset('site/assets/js/ie/html5shiv.js')) }}"></script><![endif]-->
+
+    {% block stylesheets %}
+        {% embed 'site/_partials/_block_stylesheets.html.twig' %}{% endembed %}
+    {% endblock %}
 </head>
-<body>
 
-{{ include('site/_navbar.html.twig') }}
+{% block body %}
 
-<div class="container">
-    {% block body %}{% endblock %}
-</div>
+    <body class="{% block body_class %}homepage{% endblock %}" id="top">
 
-{% block javascripts %}
+    <div id="page-wrapper">
 
-    <script src="https://code.jquery.com/jquery-2.2.3.min.js"
-            integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+        <!-- Header -->
+        <div id="header">
+            <div class="container">
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
-            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
-            crossorigin="anonymous"></script>
+                <!-- Logo -->
+                <div id="logo">
+                    <h1><a href="{{ path('site_homepage') }}">RC INFORMÁTICA</a></h1>
+                </div>
+
+                <!-- Nav -->
+                {% include('site/_partials/_navbar.html.twig') %}
+
+                {% if app.request.attributes.get('_route') == 'site_homepage' %}
+                    <!-- Banner -->
+                    {% include('site/_partials/_banner.html.twig') %}
+                {% endif %}
+
+            </div>
+        </div>
+
+        {% if app.request.attributes.get('_route') == 'site_homepage' %}
+        <!-- Featured -->
+        <div id="featured">
+            <div class="container">
+                {% block featured_container %}{% endblock %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Main -->
+        <div id="main">
+            <div class="container">
+                {% block main_container %}{% endblock %}
+                {% include('site/_partials/_footer.html.twig') %}
+            </div>
+        </div>
+
+        {% include('site/_partials/_copyright.html.twig') %}
+
+    </div>
+
+    <!-- Scripts -->
+    {% block javascripts %}
+        {% embed 'site/_partials/_block_javascripts.html.twig' %}{% endembed %}
+    {% endblock %}
+
+    </body>
 
 {% endblock %}
 
-</body>
 </html>

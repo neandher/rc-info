@@ -1,5 +1,78 @@
 {% extends 'site/base.html.twig' %}
 
-{% block body %}
-    <h3>Site Homepage</h3>
+{% block featured_container %}
+
+<div class="row 200%">
+    <section class="3u 12u(mobile)">
+        <span class="pennant icon fa-leaf"></span>
+        <h3>Nam Euismod</h3>
+        <p>Quisque ut ante mattis, dignissim libero et, porttitor risus ulla eros enim sodales</p>
+        <a href="#" class="icon fa-arrow-right button">More</a>
+    </section>
+    <section class="3u 12u(mobile)">
+        <span class="pennant icon fa-cloud"></span>
+        <h3>Calesu Dame</h3>
+        <p>Donec facilisis ullam coriov tellus quis dapibus misip initos imperdiet uncon</p>
+        <a href="#" class="icon fa-arrow-right button">More</a>
+    </section>
+    <section class="3u 12u(mobile)">
+        <span class="pennant icon fa-cog"></span>
+        <h3>Vestibul Imnon</h3>
+        <p> Ut cursus ante et gravida suscipit donec luctus odio euintis sollicitudin tempus</p>
+        <a href="#" class="icon fa-arrow-right button">More</a>
+    </section>
+    <section class="3u 12u(mobile)">
+        <span class="pennant icon fa-glass"></span>
+        <h3>Fusce Hend</h3>
+        <p>Maecenas vitae risus pellentesque orci vulputate aliquam Nulla ac tellus</p>
+        <a href="#" class="icon fa-arrow-right button">More</a>
+    </section>
+</div>
+{% endblock %}
+
+{% block main_container %}
+
+<!-- Device Image -->
+<div class="row">
+    <div class="12u">
+        <div id="box1">
+            <div id="box2">
+                <img src="{{ asset('site/images/pic05.jpg') }}" alt="" class="image full">
+            </div>
+            <div id="box3">
+                <img src="{{ asset('site/images/pic06.jpg') }}" alt="" class="image full">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Portfolio -->
+<div class="row">
+
+    <div class="6u 12u(mobile)">
+        <section>
+            <header>
+                <h2>Fusce tincidunt augue ligula quis</h2>
+            </header>
+            <p>Praesent porta accumsan orci, nec mollis sapien elementum nec. Praesent vitae lementum dui, eget rutrum
+                lorem. Donec augue dui, iaculis vitae metus vel, adipiscing porta dolor. Fusce odio mauris, luctus in
+                dignissim vitae metus</p>
+            <a href="#" class="icon fa-arrow-right button">More</a>
+        </section>
+    </div>
+
+    <div class="6u 12u(mobile)">
+        <section>
+            <header>
+                <h2>Donec vulputate augue vel congue</h2>
+            </header>
+            <p>Quisque hendrerit nunc a est volutpat, vitae molestie lacus euismod. Nunc pharetra vulputate neque quis
+                convallis. Fusce aliquam lacus at hendrerit molestie. Vivamus quis sem at urna iaculis cursus.
+                Suspendisse cursus tempor viverra nteger</p>
+            <a href="#" class="icon fa-arrow-right button">More</a>
+        </section>
+    </div>
+
+</div>
+
 {% endblock %}
