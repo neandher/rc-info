@@ -18,7 +18,7 @@ class BannerType extends AbstractType
     { 
         $builder
             ->add('description', TextType::class, ['label' => 'admin.banner.fields.description'])
-            ->add('image_file', FileType::class, ['label' => 'admin.banner.fields.image_file'])
+            ->add('imageFile', FileType::class, ['label' => 'admin.banner.fields.image_file'])
             ->add('isEnabled', SwitchType::class, ['label' => 'admin.banner.fields.enabled'])
             ->add('publishedAt', DateTimePickerType::class,
                 [
@@ -34,6 +34,7 @@ class BannerType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Banner::class,
+            'validation_groups' => ['Default', 'create'],
         ]);
     }
 

@@ -42,8 +42,9 @@ class Banner
      * @Vich\UploadableField(mapping="banner_image", fileNameProperty="imageName")
      *
      * @var File
-     * @Assert\NotBlank()
-     * @Assert\File(     
+     * @Assert\NotBlank(groups={"create"})
+     * @Assert\File(
+     *     groups={"create"},
      *     mimeTypes = {"image/png", "image/jpg", "image/jpeg"}
      * )
      */
@@ -83,7 +84,7 @@ class Banner
      * @param File $imageFile
      * @return $this
      */
-    public function setImageFile(File $imageFile)
+    public function setImageFile(File $imageFile = null)
     {
         $this->imageFile = $imageFile;
 

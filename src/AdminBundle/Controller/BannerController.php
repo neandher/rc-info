@@ -99,14 +99,16 @@ class BannerController extends BaseController
     {
         $pagination = $this->get('app.util.pagination')->handle($request, Banner::class);
 
-        $form = $this->createForm(BannerType::class, $banner);
+        $form = $this->createForm(BannerType::class, $banner, [
+            'validation_groups' => ['Default']
+        ]);
 
         $this->addDefaultSubmitButtons($form);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($banner);
             $em->flush();
