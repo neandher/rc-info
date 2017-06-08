@@ -14,3 +14,15 @@ admin:
             last_login: Último Login
             created_at: Data Criação
         impersonate: Cliente %name% logado com sucesso
+
+    banner:
+        title: Banner
+        new: Novo Banner
+        edit: Editar Banner
+        not_found: Nenhum banner encontrado
+        fields:
+            description: Descrição
+            image_file: Imagem
+            enabled: Ativo
+            published_at: Publicado Em
+            created_at: Data Criação

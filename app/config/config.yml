@@ -27,6 +27,14 @@ parameters:
     admin_resetting_email.template: "admin/resetting/email.txt.twig"
     admin_resetting_email.route: "admin_resetting_reset"
 
+    ### uploads path ###
+    upload_cache_path: "%kernel.project_dir%/web/uploads/cache"
+    upload_banner_image_path: "%kernel.project_dir%/web/uploads/banner_images"
+
+    ### uploads relative path to web ###
+    upload_cache_relative_path: "/uploads/cache"
+    upload_banner_image_relative_path: "/uploads/banner_images"
+
 framework:
     #esi: ~
     #translator: { fallbacks: ['%locale%'] }
@@ -97,3 +105,14 @@ stof_doctrine_extensions:
     orm:
         default:
             timestampable: true
+
+vich_uploader:
+    db_driver: orm
+    mappings:
+        banner_image:
+            uri_prefix: "%upload_banner_image_relative_path%"
+            upload_destination: "%upload_banner_image_path%"
+            delete_on_remove: true
+            delete_on_update: true
+            inject_on_load: true
+            namer:  vich_uploader.namer_uniqid
