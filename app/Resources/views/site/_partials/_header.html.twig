@@ -1,0 +1,125 @@
+<header id="header" class="sticky">
+    <div id="trueHeader">
+        <div class="wrapper">
+            <div class="logoarea">
+                <div class="container">
+
+                    <!-- Logo -->
+                    <div class="logo"><a href="index.html" id="logo"></a></div>
+
+                    <div class="right_links">
+
+                        <ul>
+                            <li class="link"><a class="fancybox fancybox.ajax" href="login-frame.html"><i
+                                            class="fa fa-envelope"></i> info@yourwebsite.com</a></li>
+                            <li class="link"><a class="fancybox fancybox.ajax" href="register-frame.html"><i
+                                            class="fa fa-edit"></i> Register</a></li>
+                            <li class="social"><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li class="social"><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li class="social"><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li class="social"><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li class="social"><a href="#"><i class="fa fa-flickr"></i></a></li>
+                            <li class="social"><a href="#"><i class="fa fa-youtube"></i></a></li>
+                            <li class="social"><a href="#"><i class="fa fa-rss"></i></a></li>
+                        </ul>
+
+                    </div><!-- end right links -->
+
+                </div>
+            </div>
+
+            <!-- Menu -->
+            <div class="menu_main">
+
+                <div class="container">
+
+                    <div class="navbar yamm navbar-default">
+
+                        <div class="container">
+                            <div class="navbar-header">
+                                <div class="navbar-toggle .navbar-collapse .pull-right " data-toggle="collapse"
+                                     data-target="#navbar-collapse-1"><span>Menu</span>
+                                    <button type="button"><i class="fa fa-bars"></i></button>
+                                </div>
+                            </div>
+
+                            <div id="navbar-collapse-1" class="navbar-collapse collapse">
+
+                                <ul class="nav navbar-nav">
+
+                                    <li>
+                                        <a href="{{ path('site_homepage') }}"
+                                           class="{% if app.request.attributes.get('_route') == 'site_homepage' %}active{% endif %}">
+                                            Home
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('site_sobre') }}"
+                                           class="{% if app.request.attributes.get('_route') == 'site_sobre' %}active{% endif %}">
+                                            Sobre
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('site_produtos') }}"
+                                           class="{% if app.request.attributes.get('_route') == 'site_produtos' %}active{% endif %}">
+                                            Produtos
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('site_downloads') }}"
+                                           class="{% if app.request.attributes.get('_route') == 'site_downloads' %}active{% endif %}">
+                                            Downloads
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('site_experimente') }}" class="{% if app.request.attributes.get('_route') == 'site_experimente' %}active{% endif %}">
+                                            Experimente
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('site_contato') }}"
+                                           class="{% if app.request.attributes.get('_route') == 'site_contato' %}active{% endif %}">
+                                            Contato
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                                <div id="wrap">
+                                    <form action="index.html" autocomplete="on">
+                                        <input id="search" name="search" type="text" placeholder=""><input
+                                                id="search_submit" value="search" type="submit">
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div><!-- end menu -->
+
+        </div>
+
+    </div>
+
+</header>
+
+
+{#
+<nav id="nav">
+    <ul>
+        {% if not app.user %}
+            <li><a href="{{ path('site_login') }}">Área do Cliente</a></li>
+        {% endif %}
+        {% if app.user %}
+            <li>
+                <a href="#">{{ app.user.customer.name }}</a>
+                <ul>
+                    <li><a href="{{ path('site_change_password') }}">Alterar Senha</a></li>
+                    <li><a href="{{ path('site_logout') }}">Logout</a></li>
+                </ul>
+            </li>
+        {% endif %}
+    </ul>
+</nav>#}

@@ -1,12 +1,31 @@
 <!DOCTYPE HTML>
+<!--[if IE 7 ]>
+<html lang="en-gb" class="isie ie7 oldie no-js"> <![endif]-->
+<!--[if IE 8 ]>
+<html lang="en-gb" class="isie ie8 oldie no-js"> <![endif]-->
+<!--[if IE 9 ]>
+<html lang="en-gb" class="isie ie9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en-gb" class="no-js"> <!--<![endif]-->
 <html>
 <head>
     <title>{% block title %}RC Informática{% endblock %}</title>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
 
-    <!--[if lte IE 8]>
-    <script src="{{ asset('site/assets/js/ie/html5shiv.js') }}"></script>
+    <!-- this styles only adds some repairs on idevices  -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google fonts - witch you want to use - (rest you can just remove) -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic'
+          rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900' rel='stylesheet'
+          type='text/css'>
+
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
 
     {% block stylesheets %}
@@ -16,48 +35,18 @@
 
 {% block body %}
 
-    <body class="{% block body_class %}homepage{% endblock %}" id="top">
+    <body class="bg-cover">
 
-    <div id="page-wrapper">
+    <div class="site_wrapper">
 
         <!-- Header -->
-        <div id="header">
-            <div class="container">
+        {% include('site/_partials/_header.html.twig') %}
 
-                <!-- Logo -->
-                <div id="logo">
-                    <h1><a href="{{ path('site_homepage') }}">RC INFORMÁTICA</a></h1>
-                </div>
+        <div class="clearfix"></div>
 
-                <!-- Nav -->
-                {% include('site/_partials/_navbar.html.twig') %}
+        {% block main_container %}{% endblock %}
 
-                {% if app.request.attributes.get('_route') == 'site_homepage' %}
-                    <!-- Banner -->
-                    {% include('site/_partials/_banner.html.twig') %}
-                {% endif %}
-
-            </div>
-        </div>
-
-        {% if app.request.attributes.get('_route') == 'site_homepage' %}
-        <!-- Featured -->
-        <div id="featured">
-            <div class="container">
-                {% block featured_container %}{% endblock %}
-            </div>
-        </div>
-        {% endif %}
-
-        <!-- Main -->
-        <div id="main">
-            <div class="container">
-                {% block main_container %}{% endblock %}
-                {% include('site/_partials/_footer.html.twig') %}
-            </div>
-        </div>
-
-        {% include('site/_partials/_copyright.html.twig') %}
+        {% include('site/_partials/_footer.html.twig') %}
 
     </div>
 

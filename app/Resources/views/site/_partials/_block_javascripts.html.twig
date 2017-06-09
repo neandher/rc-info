@@ -1,8 +1,66 @@
-<script src="{{ preload(asset('site/assets/js/jquery.min.js'), { as: 'script' }) }}"></script>
-<script src="{{ preload(asset('site/assets/js/jquery.dropotron.min.js'), { as: 'script' }) }}"></script>
-<script src="{{ preload(asset('site/assets/js/jquery.slidertron.min.js'), { as: 'script' }) }}"></script>
-<script src="{{ preload(asset('site/assets/js/skel.min.js'), { as: 'script' }) }}"></script>
-<script src="{{ preload(asset('site/assets/js/skel-viewport.min.js'), { as: 'script' }) }}"></script>
-<script src="{{ preload(asset('site/assets/js/util.js'), { as: 'script' }) }}"></script>
-<!--[if lte IE 8]><script src="{{ asset('site/assets/js/ie/respond.min.js') }}"></script><![endif]-->
-<script src="{{ preload(asset('site/assets/js/main.js'), { as: 'script' }) }}"></script>
+{#<script src="{{ preload(asset('site/assets/js/jquery.min.js'), { as: 'script' }) }}"></script>#}
+
+<!-- ######### JS FILES ######### -->
+<!-- get jQuery from the google apis -->
+<script type="text/javascript" src="{{ asset('site/assets/js/universal/jquery.js') }}"></script>
+
+<!-- style switcher -->
+<script src="{{ asset('site/assets/js/style-switcher/jquery-1.js') }}"></script>
+<script src="{{ asset('site/assets/js/style-switcher/styleselector.js') }}"></script>
+
+<!-- animations -->
+<script src="{{ asset('site/assets/js/animations/js/animations.min.js') }}" type="text/javascript"></script>
+
+
+<!-- slide panel -->
+<script type="text/javascript" src="{{ asset('site/assets/js/slidepanel/slidepanel.js') }}"></script>
+
+<!-- mega menu -->
+<script src="{{ asset('site/assets/js/mainmenu/bootstrap.min.js') }}"></script>
+<script src="{{ asset('site/assets/js/mainmenu/customeUI.js') }}"></script>
+
+<!-- jquery jcarousel -->
+<script type="text/javascript" src="{{ asset('site/assets/js/carousel/jquery.jcarousel.min.js') }}"></script>
+
+<!-- scroll up -->
+<script src="{{ asset('site/assets/js/scrolltotop/totop.js') }}" type="text/javascript"></script>
+
+<!-- tabs -->
+<script src="{{ asset('site/assets/js/tabs/assets/js/responsive-tabs.min.js') }}" type="text/javascript"></script>
+
+<!-- jquery jcarousel -->
+<script type="text/javascript">
+    (function($) {
+        "use strict";
+
+        jQuery(document).ready(function() {
+            jQuery('#mycarouselthree').jcarousel();
+        });
+
+    })(jQuery);
+</script>
+
+<!-- accordion -->
+<script type="text/javascript" src="{{ asset('site/assets/js/accordion/custom.js') }}"></script>
+
+<!-- sticky menu -->
+<script type="text/javascript" src="{{ asset('site/assets/js/mainmenu/sticky.js') }}"></script>
+<script type="text/javascript" src="{{ asset('site/assets/js/mainmenu/modernizr.custom.75180.js') }}"></script>
+
+<script src="{{ asset('site/assets/js/form/jquery.form.min.js') }}"></script>
+<script src="{{ asset('site/assets/js/form/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('site/assets/js/form/jquery.modal.js') }}"></script>
+
+<!-- cubeportfolio -->
+<script type="text/javascript" src="{{ asset('site/assets/js/cubeportfolio/jquery.cubeportfolio.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('site/assets/js/cubeportfolio/main.js') }}"></script>
+<script type="text/javascript" src="{{ asset('site/assets/js/cubeportfolio/main5.js') }}"></script>
+<script type="text/javascript" src="{{ asset('site/assets/js/cubeportfolio/main6.js') }}"></script>
+
+<!-- carousel -->
+<script defer src="{{ asset('site/assets/js/carousel/jquery.flexslider.js') }}"></script>
+<script defer src="{{ asset('site/assets/js/carousel/custom.js') }}"></script>
+
+<!-- lightbox -->
+<script type="text/javascript" src="{{ asset('site/assets/js/lightbox/jquery.fancybox.js') }}"></script>
+<script type="text/javascript" src="{{ asset('site/assets/js/lightbox/custom.js') }}"></script>
