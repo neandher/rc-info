@@ -21,6 +21,7 @@
     },
     "require": {
         "php": ">=5.5.9",
+        "ext-apcu": "*",
         "ext-intl": "*",
         "ext-mcrypt": "*",
         "doctrine/doctrine-bundle": "^1.6",
