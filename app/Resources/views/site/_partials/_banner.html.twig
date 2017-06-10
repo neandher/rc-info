@@ -1,29 +1,115 @@
-<div id="banner">
+<div class="container_full slidertop">
 
-    <div id="slider">
-        <a href="#"><span class="previous-button icon fa-chevron-left"></span></a>
-        <a href="#"><span class="next-button icon fa-chevron-right"></span></a>
-        <div class="viewer">
-            <div class="reel">
-                <div class="slide">
-                    <a class="link" href="#">Full story ...</a>
-                    <img src="{{ asset('site/images/pic01.jpg') }}" alt=""/>
-                </div>
-                <div class="slide">
-                    <a class="link" href="#">Full story ...</a>
-                    <img src="{{ asset('site/images/pic02.jpg') }}" alt=""/>
-                </div>
-                <div class="slide">
-                    <a class="link" href="#">Full story ...</a>
-                    <img src="{{ asset('site/images/pic03.jpg') }}" alt=""/>
-                </div>
+    <div class="master-slider ms-skin-default" id="masterslider">
+
+        <!-- slide -->
+        <div class="ms-slide slide-1" data-delay="8">
+
+            <!-- slide background -->
+            <img src="{{ asset('site/assets/images/sliders/master/slide-bg1.jpg') }}" alt=""/>
+
+            <h1 class="ms-layer stext6"
+                style="left: 130px; top: 335px;"
+                data-type="text"
+                data-duration="900"
+                data-delay="1800"
+                data-ease="easeOutExpo"
+                data-effect="bottom(40)"
+            >
+                Tenha Controle Total Sobre sua Empresa<br>
+                <strong>Nós Temos a <em>Solução</em></strong>
+            </h1>
+
+            <h4 class="ms-layer stext7"
+                style="left: 130px; top: 470px;"
+                data-type="text"
+                data-duration="900"
+                data-delay="2500"
+                data-ease="easeOutExpo"
+                data-effect="bottom(40)"
+            >
+                <strong>PAF-ECF</strong> - Sistema de Gestão Empresarial para quem não tem tempo a perder
+            </h4>
+
+            <div class="ms-layer"
+                 style="left: 130px; top: 550px;"
+                 data-type="text"
+                 data-delay="3500"
+                 data-ease="easeOutExpo"
+                 data-duration="900"
+                 data-effect="scale(1.5,1.6)"
+            >
+                <a href="{{ path('site_experimente') }}" class="sbutton4">Experimente Agora</a>
             </div>
-        </div>
-    </div>
 
-    <header>
-        <h2>TENHA CONTROLE TOTAL SOBRE SUA EMPRESA</h2>
-        <span>SISTEMA DE GESTÃO EMPRESARIAL PARA QUEM NÃO TEM TEMPO A PERDER</span>
-    </header>
+        </div>
+        <!-- end of slide -->
+
+        <!-- slide -->
+        {#<div class="ms-slide slide-3" data-delay="8">
+
+            <!-- slide background -->
+            <img src="js/masterslider/blank.gif" data-src="http://placehold.it/1920x720" alt=""/>
+
+            <img src="js/masterslider/blank.gif" data-src="http://placehold.it/630x576" alt=""
+                 style="left:670px; top:70px;"
+                 class="ms-layer"
+                 data-type="image"
+                 data-effect="right(300)"
+                 data-ease="easeOutExpo"
+                 data-duration="900"
+                 data-delay="300"
+            />
+
+            <h3 class="ms-layer stext9"
+                style="left: 925px; top: 327px;"
+                data-type="text"
+                data-duration="900"
+                data-delay="900"
+                data-ease="easeOutExpo"
+                data-effect="scale(1.5,1.6)"
+            >
+                <i class="fa fa-paper-plane"></i> <br/> One Solution for <br/> <strong>All you Needs</strong>
+            </h3>
+
+            <h1 class="ms-layer stext6"
+                style="left: 130px; top: 335px;"
+                data-type="text"
+                data-duration="900"
+                data-delay="1800"
+                data-ease="easeOutExpo"
+                data-effect="bottom(40)"
+            >
+                Hello! This is Hoxa.<br/>
+                <strong>Find the <em>Benefits</em> of Using</strong>
+            </h1>
+
+            <h4 class="ms-layer stext7"
+                style="left: 130px; top: 470px;"
+                data-type="text"
+                data-duration="900"
+                data-delay="2500"
+                data-ease="easeOutExpo"
+                data-effect="bottom(40)"
+            >
+                Creative. Clean Design. Let’s Start an Awesome Project.
+            </h4>
+
+            <div class="ms-layer"
+                 style="left: 130px; top: 550px;"
+                 data-type="text"
+                 data-delay="3500"
+                 data-ease="easeOutExpo"
+                 data-duration="900"
+                 data-effect="scale(1.5,1.6)"
+            >
+                <a href="#" class="sbutton4">Get Started Now!</a>
+            </div>
+
+        </div>#}
+        <!-- end of slide -->
+
+
+    </div>
 
 </div>

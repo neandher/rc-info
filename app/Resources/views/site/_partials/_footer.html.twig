@@ -1,64 +1,74 @@
-<div class="clearfix margin_top7"></div>
+<div class="clearfix"></div>
 
 <div class="footer1">
     <div class="container">
 
-        <div class="one_fourth animate" data-anim-type="fadeInUp" data-anim-delay="200">
-            <ul class="faddress">
-                <li><img src="{{ asset('site/assets/images/footer-logo.png') }}" alt=""/></li>
-                <li><i class="fa fa-map-marker fa-lg"></i>&nbsp; 2901 Marmora Road, Glassgow,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Seattle,
-                    WA 98122-1090
-                </li>
-                <li><i class="fa fa-phone"></i>&nbsp; 1 -234 -456 -7890</li>
-                <li><i class="fa fa-print"></i>&nbsp; 1 -234 -456 -7890</li>
-                <li><a href="mailto:info@yourdomain.com"><i class="fa fa-envelope"></i> info@yourdomain.com</a></li>
-                <li><img src="{{ asset('site/assets/images/footer-wmap.png') }}" alt=""/></li>
-            </ul>
+        <div class="one_third animate" data-anim-type="fadeInUp" data-anim-delay="200">
+            <div class="siteinfo">
+
+                <h4 class="lmb">Sobre</h4>
+
+                <p>A RC Informática está há 18 anos no mercado lançando e aprimorando produtos que gerenciam e facilitam
+                    a tomada de decisões em empresas que precisam de respostas eficientes.</p>
+                <br/>
+                <a href="{{ path('site_sobre') }}">Leia mais <i class="fa fa-long-arrow-right"></i></a>
+
+            </div>
         </div><!-- end address -->
 
-        <div class="one_fourth animate" data-anim-type="fadeInUp" data-anim-delay="300">
+        <div class="one_third animate" data-anim-type="fadeInUp" data-anim-delay="300">
             <div class="qlinks">
 
-                <h4 class="lmb">Useful Links</h4>
+                <h4 class="lmb">Links Úteis</h4>
 
                 <ul>
-                    <li><a href="#"><i class="fa fa-angle-right"></i> Home Page Variations</a></li>
-                    <li><a href="#"><i class="fa fa-angle-right"></i> Awsome Slidershows</a></li>
-                    <li><a href="#"><i class="fa fa-angle-right"></i> Features and Typography</a></li>
-                    <li><a href="#"><i class="fa fa-angle-right"></i> Different &amp; Unique Pages</a></li>
-                    <li><a href="#"><i class="fa fa-angle-right"></i> Single and Portfolios</a></li>
-                    <li><a href="#"><i class="fa fa-angle-right"></i> Recent Blogs or News</a></li>
-                    <li><a href="#"><i class="fa fa-angle-right"></i> Layered PSD Files</a></li>
+                    <li>
+                        <a target="_blank"
+                           href="https://www.nfe.fazenda.gov.br/portal/consulta.aspx?tipoConsulta=completa&tipoConteudo=XbSeqxE8pl8=">
+                            <i class="fa fa-angle-right"></i> Secretaria da Fazenda ES
+                        </a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="http://www.sintegra.es.gov.br/">
+                            <i class="fa fa-angle-right"></i> Consulta Sintegra
+                        </a>
+                    </li>
+                    <li>
+                        <a target="_blank"
+                           href="http://www.receita.fazenda.gov.br/Aplicacoes/ATCTA/CPF/ConsultaPublica.asp">
+                            <i class="fa fa-angle-right"></i> Consultar CPF
+                        </a>
+                    </li>
+                    <li>
+                        <a target="_blank"
+                           href="http://www.receita.fazenda.gov.br/PessoaJuridica/CNPJ/cnpjreva/Cnpjreva_Solicitacao.asp">
+                            <i class="fa fa-angle-right"></i> Consulta CNPJ
+                        </a>
+                    </li>
                 </ul>
 
             </div>
         </div><!-- end links -->
 
         <div class="one_fourth animate" data-anim-type="fadeInUp" data-anim-delay="400">
-            <div class="siteinfo">
 
-                <h4 class="lmb">About Hoxa</h4>
+            <h4 class="lmb">Contato</h4>
+            <ul class="faddress">
+                {#<li><img src="{{ asset('site/assets/images/footer-logo.png') }}" alt=""/></li>#}
+                <li>
+                    <i class="fa fa-map-marker fa-lg"></i>&nbsp;
+                    Av. Cel. Pedro Maia de Carvalho 425<br>&nbsp;&nbsp;&nbsp;&nbsp;
+                    Sala 101/106 - Ed. Helena Pelisson <br>&nbsp;&nbsp;&nbsp;&nbsp;
+                    Manente - Praia das Gaivotas<br>&nbsp;&nbsp;&nbsp;&nbsp;
+                    Vila Velha ES - 29.102-570
+                </li>
+                <li><i class="fa fa-phone"></i>&nbsp; (027) 3349-9130</li>
+                <li><a href="mailto:info@yourdomain.com"><i class="fa fa-envelope"></i> adm@rcinformatica.net.br</a>
+                </li>
+                <li><img src="{{ asset('site/assets/images/footer-wmap.png') }}" alt=""/></li>
+            </ul>
 
-                <p>All the Lorem Ipsum generators on the Internet tend to repeat predefined an chunks as necessary,
-                    making this the first true generator on the Internet. Lorem Ipsum as their default model text,
-                    and a search for lorem ipsum will uncover many web sites.</p>
-                <br/>
-                <a href="#">Read more <i class="fa fa-long-arrow-right"></i></a>
-
-            </div>
         </div><!-- end site info -->
-
-        <div class="one_fourth last animate" data-anim-type="fadeInUp" data-anim-delay="500">
-
-            <h4>Flickr Photos</h4>
-
-            <div id="flickr_badge_wrapper">
-                <script type="text/javascript"
-                        src="http://www.flickr.com/badge_code_v2.gne?count=9&amp;display=latest&amp;size=s&amp;layout=h&amp;source=user&amp;user=93382411%40N07"></script>
-            </div>
-
-        </div><!-- end flickr -->
-
 
     </div>
 </div><!-- end footer -->
@@ -69,33 +79,15 @@
     <div class="container">
 
         <div class="one_half">
-
-            Copyright © 2014 hoxa.com. All rights reserved. <a href="#">Terms of Use</a> | <a href="#">Privacy
-                Policy</a>
-
+            Copyright © {{ "now"|date('Y') }} RC Informática. Todos os direitos reservados.
         </div>
 
         <div class="one_half last">
 
             <ul class="footer_social_links three">
-                <li class="animate" data-anim-type="zoomIn" data-anim-delay="200"><a href="#"><i
-                                class="fa fa-facebook"></i></a></li>
-                <li class="animate" data-anim-type="zoomIn" data-anim-delay="250"><a href="#"><i
-                                class="fa fa-twitter"></i></a></li>
-                <li class="animate" data-anim-type="zoomIn" data-anim-delay="300"><a href="#"><i
-                                class="fa fa-google-plus"></i></a></li>
-                <li class="animate" data-anim-type="zoomIn" data-anim-delay="350"><a href="#"><i
-                                class="fa fa-linkedin"></i></a></li>
-                <li class="animate" data-anim-type="zoomIn" data-anim-delay="400"><a href="#"><i
-                                class="fa fa-skype"></i></a></li>
-                <li class="animate" data-anim-type="zoomIn" data-anim-delay="450"><a href="#"><i
-                                class="fa fa-flickr"></i></a></li>
-                <li class="animate" data-anim-type="zoomIn" data-anim-delay="500"><a href="#"><i
-                                class="fa fa-html5"></i></a></li>
-                <li class="animate" data-anim-type="zoomIn" data-anim-delay="550"><a href="#"><i
-                                class="fa fa-youtube"></i></a></li>
-                <li class="animate" data-anim-type="zoomIn" data-anim-delay="600"><a href="#"><i
-                                class="fa fa-rss"></i></a></li>
+                <li class="animate" data-anim-type="zoomIn" data-anim-delay="200">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                </li>
             </ul>
 
         </div>

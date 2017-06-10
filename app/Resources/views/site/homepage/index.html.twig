@@ -1,11 +1,161 @@
 {% extends 'site/base.html.twig' %}
 
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <!-- Master Slider -->
+    <link rel="stylesheet" href="{{ asset('site/assets/js/masterslider/style/masterslider.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('site/assets/js/masterslider/skins/default/style.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('site/assets/js/masterslider/style.css') }}"/>
+
+{% endblock %}
+
 {% block main_container %}
 
-    <div class="page_title3">
+    {% include(':site/_partials:_banner.html.twig') %}
+
+    <div class="clearfix"></div>
+
+    <div class="feature_section1">
         <div class="container">
-            <div class="title"><h1>HOME</h1></div>
+
+            <h2>
+                Conheça o <strong>PAF-RC</strong>
+                <b>PAF-RC trata-se de um produto desenvolvido pela RC INFORMÁTICA, 100% compatível com PAF-ECF, para auxiliar as empresas na gestão
+                    do negócio.</b>
+            </h2>
+
+            <div class="margin_top3"></div>
+
+            <div class="one_third active animate" data-anim-type="fadeIn" data-anim-delay="100">
+
+                <div class="arrow_box"><i class="fa fa-laptop"></i></div>
+
+                <h5 class="caps">Automação Comercial</h5>
+
+                <p>O PAF-RC é uma ferramenta que proporciona maior competividade, eficiência e otimização dos processos
+                    fiscais e de gerenciamento deixando a sua empresa mais eficiente e pronta para o mercado.</p>
+
+            </div>
+
+            <div class="one_third active animate" data-anim-type="fadeIn" data-anim-delay="200">
+
+                <div class="arrow_box"><i class="fa fa-cog"></i></div>
+
+                <h5 class="caps">Personalização</h5>
+
+                <p>Interface amigável e usual, aderente às necessidades da organização. Com treinamento aos setores que
+                    utilizarão o PAF-RC e atendimento exclusivo para cada caso.</p>
+
+            </div>
+
+            <div class="one_third last active animate" data-anim-type="fadeIn" data-anim-delay="300">
+
+                <div class="arrow_box"><i class="fa fa-rocket"></i></div>
+
+                <h5 class="caps">Mais Controle e Rapidez</h5>
+
+                <p>O PAF-RC foi desenvolvido com o intuito de fornecer informações gerenciais rápidas e confiáveis para
+                    auxiliar a gestão empresarial dos mais diversos segmentos de mercado. </p>
+
+            </div>
+
         </div>
-    </div><!-- end page title -->
+    </div><!-- end fusection1 -->
+
+    <div class="clearfix"></div>
+
+    <div class="parallax_sec9">
+        <div class="container">
+
+            <h2 class="white">
+                Nossos Clientes
+                <b></b>
+            </h2>
+
+            <div class="margin_top3"></div>
+
+            <ul>
+                <li class="animate" data-anim-type="zoomIn" data-anim-delay="100"><img
+                            src="{{ asset('site/assets/images/client-logo1-white.png') }}" alt=""/></li>
+                <li class="animate" data-anim-type="zoomIn" data-anim-delay="200"><img
+                            src="{{ asset('site/assets/images/client-logo1-white.png') }}" alt=""/></li>
+                <li class="animate" data-anim-type="zoomIn" data-anim-delay="300"><img
+                            src="{{ asset('site/assets/images/client-logo1-white.png') }}" alt=""/></li>
+                <li class="animate" data-anim-type="zoomIn" data-anim-delay="400"><img
+                            src="{{ asset('site/assets/images/client-logo1-white.png') }}" alt=""/></li>
+                <li class="animate" data-anim-type="zoomIn" data-anim-delay="500"><img
+                            src="{{ asset('site/assets/images/client-logo1-white.png') }}" alt=""/></li>
+            </ul>
+            <div class="clearfix margin_top1"></div>
+            <ul>
+                <li class="animate" data-anim-type="zoomIn" data-anim-delay="600"><img
+                            src="{{ asset('site/assets/images/client-logo1-white.png') }}" alt=""/></li>
+                <li class="animate" data-anim-type="zoomIn" data-anim-delay="700"><img
+                            src="{{ asset('site/assets/images/client-logo1-white.png') }}" alt=""/></li>
+                <li class="animate" data-anim-type="zoomIn" data-anim-delay="800"><img
+                            src="{{ asset('site/assets/images/client-logo1-white.png') }}" alt=""/></li>
+                <li class="animate" data-anim-type="zoomIn" data-anim-delay="900"><img
+                            src="{{ asset('site/assets/images/client-logo1-white.png') }}" alt=""/></li>
+                <li class="animate" data-anim-type="zoomIn" data-anim-delay="1000"><img
+                            src="{{ asset('site/assets/images/client-logo1-white.png') }}" alt=""/></li>
+            </ul>
+
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="fusection9">
+        <div class="container">
+
+            <h1 class="animate fadeInDown" data-anim-type="fadeInDown" data-anim-delay="200">
+                Adaptável para empresas de qualquer porte ou segmento
+            </h1>
+            <h4 class="animate fadeInDown" data-anim-type="fadeInDown" data-anim-delay="250">
+                Solicite <strong>AGORA</strong> análise completa das necessidades em sua empresa
+                e orçamento sem compromisso
+            </h4>
+            <br>
+            <a href="#" class="readmore_but9 animate zoomIn" data-anim-type="zoomIn" data-anim-delay="750">
+                <i class="fa fa-check"></i> <strong>SOLICITAR</strong>
+            </a> &nbsp;&nbsp;&nbsp;
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <!-- Master Slider -->
+    <script src="{{ asset('site/assets/js/masterslider/jquery.easing.min.js') }}"></script>
+    <script src="{{ asset('site/assets/js/masterslider/masterslider.min.js') }}"></script>
+    <script type="text/javascript">
+        (function ($) {
+            "use strict";
+
+            var slider = new MasterSlider();
+            slider.setup('masterslider', {
+                width: 1270,    // slider standard width
+                height: 720,   // slider standard height
+                space: 0,
+                speed: 45,
+                fullwidth: true,
+                loop: true,
+                preload: 0,
+                autoplay: true,
+                view: "basic"
+            });
+// adds Arrows navigation control to the slider.
+            slider.control('arrows');
+            slider.control('bullets');
+
+        })(jQuery);
+    </script>
+
 
 {% endblock %}

@@ -1,5 +1,5 @@
 #trueHeader #logo{
-	background:url(../../images/colors/blue/logo.png) no-repeat;
+	background:url(../../images/colors/blue/logo-rc.png) no-repeat;
 }
 
 ul.nav>li>a.active {
@@ -37,19 +37,27 @@ ul.nav>li>a.active {
 }
 
 .feature_section1 .one_fourth:hover .arrow_box,
-.feature_section1 .one_fourth.active .arrow_box {
+.feature_section1 .one_fourth.active .arrow_box,
+.feature_section1 .one_third:hover .arrow_box,
+.feature_section1 .one_third.active .arrow_box{
 	border: 5px solid #13afeb;
 }
 .feature_section1 .one_fourth:hover .arrow_box:before,
-.feature_section1 .one_fourth.active .arrow_box:before {
+.feature_section1 .one_fourth.active .arrow_box:before,
+.feature_section1 .one_third:hover .arrow_box:before,
+.feature_section1 .one_third.active .arrow_box:before{
 	border-top-color: #13afeb;
 }
 .feature_section1 .one_fourth:hover .arrow_box i,
-.feature_section1 .one_fourth.active .arrow_box i {
+.feature_section1 .one_fourth.active .arrow_box i,
+.feature_section1 .one_third:hover .arrow_box i,
+.feature_section1 .one_third.active .arrow_box i{
 	color: #13afeb;
 }
 .feature_section1 .one_fourth:hover h5,
-.feature_section1 .one_fourth.active h5{
+.feature_section1 .one_fourth.active h5,
+.feature_section1 .one_third:hover h5,
+.feature_section1 .one_third.active h5{
 	color: #13afeb;
 }
 
