@@ -1,9 +1,108 @@
 {% extends 'site/base.html.twig' %}
 
 {% block main_container %}
-    <div class="page_title3">
+    <div class="page_title2">
         <div class="container">
-            <div class="title"><h1>SOBRE</h1></div>
+            <div class="title"><h1>SOBRE</h1><br></div>
         </div>
     </div><!-- end page title -->
+
+    <div class="clearfix"></div>
+
+    <div class="content_fullwidth lessmar">
+        <div class="container">
+
+            <img src="{{ asset('site/assets/images/site-img81.jpg') }}" alt="" class="rimg">
+
+            <br><br>
+
+            <div class="alileft"><h3>Quem Somos</h3></div>
+
+            <p>A RC Informática está há 18 anos no mercado lançando e aprimorando produtos que gerenciam e facilitam a
+                tomada de decisões em empresas que precisam de respostas eficientes.
+                Atenda as demandas do mercado e às mudanças na legislação, mantemos profissionais especializados e em
+                acompanhamento full time para garantir atualizações à frente da concorrência, garantindo resposta rápida
+                e resultados para que sua empresa se mantenha competitiva e você tenha muito mais tranquilidade.
+            </p>
+
+            <div class="clearfix divider_dashed2"></div><!-- end divider line -->
+
+        </div>
+
+        <div class="container">
+
+            <div class="clients">
+
+                <div class="container">
+
+                    <h3>Nossos <strong>Clientes</strong></h3>
+                    <br>
+                    <div class=" jcarousel-skin-tango">
+                        <div class="jcarousel-container jcarousel-container-horizontal"
+                             style="position: relative; display: block;">
+                            <div class="jcarousel-clip jcarousel-clip-horizontal" style="position: relative;">
+                                <ul id="mycarouselthree" class="jcarousel-list jcarousel-list-horizontal"
+                                    style="overflow: hidden; position: relative; top: 0px; margin: 0px; padding: 0px; left: 0px; width: 2035px;">
+
+                                    <li class="jcarousel-item jcarousel-item-horizontal jcarousel-item-1 jcarousel-item-1-horizontal"
+                                        jcarouselindex="1" style="float: left; list-style: none;"><img
+                                                src="{{ asset('site/assets/images/client-logo1.png') }}" alt=""></li>
+                                    <li class="jcarousel-item jcarousel-item-horizontal jcarousel-item-2 jcarousel-item-2-horizontal"
+                                        jcarouselindex="2" style="float: left; list-style: none;"><img
+                                                src="{{ asset('site/assets/images/client-logo1.png') }}" alt=""></li>
+                                    <li class="jcarousel-item jcarousel-item-horizontal jcarousel-item-3 jcarousel-item-3-horizontal"
+                                        jcarouselindex="3" style="float: left; list-style: none;"><img
+                                                src="{{ asset('site/assets/images/client-logo1.png') }}" alt=""></li>
+                                    <li class="jcarousel-item jcarousel-item-horizontal jcarousel-item-4 jcarousel-item-4-horizontal"
+                                        jcarouselindex="4" style="float: left; list-style: none;"><img
+                                                src="{{ asset('site/assets/images/client-logo1.png') }}" alt=""></li>
+                                    <li class="jcarousel-item jcarousel-item-horizontal jcarousel-item-5 jcarousel-item-5-horizontal"
+                                        jcarouselindex="5" style="float: left; list-style: none;"><img
+                                                src="{{ asset('site/assets/images/client-logo1.png') }}" alt=""></li>
+                                    <li class="jcarousel-item jcarousel-item-horizontal jcarousel-item-6 jcarousel-item-6-horizontal"
+                                        jcarouselindex="6" style="float: left; list-style: none;"><img
+                                                src="{{ asset('site/assets/images/client-logo1.png') }}" alt=""></li>
+                                    <li class="jcarousel-item jcarousel-item-horizontal jcarousel-item-7 jcarousel-item-7-horizontal"
+                                        jcarouselindex="7" style="float: left; list-style: none;"><img
+                                                src="{{ asset('site/assets/images/client-logo1.png') }}" alt=""></li>
+                                    <li class="jcarousel-item jcarousel-item-horizontal jcarousel-item-8 jcarousel-item-8-horizontal"
+                                        jcarouselindex="8" style="float: left; list-style: none;"><img
+                                                src="{{ asset('site/assets/images/client-logo1.png') }}" alt=""></li>
+                                    <li class="jcarousel-item jcarousel-item-horizontal jcarousel-item-9 jcarousel-item-9-horizontal"
+                                        jcarouselindex="9" style="float: left; list-style: none;"><img
+                                                src="{{ asset('site/assets/images/client-logo1.png') }}" alt=""></li>
+
+                                </ul>
+                            </div>
+                            <div class="jcarousel-prev jcarousel-prev-horizontal jcarousel-prev-disabled jcarousel-prev-disabled-horizontal"
+                                 style="display: block;" disabled="disabled"></div>
+                            <div class="jcarousel-next jcarousel-next-horizontal" style="display: block;"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="clearfix margin_top5"></div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <!-- jquery jcarousel -->
+    <script type="text/javascript">
+        (function($) {
+            "use strict";
+
+            jQuery(document).ready(function() {
+                jQuery('#mycarouselthree').jcarousel();
+            });
+
+        })(jQuery);
+    </script>
 {% endblock %}

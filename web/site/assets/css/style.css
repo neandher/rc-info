@@ -5607,3 +5607,8 @@ ul.recentnews {
 	width: 100%;
 	padding: 30px 0px 58px 0px;
 }
+
+.framed-box-wrap .pricing-text-list {
+	padding: 15px 20px 20px 20px !important;
+	text-align: center;
+}
