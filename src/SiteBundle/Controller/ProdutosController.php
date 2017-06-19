@@ -14,4 +14,12 @@ class ProdutosController extends Controller
     {
         return $this->render('site/produtos/index.html.twig');
     }
+
+    /**
+     * @Route("/produtos2", name="site_produtos2")
+     */
+    public function index2Action()
+    {
+        return $this->render('site/produtos/index2.html.twig');
+    }
 }
