@@ -1,0 +1,180 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block page_content %}
+
+    {% embed 'admin/_partials/_default_table_list.html.twig' %}
+
+        {% block icon_list %}
+            <i class="icon-wallet font-green-sharp bold"></i>
+        {% endblock %}
+
+        {% block caption_subject %}
+            {{ 'admin.bill.title'|trans }} ({{ bills.nbResults }} registros)
+        {% endblock %}
+
+        {% block actions %}
+            <a href="{{ path('admin_bill_new') ~ pagination.buildQuery }}" class="btn green">
+                <i class="fa fa-plus"></i> {{ 'admin.bill.new'|trans }}
+            </a>
+        {% endblock %}
+
+        {% block filters %}
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="busca" name="search"
+                       value="{% if app.request.query.has('search') %}{{ app.request.query.get('search') }}{% endif %}">
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control js-datepicker"
+                       placeholder="{{ 'form.placeholder.date_start'|trans }}"
+                       name="date_start"
+                       value="{% if app.request.query.has('date_start') %}{{ app.request.query.get('date_start') }}{% endif %}">
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control js-datepicker"
+                       placeholder="{{ 'form.placeholder.date_end'|trans }}"
+                       name="date_end"
+                       value="{% if app.request.query.has('date_end') %}{{ app.request.query.get('date_end') }}{% endif %}">
+            </div>
+
+            <div class="form-group">
+                <select class="form-control" name="bill_status" id="bill_status" onchange="submit();">
+                    <option value="">{{ 'admin.billStatus.title.menu'|trans }}</option>
+                    {% for status in bill_status %}
+                        <option value="{{ status.id }}"
+                                {% if app.request.query.has('bill_status') %}{% if app.request.query.get('bill_status') == status.id %}selected{% endif %}{% endif %}>{{ status.description }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-default form-control">
+                    <i class="fa fa-search"></i> Buscar
+                </button>
+            </div>
+
+            <div class="form-group">
+                <a href="{{ path('admin_bill_index') }}"
+                   class="btn btn-default form-control">
+                    <i class="fa fa-times"></i> Limpar
+                </a>
+            </div>
+        {% endblock %}
+
+        {% block table_tr_th %}
+            <tr>
+                <th>ID</th>
+                <th>
+                    <a href="{{ path('admin_bill_index') ~ pagination.buildQuery('sorting')  ~ pagination.sortingFieldQuery('customer.name') }}">
+                        {{ 'admin.customers.title_single'|trans }}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path('admin_bill_index') ~ pagination.buildQuery('sorting')  ~ pagination.sortingFieldQuery('description') }}">
+                        {{ 'admin.bill.fields.description'|trans }}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path('admin_bill_index') ~ pagination.buildQuery('sorting')  ~ pagination.sortingFieldQuery('amount') }}">
+                        {{ 'admin.bill.fields.amount'|trans }}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path('admin_bill_index') ~ pagination.buildQuery('sorting')  ~ pagination.sortingFieldQuery('dueDateAt') }}">
+                        {{ 'admin.bill.fields.dueDateAt'|trans }}
+                    </a>
+                </th>
+                <th>{{ 'admin.billStatus.title.menu'|trans }}</th>
+                <th>
+                    <a href="{{ path('admin_bill_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('createdAt') }}">
+                        {{ 'admin.bill.fields.createdAt'|trans }}
+                    </a>
+                </th>
+                <th>Ações</th>
+            </tr>
+        {% endblock %}
+
+        {% block table_tr_td %}
+            {% for bill in bills %}
+                <tr>
+                    <td>{{ bill.id }}</td>
+                    <td>
+                        <a href="{{ path('admin_customer_edit', {id: bill.customer.id}) }}">
+                            {{ bill.customer.name }}
+                        </a>
+                    </td>
+                    <td>{{ bill.description }}</td>
+                    <td>{{ bill.amount }}</td>
+                    <td>{{ bill.dueDateAt|date('d/m/Y') }}</td>
+                    <td>
+                        {% if bill.isDateOverDue %}
+                            <span class="label label-sm label-danger">
+                                {{ 'admin.billStatus.dateOverDue'|trans }}
+                            </span>
+                        {% else %}
+                            <span class="label label-sm
+                            label-{% if bill.billStatus.referency == 'pago' %}success{% else %}warning{% endif %}">
+                                {{ bill.billStatus.description }}
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td>{{ bill.createdAt|date('d/m/Y') }}</td>
+                    <td>
+                        {% embed 'admin/_partials/_actions_btn_group.html.twig' %}
+                            {% block buttons %}
+                                <a href="{{ path('admin_bill_edit', { id: bill.id }) ~ pagination.buildQuery }}"
+                                   title="Editar" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-pencil"></span> Editar
+                                </a>
+                                <button type="button" class="btn btn-default btn-sm dropdown-toggle"
+                                        data-toggle="dropdown" data-close-others="true">
+                                    <i class="fa fa-angle-down"></i>
+                                </button>
+                            {% endblock %}
+                            {% block li_actions %}
+                                <li>
+                                    <a href="javascript:;" data-toggle="modal"
+                                       data-target="#modalConfirmation"
+                                       data-path="{{ path('admin_bill_delete', {id: bill.id})|escape }}"
+                                       data-crf="{{ form_widget(delete_forms[bill.id]._token)|escape }}"
+                                    >
+                                        <i class="fa fa-trash"></i> Deletar
+                                    </a>
+                                </li>
+                            {% endblock %}
+                        {% endembed %}
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endblock %}
+
+        {% block list_info %}
+            Exibindo {{ bills.currentPageOffsetStart }} a
+            {{ bills.currentPageOffsetEnd }} de
+            {{ bills.nbResults }} registros
+        {% endblock %}
+
+        {% block list_pagination %}
+            {{ pagerfanta(bills, 'twitter_bootstrap3',{
+                routeName: 'admin_bill_index',
+                routeParams: app.request.query.all
+            }) }}
+        {% endblock %}
+
+    {% endembed %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {% embed 'admin/_partials/_block_javascripts.html.twig' %}
+
+        {% block page_level_plugins %}
+            <script src="{{ asset('admin/assets/global/plugins/moment.min.js') }}"></script>
+            <script src="{{ asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"
+                    type="text/javascript"></script>
+            <script src="{{ asset('bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.pt-BR.min.js') }}"></script>
+        {% endblock %}
+
+    {% endembed %}
+{% endblock %}

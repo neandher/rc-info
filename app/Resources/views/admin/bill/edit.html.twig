@@ -1,0 +1,69 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block stylesheets %}
+    {% embed 'admin/_partials/_block_stylesheets.html.twig' %}
+
+        {% block page_level_plugins %}
+            <link rel="stylesheet"
+                  href="{{ asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+        {% endblock %}
+
+    {% endembed %}
+{% endblock %}
+
+{% block page_content %}
+
+    {% embed 'admin/_partials/_default_resource.html.twig' with {'route_index' : 'admin_bill_index'} %}
+
+        {% block form_start %}
+            {{ form_start(form, {'action': path('admin_bill_edit', {id: bill.id}) ~ pagination.buildQuery,
+                'attr' : {'class' : '_form-horizontal'}}) }}
+        {% endblock %}
+
+        {% block icon_list %}
+            <i class="icon-globe font-green-sharp bold"></i>
+        {% endblock %}
+
+        {% block caption_subject %}
+            <span class="caption-subject font-green-sharp bold uppercase">
+                {{ 'admin.bill.edit'|trans }}
+            </span>
+        {% endblock %}
+
+        {% block nav_tabs %}
+            <li role="presentation" class="active">
+                <a href="#geral" aria-controls="geral" role="tab" data-toggle="tab">Geral</a>
+            </li>
+        {% endblock %}
+
+        {% block tab_pane %}
+            <div role="tabpanel" class="tab-pane active" id="geral">
+                <div class="row">
+                    <div class="col-md-6">{{ form_row(form.customerChoices.customer) }}</div>
+                    <div class="col-md-6">{{ form_row(form.description) }}</div>
+                    <div class="col-md-6">{{ form_row(form.amount) }}</div>
+                    <div class="col-md-6">{{ form_row(form.amountPaid) }}</div>
+                    <div class="col-md-6">{{ form_row(form.dueDateAt) }}</div>
+                    <div class="col-md-6">{{ form_row(form.paymentDateAt) }}</div>
+                    <div class="col-md-6">{{ form_row(form.paymentDateAt) }}</div>
+                    <div class="col-md-12">{{ form_row(form.note, {'attr': {'rows' : 5}}) }}</div>
+                </div>
+            </div>
+        {% endblock %}
+
+    {% endembed %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {% embed 'admin/_partials/_block_javascripts.html.twig' %}
+
+        {% block page_level_plugins %}
+            <script src="{{ asset('admin/assets/global/plugins/moment.min.js') }}"></script>
+            <script src="{{ asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"
+                    type="text/javascript"></script>
+            <script src="{{ asset('bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.pt-BR.min.js') }}"></script>
+        {% endblock %}
+
+    {% endembed %}
+{% endblock %}

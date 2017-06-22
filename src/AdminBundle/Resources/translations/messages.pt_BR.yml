@@ -2,6 +2,7 @@ admin:
 
     customers:
         title: Clientes
+        title_single: Cliente
         new: Novo Cliente
         edit: Editar Cliente
         not_found: Nenhum cliente encontrado
@@ -26,3 +27,22 @@ admin:
             enabled: Ativo
             published_at: Publicado Em
             created_at: Data Criação
+
+    billStatus:
+        title:
+            menu: Status
+        dateOverDue: Vencido
+
+    bill:
+        title: Cobranças
+        new: Nova Cobrança
+        edit: Editar Cobrança
+        not_found: Nenhuma cobrança encontrada
+        fields:
+            description: Descrição
+            dueDateAt: Data de Vencimento
+            paymentDateAt: Data de Pagamento
+            amount: Valor
+            amountPaid: Valor Pago
+            note: Observações
+            createdAt: Data de Criação

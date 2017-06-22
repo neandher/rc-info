@@ -1,3 +1,10 @@
+$('.js-datepicker').datepicker({
+    format: 'dd-mm-yyyy',
+    language: 'pt-BR',
+    clearBtn: true,
+    autoclose: true
+});
+
 $('#modalConfirmation').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);
     var path = button.data('path');

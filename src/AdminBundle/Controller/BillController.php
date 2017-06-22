@@ -2,68 +2,72 @@
 
 namespace AdminBundle\Controller;
 
-use AdminBundle\Form\Type\BannerType;
+use AdminBundle\Entity\Bill;
+use AdminBundle\Entity\BillStatus;
+use AdminBundle\Form\Type\BillType;
 use AppBundle\Event\FlashBagEvents;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use SiteBundle\Entity\Banner;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
-use UserBundle\Event\UserEvents;
 
 /**
- * Class BannerController
+ * Class BillController
  * @package AppBundle\Controller\Admin
  *
- * @Route("/banner")
+ * @Route("/bill")
  */
-class BannerController extends BaseController
+class BillController extends BaseController
 {
     /**
-     * @Route("/", name="admin_banner_index")
+     * @Route("/", name="admin_bill_index")
      * @Method({"GET"})
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
-        $pagination = $this->get('app.util.pagination')->handle($request, Banner::class);
+        $pagination = $this->get('app.util.pagination')->handle($request, Bill::class);
 
-        $banners = $this->getDoctrine()->getRepository(Banner::class)->findLatest($pagination);
+        $bills = $this->getDoctrine()->getRepository(Bill::class)->findLatest($pagination);
 
         $deleteForms = [];
-        foreach ($banners as $banner) {
-            $deleteForms[$banner->getId()] = $this->createDeleteForm($banner)->createView();
+        foreach ($bills as $bill) {
+            $deleteForms[$bill->getId()] = $this->createDeleteForm($bill)->createView();
         }
 
-        return $this->render('admin/banner/index.html.twig', [
-            'banners' => $banners,
+        $billstatus = $this->getDoctrine()->getRepository(BillStatus::class)->findAll();
+
+        return $this->render('admin/bill/index.html.twig', [
+            'bills' => $bills,
+            'bill_status' => $billstatus,
             'pagination' => $pagination,
             'delete_forms' => $deleteForms
         ]);
     }
 
     /**
-     * @Route("/new", name="admin_banner_new")
+     * @Route("/new", name="admin_bill_new")
      * @Method({"GET", "POST"})
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function newAction(Request $request)
     {
-        $pagination = $this->get('app.util.pagination')->handle($request, Banner::class);
+        $pagination = $this->get('app.util.pagination')->handle($request, Bill::class);
 
-        $banner = new Banner();
+        $bill = new Bill();
 
-        $form = $this->createForm(BannerType::class, $banner);
+        $form = $this->createForm(BillType::class, $bill);
         $this->addDefaultSubmitButtons($form);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $this->setBillStatus($bill);
+
             $em = $this->getDoctrine()->getManager();
-            $em->persist($banner);
+            $em->persist($bill);
             $em->flush();
 
             $this->get('app.util.flash_bag')->newMessage(
@@ -73,33 +77,33 @@ class BannerController extends BaseController
 
             $handleSubmitButtons = $this->handleSubmitButtons(
                 $form,
-                'banner_new',
-                'banner_edit',
-                ['id' => $banner->getId()],
+                'admin_bill_new',
+                'admin_bill_edit',
+                ['id' => $bill->getId()],
                 $pagination->getRouteParams()
             );
 
-            return $handleSubmitButtons ? $handleSubmitButtons : $this->redirectToRoute('banner_index');
+            return $handleSubmitButtons ? $handleSubmitButtons : $this->redirectToRoute('admin_bill_index');
         }
 
-        return $this->render('admin/banner/new.html.twig', [
+        return $this->render('admin/bill/new.html.twig', [
             'form' => $form->createView(),
             'pagination' => $pagination
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", requirements={"id" : "\d+"}, name="admin_banner_edit")
+     * @Route("/{id}/edit", requirements={"id" : "\d+"}, name="admin_bill_edit")
      * @Method({"GET", "POST"})
      * @param Request $request
-     * @param Banner $banner
+     * @param Bill $bill
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function editAction(Banner $banner, Request $request)
+    public function editAction(Bill $bill, Request $request)
     {
-        $pagination = $this->get('app.util.pagination')->handle($request, Banner::class);
+        $pagination = $this->get('app.util.pagination')->handle($request, Bill::class);
 
-        $form = $this->createForm(BannerType::class, $banner, [
+        $form = $this->createForm(BillType::class, $bill, [
             'validation_groups' => ['Default']
         ]);
 
@@ -108,9 +112,11 @@ class BannerController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            $this->setBillStatus($bill);
 
             $em = $this->getDoctrine()->getManager();
-            $em->persist($banner);
+            $em->persist($bill);
             $em->flush();
 
             $this->get('app.util.flash_bag')->newMessage(
@@ -120,41 +126,41 @@ class BannerController extends BaseController
 
             $handleSubmitButtons = $this->handleSubmitButtons(
                 $form,
-                'banner_new',
-                'banner_edit',
-                ['id' => $banner->getId()],
+                'admin_bill_new',
+                'admin_bill_edit',
+                ['id' => $bill->getId()],
                 $pagination->getRouteParams()
             );
 
-            return $handleSubmitButtons ? $handleSubmitButtons : $this->redirectToRoute('banner_index');
+            return $handleSubmitButtons ? $handleSubmitButtons : $this->redirectToRoute('admin_bill_index');
         }
 
-        return $this->render('admin/banner/edit.html.twig', [
-            'banner' => $banner,
+        return $this->render('admin/bill/edit.html.twig', [
+            'bill' => $bill,
             'form' => $form->createView(),
             'pagination' => $pagination
         ]);
     }
 
     /**
-     * @Route("/{id}/delete", requirements={"id" : "\d+"}, name="admin_banner_delete")
+     * @Route("/{id}/delete", requirements={"id" : "\d+"}, name="admin_bill_delete")
      * @Method("DELETE")
      * @param Request $request
-     * @param Banner $banner
+     * @param Bill $bill
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function deletAction(Request $request, Banner $banner)
+    public function deletAction(Request $request, Bill $bill)
     {
-        $pagination = $this->get('app.util.pagination')->handle($request, Banner::class);
+        $pagination = $this->get('app.util.pagination')->handle($request, Bill::class);
 
-        $form = $this->createDeleteForm($banner);
+        $form = $this->createDeleteForm($bill);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
-            $em->remove($banner);
+            $em->remove($bill);
             $em->flush();
 
             $this->get('app.util.flash_bag')->newMessage(
@@ -168,19 +174,30 @@ class BannerController extends BaseController
             );
         }
 
-        return $this->redirectToRoute('banner_index', $pagination->getRouteParams());
+        return $this->redirectToRoute('admin_bill_index', $pagination->getRouteParams());
     }
 
     /**
-     * @param Banner $banner
+     * @param Bill $bill
      * @return \Symfony\Component\Form\Form
      */
-    private function createDeleteForm(Banner $banner)
+    private function createDeleteForm(Bill $bill)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('banner_delete', ['id' => $banner->getId()]))
+            ->setAction($this->generateUrl('admin_bill_delete', ['id' => $bill->getId()]))
             ->setMethod('DELETE')
-            ->setData($banner)
+            ->setData($bill)
             ->getForm();
+    }
+
+    private function setBillStatus(Bill $bill)
+    {
+        $status = BillStatus::BILL_STATUS_PAGO;
+
+        if ($bill->getPaymentDateAt() === null && $bill->getAmountPaid() === null) {
+            $status = BillStatus::BILL_STATUS_EM_ABERTO;
+        }
+
+        $bill->setBillStatus($this->getDoctrine()->getRepository(BillStatus::class)->findOneByReferency($status));
     }
 }

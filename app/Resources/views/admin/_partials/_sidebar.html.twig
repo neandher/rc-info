@@ -64,10 +64,16 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
+            <li class="nav-item
+            {% if 'admin_bill' in app.request.attributes.get('_route') %}active{% endif %}">
+                <a href="{{ path('admin_bill_index') }}" class="nav-link">
                     <i class="icon-wallet"></i>
-                    <span class="title">Cobranças</span>
+                    <span class="title">{{ 'admin.bill.title'|trans }}</span>
+                    {% if 'admin_bill' in app.request.attributes.get('_route') %}
+                        <span class="selected"></span>
+                    {% endif %}
+                    <span class="arrow
+                    {% if 'admin_bill' in app.request.attributes.get('_route') %}open{% endif %}"></span>
                 </a>
             </li>
             <li class="nav-item">
@@ -89,7 +95,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li class="nav-item ">
-                        <a href="{{ path('banner_index') }}" class="nav-link ">
+                        <a href="{{ path('admin_banner_index') }}" class="nav-link ">
                             <i class="icon-picture"></i>
                             <span class="title">{{ 'admin.banner.title'|trans }}</span>
                         </a>

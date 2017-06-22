@@ -47,4 +47,10 @@ class CustomerRepository extends BaseRepository
 
         return $paginator;
     }
+
+    public function queryLatestForm()
+    {
+        return $this->createQueryBuilder('customer')
+            ->orderBy('customer.name', 'ASC');
+    }
 }
