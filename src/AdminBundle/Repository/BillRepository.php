@@ -22,11 +22,13 @@ class BillRepository extends BaseRepository
             ->innerJoin('bill.billStatus', 'billStatus')
             ->addSelect('billStatus')
             ->innerJoin('bill.customer', 'customer')
-            ->addSelect('customer')
-            ->groupBy('bill.id');
+            ->addSelect('customer');
 
         if (!empty($routeParams['search'])) {
-            $qb->andWhere('bill.description LIKE :search')->setParameter('search', '%' . $routeParams['search'] . '%');
+            $qb
+                ->andWhere('bill.description LIKE :search')
+                ->orWhere('customer.name LIKE :search')
+                ->setParameter('search', '%' . $routeParams['search'] . '%');
         }
 
         if (!empty($routeParams['bill_status'])) {
