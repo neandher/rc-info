@@ -5,6 +5,7 @@ namespace AdminBundle\Form\Type;
 use AdminBundle\Entity\Bill;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,8 +29,10 @@ class BillType extends AbstractType
                 'label' => 'admin.bill.fields.paymentDateAt',
                 'required' => false
             ])
-            ->add('amount', TextType::class, ['label' => 'admin.bill.fields.amount'])
-            ->add('amountPaid', TextType::class, [
+            ->add('amount', MoneyCustomType::class, [
+                'label' => 'admin.bill.fields.amount',
+            ])
+            ->add('amountPaid', MoneyCustomType::class, [
                 'label' => 'admin.bill.fields.amountPaid',
                 'required' => false
             ])

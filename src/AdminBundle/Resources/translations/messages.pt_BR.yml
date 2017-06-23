@@ -45,4 +45,4 @@ admin:
             amount: Valor
             amountPaid: Valor Pago
             note: Observações
-            createdAt: Data de Criação
+            createdAt: Data de Emissão

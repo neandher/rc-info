@@ -51,15 +51,17 @@ class Bill
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="decimal", scale=2)
      * @Assert\NotBlank()
+     * @Assert\LessThan(value="99999999.99")
      */
     private $amount;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="decimal", scale=2, nullable=true)
+     * @Assert\LessThan(value="999999999.99")
      */
     private $amountPaid;
 

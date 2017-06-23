@@ -37,8 +37,8 @@ class BillRepository extends BaseRepository
 
         if ((isset($routeParams['date_start']) && !empty($routeParams['date_start'])) && (isset($routeParams['date_end']) && !empty($routeParams['date_end']))) {
 
-            $date_start = \DateTime::createFromFormat('d-m-Y', $routeParams['date_start'])->format('Y-m-d');
-            $date_end = \DateTime::createFromFormat('d-m-Y', $routeParams['date_end'])->format('Y-m-d');
+            $date_start = \DateTime::createFromFormat('d/m/Y', $routeParams['date_start'])->format('Y-m-d');
+            $date_end = \DateTime::createFromFormat('d/m/Y', $routeParams['date_end'])->format('Y-m-d');
 
             $qb->andWhere('bill.dueDateAt >= :date_start')->setParameter('date_start', $date_start);
             $qb->andWhere('bill.dueDateAt <= :date_end')->setParameter('date_end', $date_end);

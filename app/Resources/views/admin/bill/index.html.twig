@@ -60,15 +60,23 @@
             </div>
 
             <div class="form-group">
+                <input type="number" class="form-control col-md-4"
+                       placeholder="{{ 'form.placeholder.num_items'|trans }}"
+                       name="num_items"
+                       value="{{ app.request.query.get('num_items', pagination.routeParams('num_items')) }}"
+                       min="5" max="500">
+            </div>
+
+            <div class="form-group">
                 <button type="submit" class="btn btn-default form-control">
-                    <i class="fa fa-search"></i> Buscar
+                    <i class="fa fa-search"></i> {{ 'form.submit_actions.search'|trans }}
                 </button>
             </div>
 
             <div class="form-group">
                 <a href="{{ path('admin_bill_index') }}"
                    class="btn btn-default form-control">
-                    <i class="fa fa-times"></i> Limpar
+                    <i class="fa fa-times"></i> {{ 'form.submit_actions.reset'|trans }}
                 </a>
             </div>
         {% endblock %}
@@ -81,9 +89,10 @@
                         {{ 'admin.customers.title_single'|trans }}
                     </a>
                 </th>
+                <th>{{ 'admin.bill.fields.description'|trans }}</th>
                 <th>
-                    <a href="{{ path('admin_bill_index') ~ pagination.buildQuery('sorting')  ~ pagination.sortingFieldQuery('description') }}">
-                        {{ 'admin.bill.fields.description'|trans }}
+                    <a href="{{ path('admin_bill_index') ~ pagination.buildQuery('sorting')  ~ pagination.sortingFieldQuery('dueDateAt') }}">
+                        {{ 'admin.bill.fields.dueDateAt'|trans }}
                     </a>
                 </th>
                 <th>
@@ -92,8 +101,13 @@
                     </a>
                 </th>
                 <th>
-                    <a href="{{ path('admin_bill_index') ~ pagination.buildQuery('sorting')  ~ pagination.sortingFieldQuery('dueDateAt') }}">
-                        {{ 'admin.bill.fields.dueDateAt'|trans }}
+                    <a href="{{ path('admin_bill_index') ~ pagination.buildQuery('sorting')  ~ pagination.sortingFieldQuery('paymentDateAt') }}">
+                        {{ 'admin.bill.fields.paymentDateAt'|trans }}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path('admin_bill_index') ~ pagination.buildQuery('sorting')  ~ pagination.sortingFieldQuery('amountPaid') }}">
+                        {{ 'admin.bill.fields.amountPaid'|trans }}
                     </a>
                 </th>
                 <th>{{ 'admin.billStatus.title.menu'|trans }}</th>
@@ -116,8 +130,10 @@
                         </a>
                     </td>
                     <td>{{ bill.description }}</td>
-                    <td>{{ bill.amount }}</td>
-                    <td>{{ bill.dueDateAt|date('d/m/Y') }}</td>
+                    <td>{{ bill.dueDateAt|date }}</td>
+                    <td>{{ bill.amount|number_format }}</td>
+                    <td>{{ bill.paymentDateAt|date }}</td>
+                    <td>{{ bill.amountPaid|number_format }}</td>
                     <td>
                         {% if bill.isDateOverDue %}
                             <span class="label label-sm label-danger">
@@ -130,7 +146,7 @@
                             </span>
                         {% endif %}
                     </td>
-                    <td>{{ bill.createdAt|date('d/m/Y') }}</td>
+                    <td>{{ bill.createdAt|date }}</td>
                     <td>
                         {% embed 'admin/_partials/_actions_btn_group.html.twig' %}
                             {% block buttons %}
@@ -147,7 +163,7 @@
                                 <li>
                                     <a href="javascript:;" data-toggle="modal"
                                        data-target="#modalConfirmation"
-                                       data-path="{{ path('admin_bill_delete', {id: bill.id})|escape }}"
+                                       data-path="{{ path('admin_bill_delete', {id: bill.id}) ~ pagination.buildQuery }}"
                                        data-crf="{{ form_widget(delete_forms[bill.id]._token)|escape }}"
                                     >
                                         <i class="fa fa-trash"></i> Deletar

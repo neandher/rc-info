@@ -1,3 +1,9 @@
+@media (min-width: 768px) {
+    .form-inline .control-label, .form-inline .form-group {
+        margin-bottom: 10px;
+    }
+}
+
 .page-header.navbar.navbar-fixed-top {
     z-index: 995 !important;
 }

@@ -73,13 +73,13 @@ class BannerController extends BaseController
 
             $handleSubmitButtons = $this->handleSubmitButtons(
                 $form,
-                'banner_new',
-                'banner_edit',
+                'admin_banner_new',
+                'admin_banner_edit',
                 ['id' => $banner->getId()],
                 $pagination->getRouteParams()
             );
 
-            return $handleSubmitButtons ? $handleSubmitButtons : $this->redirectToRoute('banner_index');
+            return $handleSubmitButtons ? $handleSubmitButtons : $this->redirectToRoute('admin_banner_index');
         }
 
         return $this->render('admin/banner/new.html.twig', [
@@ -120,13 +120,13 @@ class BannerController extends BaseController
 
             $handleSubmitButtons = $this->handleSubmitButtons(
                 $form,
-                'banner_new',
-                'banner_edit',
+                'admin_banner_new',
+                'admin_banner_edit',
                 ['id' => $banner->getId()],
                 $pagination->getRouteParams()
             );
 
-            return $handleSubmitButtons ? $handleSubmitButtons : $this->redirectToRoute('banner_index');
+            return $handleSubmitButtons ? $handleSubmitButtons : $this->redirectToRoute('admin_banner_index');
         }
 
         return $this->render('admin/banner/edit.html.twig', [
@@ -168,7 +168,7 @@ class BannerController extends BaseController
             );
         }
 
-        return $this->redirectToRoute('banner_index', $pagination->getRouteParams());
+        return $this->redirectToRoute('admin_banner_index', $pagination->getRouteParams());
     }
 
     /**
@@ -178,7 +178,7 @@ class BannerController extends BaseController
     private function createDeleteForm(Banner $banner)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('banner_delete', ['id' => $banner->getId()]))
+            ->setAction($this->generateUrl('admin_banner_delete', ['id' => $banner->getId()]))
             ->setMethod('DELETE')
             ->setData($banner)
             ->getForm();

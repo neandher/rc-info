@@ -13,7 +13,7 @@
         {% endblock %}
 
         {% block actions %}
-            <a href="{{ path('banner_new') ~ pagination.buildQuery }}" class="btn green">
+            <a href="{{ path('admin_banner_new') ~ pagination.buildQuery }}" class="btn green">
                 <i class="fa fa-plus"></i> {{ 'admin.banner.new'|trans }}
             </a>
         {% endblock %}
@@ -29,7 +29,7 @@
                 </button>
             </div>
             <div class="form-group">
-                <a href="{{ path('banner_index') }}"
+                <a href="{{ path('admin_banner_index') }}"
                    class="btn btn-default form-control">
                     <i class="fa fa-times"></i> Limpar
                 </a>
@@ -40,7 +40,7 @@
             <tr>
                 <th>ID</th>
                 <th>
-                    <a href="{{ path('banner_index') ~ pagination.buildQuery('sorting')  ~ pagination.sortingFieldQuery('description') }}">
+                    <a href="{{ path('admin_banner_index') ~ pagination.buildQuery('sorting')  ~ pagination.sortingFieldQuery('description') }}">
                         {{ 'admin.banner.fields.description'|trans }}
                     </a>
                 </th>
@@ -48,7 +48,7 @@
                 <th>{{ 'admin.banner.fields.enabled'|trans }}</th>
                 <th>{{ 'admin.banner.fields.published_at'|trans }}</th>
                 <th>
-                    <a href="{{ path('banner_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('createdAt') }}">
+                    <a href="{{ path('admin_banner_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('createdAt') }}">
                         Criado em
                     </a>
                 </th>
@@ -80,7 +80,7 @@
                     <td>
                         {% embed 'admin/_partials/_actions_btn_group.html.twig' %}
                             {% block buttons %}
-                                <a href="{{ path('banner_edit', { id: banner.id }) ~ pagination.buildQuery }}"
+                                <a href="{{ path('admin_banner_edit', { id: banner.id }) ~ pagination.buildQuery }}"
                                    title="Editar" class="btn btn-default btn-sm">
                                     <span class="glyphicon glyphicon-pencil"></span> Editar
                                 </a>
@@ -93,7 +93,7 @@
                                 <li>
                                     <a href="javascript:;" data-toggle="modal"
                                        data-target="#modalConfirmation"
-                                       data-path="{{ path('banner_delete', {id: banner.id})|escape }}"
+                                       data-path="{{ path('admin_banner_delete', {id: banner.id})|escape }}"
                                        data-crf="{{ form_widget(delete_forms[banner.id]._token)|escape }}"
                                     >
                                         <i class="fa fa-trash"></i> Deletar
@@ -114,7 +114,7 @@
 
         {% block list_pagination %}
             {{ pagerfanta(banners, 'twitter_bootstrap3',{
-                routeName: 'banner_index',
+                routeName: 'admin_banner_index',
                 routeParams: app.request.query.all
             }) }}
         {% endblock %}

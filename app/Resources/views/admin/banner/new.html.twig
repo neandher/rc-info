@@ -13,10 +13,10 @@
 
 {% block page_content %}
 
-    {% embed 'admin/_partials/_default_resource.html.twig' with {'route_index' : 'banner_index'} %}
+    {% embed 'admin/_partials/_default_resource.html.twig' with {'route_index' : 'admin_banner_index'} %}
 
         {% block form_start %}
-            {{ form_start(form, {'action': path('banner_new') ~ pagination.buildQuery,
+            {{ form_start(form, {'action': path('admin_banner_new') ~ pagination.buildQuery,
                 'attr' : {'class' : '_form-horizontal'}}) }}
         {% endblock %}
 
