@@ -1,0 +1,160 @@
+{% extends 'site/base.html.twig' %}
+
+{% block main_container %}
+
+    <div class="page_title2">
+        <div class="container">
+            <div class="title"><h1>Contato</h1><br></div>
+        </div>
+    </div><!-- end page title -->
+
+    <div class="clearfix"></div>
+
+    <div class="feature_section34" style="padding: 20px 0px 30px 0px">
+
+        <div class="container">
+
+            <h2 class="caps">
+                Nos envie uma <strong>Mensagem!</strong>
+            </h2>
+
+            <div class="clearfix margin_top2"></div>
+
+            <div class="cforms">
+
+                <form action="#" method="post" id="sky-form" class="sky-form">
+                    <fieldset>
+                        <div class="row">
+                            <section class="col col-6">
+                                <label class="label">Nome</label>
+                                <label class="input"> <i class="icon-append icon-user"></i>
+                                    <input type="text" name="name" id="name">
+                                </label>
+                            </section>
+                            <section class="col col-6">
+                                <label class="label">E-mail</label>
+                                <label class="input"> <i class="icon-append icon-envelope-alt"></i>
+                                    <input type="email" name="email" id="email">
+                                </label>
+                            </section>
+                        </div>
+                        <section>
+                            <label class="label">Assunto</label>
+                            <label class="input"> <i class="icon-append icon-tag"></i>
+                                <input type="text" name="subject" id="subject">
+                            </label>
+                        </section>
+                        <section>
+                            <label class="label">Mensagem</label>
+                            <label class="textarea"> <i class="icon-append icon-comment"></i>
+                                <textarea rows="4" name="message" id="message"></textarea>
+                            </label>
+                        </section>
+                    </fieldset>
+                    <footer>
+                        <button type="submit" class="button">Enviar Mensagem</button>
+                    </footer>
+                    <div class="message"><i class="icon-ok"></i>
+                        <p>Sua mensagem foi enviada com sucesso!</p>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div><!-- end section -->
+
+    <div class="clearfix"></div>
+
+    <div class="container">
+
+        <div class="one_third">
+
+            <h4>Endereço</h4>
+            <ul>
+                <li><strong>RC Informática</strong><br/>
+                    Av. Cel. Pedro Maia de Carvalho 425<br>
+                    Sala 101/106 - Ed. Helena Pelisson Manente<br>
+                    Praia das Gaivotas - Vila Velha ES - 29.102-570<br/>
+                    Telefone: 27 3349-9130<br/>
+                    Whatsapp: 27 99824-9330<br/>
+                    E-mail: <a
+                            href="mailto:atendimento@rcinformatica.net.br">atendimento@rcinformatica.net.br</a>
+                </li>
+            </ul>
+
+        </div><!-- end section -->
+
+        <div class="two_third last">
+            <iframe class="google-map4" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3740.154977978036!2d-40.31379168499132!3d-20.376498986355294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb83e21d4721195%3A0x2cccaac7c0b806f!2sRC+Inform%C3%A1tica+(+Virgilainy+Perdig%C3%A3o+-+ME)!5e0!3m2!1spt-BR!2sbr!4v1497361185342"></iframe>
+        </div>
+
+    </div>
+
+    <div class="clearfix margin_top3"></div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript">
+        (function ($) {
+            "use strict";
+
+            $(function () {
+                // Validation
+                $("#sky-form").validate(
+                        {
+                            // Rules for form validation
+                            rules: {
+                                name: {
+                                    required: true
+                                },
+                                email: {
+                                    required: true,
+                                    email: true
+                                },
+                                message: {
+                                    required: true,
+                                    minlength: 10
+                                }
+                            },
+
+                            // Messages for form validation
+                            messages: {
+                                name: {
+                                    required: 'Preencha o campo nome'
+                                },
+                                email: {
+                                    required: 'Preencha o campo e-mail',
+                                    email: 'Insira um e-mail válido'
+                                },
+                                message: {
+                                    required: 'Preencha o campo mensagem'
+                                }
+                            },
+
+                            // Ajax form submition
+                            /*submitHandler: function (form) {
+                             $(form).ajaxSubmit(
+                             {
+                             success: function () {
+                             $("#sky-form").addClass('submited');
+                             }
+                             });
+                             },*/
+
+                            // Do not change code below
+                            errorPlacement: function (error, element) {
+                                error.insertAfter(element.parent());
+                            }
+                        });
+            });
+
+        })(jQuery);
+    </script>
+
+{% endblock %}
