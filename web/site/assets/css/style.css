@@ -2009,6 +2009,7 @@ ul.fun_facts {
 	float: left;
 	width: 100%;
 	padding: 18px 0px 40px 0px;
+	border-top: 5px solid #000;
 	background: #262626 url(../images/footer-graph2.jpg) no-repeat center bottom;
 }
 .footer1 h4 {
