@@ -1,0 +1,7 @@
+AdminBundle\Entity\BillStatus:
+    status_1:
+        description: Pago
+        referency: pago
+    status_2:
+        description: Em Aberto
+        referency: em_aberto

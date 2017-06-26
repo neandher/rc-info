@@ -22,6 +22,9 @@ class Version20170622133138 extends AbstractMigration
         $this->addSql('CREATE TABLE bill_status (id INT AUTO_INCREMENT NOT NULL, description VARCHAR(255) NOT NULL, referency VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE bill ADD CONSTRAINT FK_7A2119E387190E55 FOREIGN KEY (bill_status_id) REFERENCES bill_status (id)');
         $this->addSql('ALTER TABLE bill ADD CONSTRAINT FK_7A2119E39395C3F3 FOREIGN KEY (customer_id) REFERENCES customer (id)');
+
+        $this->addSql("INSERT INTO bill_status ('description', 'referency') VALUES ('Pago', 'pago')");
+        $this->addSql("INSERT INTO bill_status ('description', 'referency') VALUES ('Em Aberto', 'em_aberto')");
     }
 
     /**

@@ -12,6 +12,6 @@ class ContatoController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('site/contato/index.html.twig');
+        return $this->render('site/contato/index2.html.twig');
     }
 }

@@ -15,6 +15,55 @@
 <!-- slide panel -->
 <script type="text/javascript" src="{{ asset('site/assets/js/slidepanel/slidepanel.js') }}"></script>
 
+{#<!-- Master Slider -->
+<script src="{{ asset('site/assets/js/masterslider/jquery.easing.min.js') }}"></script>
+<script src="{{ asset('site/assets/js/masterslider/masterslider.min.js') }}"></script>
+<script type="text/javascript">
+    (function ($) {
+        "use strict";
+
+        var slider = new MasterSlider();
+        slider.setup('masterslider', {
+            width: 1400,    // slider standard width
+            height: 400,   // slider standard height
+            space: 0,
+            speed: 45,
+            fullwidth: true,
+            preload: 0,
+            autoplay: true,
+            view: "basic"
+        });
+// adds Arrows navigation control to the slider.
+
+    })(jQuery);
+</script>
+
+<script type="text/javascript">
+    (function ($) {
+        "use strict";
+
+        var slider4 = new MasterSlider();
+        slider4.setup('masterslider4', {
+            width: 530,
+            height: 335,
+            speed: 20,
+            preload: 0,
+            space: 2,
+            view: 'mask'
+        });
+        slider4.control('arrows');
+        slider4.control('bullets', {autohide: false});
+
+
+        $('#myTab a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+
+
+    })(jQuery);
+</script>#}
+
 <!-- mega menu -->
 <script src="{{ asset('site/assets/js/mainmenu/bootstrap.min.js') }}"></script>
 <script src="{{ asset('site/assets/js/mainmenu/customeUI.js') }}"></script>
@@ -30,10 +79,10 @@
 
 <!-- jquery jcarousel -->
 <script type="text/javascript">
-    (function($) {
+    (function ($) {
         "use strict";
 
-        jQuery(document).ready(function() {
+        jQuery(document).ready(function () {
             jQuery('#mycarouselthree').jcarousel();
         });
 
@@ -54,7 +103,7 @@
 <!-- cubeportfolio -->
 <script type="text/javascript" src="{{ asset('site/assets/js/cubeportfolio/jquery.cubeportfolio.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('site/assets/js/cubeportfolio/main.js') }}"></script>
-<script type="text/javascript" src="{{ asset('site/assets/js/cubeportfolio/main5.js') }}"></script>
+{#<script type="text/javascript" src="{{ asset('site/assets/js/cubeportfolio/main3.js') }}"></script>#}
 <script type="text/javascript" src="{{ asset('site/assets/js/cubeportfolio/main6.js') }}"></script>
 
 <!-- carousel -->
