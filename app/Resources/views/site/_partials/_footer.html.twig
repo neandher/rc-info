@@ -3,20 +3,29 @@
 <div class="footer1">
     <div class="container">
 
-        <div class="one_third animate" data-anim-type="fadeInUp" data-anim-delay="200">
-            <div class="siteinfo">
+        <br>
 
-                <h4 class="lmb">Sobre</h4>
+        <div class="one_fourth animate" data-anim-type="fadeInUp" data-anim-delay="200">
+            <h4 class="lmb">Contato</h4>
+            <ul class="faddress">
+                {#<li><img src="{{ asset('site/assets/images/footer-logo.png') }}" alt=""/></li>#}
+                <li>
+                    <i class="fa fa-map-marker fa-lg"></i>&nbsp;
+                    Av. Cel. Pedro Maia de Carvalho 425<br>&nbsp;&nbsp;&nbsp;&nbsp;
+                    Sala 101/106 - Ed. Helena Pelisson <br>&nbsp;&nbsp;&nbsp;&nbsp;
+                    Manente - Praia das Gaivotas<br>&nbsp;&nbsp;&nbsp;&nbsp;
+                    Vila Velha ES - 29.102-570
+                </li>
+                <li><i class="fa fa-phone"></i>&nbsp; (027) 3349-9130</li>
+                <li><i class="fa fa-whatsapp"></i>&nbsp; (027) 99824-9330</li>
+                <li><a href="mailto:atendimento@rcinformatica.net.br"><i class="fa fa-envelope"></i>
+                        atendimento@rcinformatica.net.br</a>
+                </li>
+                <li><img src="{{ asset('site/assets/images/footer-wmap.png') }}" alt=""/></li>
+            </ul>
+        </div>
 
-                <p>A RC Informática está há 18 anos no mercado lançando e aprimorando produtos que gerenciam e facilitam
-                    a tomada de decisões em empresas que precisam de respostas eficientes.</p>
-                <br/>
-                <a href="{{ path('site_sobre') }}">Leia mais <i class="fa fa-long-arrow-right"></i></a>
-
-            </div>
-        </div><!-- end address -->
-
-        <div class="one_third animate" data-anim-type="fadeInUp" data-anim-delay="300">
+        <div class="one_fourth animate" data-anim-type="fadeInUp" data-anim-delay="300">
             <div class="qlinks">
 
                 <h4 class="lmb">Links Úteis</h4>
@@ -36,7 +45,7 @@
                     <li>
                         <a target="_blank"
                            href="http://www.receita.fazenda.gov.br/Aplicacoes/ATCTA/CPF/ConsultaPublica.asp">
-                            <i class="fa fa-angle-right"></i> Consultar CPF
+                            <i class="fa fa-angle-right"></i> Consulta CPF
                         </a>
                     </li>
                     <li>
@@ -48,45 +57,55 @@
                 </ul>
 
             </div>
-        </div><!-- end links -->
+        </div>
 
         <div class="one_fourth animate" data-anim-type="fadeInUp" data-anim-delay="400">
 
-            <h4 class="lmb">Contato</h4>
-            <ul class="faddress">
-                {#<li><img src="{{ asset('site/assets/images/footer-logo.png') }}" alt=""/></li>#}
-                <li>
-                    <i class="fa fa-map-marker fa-lg"></i>&nbsp;
-                    Av. Cel. Pedro Maia de Carvalho 425<br>&nbsp;&nbsp;&nbsp;&nbsp;
-                    Sala 101/106 - Ed. Helena Pelisson <br>&nbsp;&nbsp;&nbsp;&nbsp;
-                    Manente - Praia das Gaivotas<br>&nbsp;&nbsp;&nbsp;&nbsp;
-                    Vila Velha ES - 29.102-570
-                </li>
-                <li><i class="fa fa-phone"></i>&nbsp; (027) 3349-9130</li>
-                <li><i class="fa fa-whatsapp"></i>&nbsp; (027) 99824-9330</li>
-                <li><a href="mailto:atendimento@rcinformatica.net.br"><i class="fa fa-envelope"></i> atendimento@rcinformatica.net.br</a>
-                </li>
-                <li><img src="{{ asset('site/assets/images/footer-wmap.png') }}" alt=""/></li>
-            </ul>
+            <div class="siteinfo">
 
-        </div><!-- end site info -->
+                <h4 class="lmb">Sobre</h4>
+
+                <p>A RC Informática está há 18 anos no mercado lançando e aprimorando produtos que gerenciam e facilitam
+                    a tomada de decisões em empresas que precisam de respostas eficientes.</p>
+                <br/>
+                <a href="{{ path('site_sobre') }}">Leia mais <i class="fa fa-long-arrow-right"></i></a>
+
+            </div>
+
+        </div>
+
+        <div class="one_fourth last animate" data-anim-type="fadeInUp" data-anim-delay="500">
+            <h4>Parceiros</h4>
+            <div class="one_full">
+                <div class="one_half">
+                    <img src="{{ asset('site/assets/images/Logo_bematech_footer.jpg') }}"
+                         style="border: 2px solid #ccc; width: 125px">
+                </div>
+                <div class="one_half last">
+                    <img src="{{ asset('site/assets/images/Logo_Daruma_footer.jpg') }}"
+                         style="border: 2px solid #ccc; width: 125px">
+                </div>
+            </div>
+        </div>
 
     </div>
 </div><!-- end footer -->
 
 <div class="clearfix"></div>
 
-<div class="copyright_info four">
+<div class="copyright_info">
     <div class="container">
 
-        <div class="one_half">
+        <div class="clearfix divider_dashed10"></div>
+
+        <div class="one_half animate" data-anim-type="fadeInRight">
             Copyright © {{ "now"|date('Y') }} RC Informática. Todos os direitos reservados.
         </div>
 
         <div class="one_half last">
 
-            <ul class="footer_social_links three">
-                <li class="animate" data-anim-type="zoomIn" data-anim-delay="200">
+            <ul class="footer_social_links">
+                <li class="animate" data-anim-type="zoomIn">
                     <a href="#"><i class="fa fa-facebook"></i></a>
                 </li>
             </ul>

@@ -91,8 +91,8 @@ html[xmlns] .slides {display: block;}
 .flex-control-nav {width: 100%; position: absolute; bottom: -40px; text-align: center;}
 .flex-control-nav li {margin: 0 3px; display: inline-block; zoom: 1; *display: inline;}
 .flex-control-paging li a {width: 11px; height: 11px; display: block; background: #fff; background: #d3d3d3; cursor: pointer; text-indent: -9999px; border-radius: 100%; }
-.flex-control-paging li a:hover { background: #fff; background: #13afeb; }
-.flex-control-paging li a.flex-active { background: #fff; background: #13afeb; cursor: default; }
+.flex-control-paging li a:hover { background: #fff; background: #272727; }
+.flex-control-paging li a.flex-active { background: #fff; background: #272727; cursor: default; }
 
 .flex-control-thumbs {margin: 5px 0 0; position: static; overflow: hidden;}
 .flex-control-thumbs li {width: 25%; float: left; margin: 0;}
@@ -103,16 +103,16 @@ html[xmlns] .slides {display: block;}
 
 
 @media only screen and (min-width: 1000px) and (max-width: 1169px){
+	
 
-
-
+	
 }
 
 @media only screen and (min-width: 768px) and (max-width: 999px){
 
 
 
-
+	
 }
 
 
@@ -122,7 +122,7 @@ html[xmlns] .slides {display: block;}
 
 
 
-
+	
 }
 
 @media only screen and (max-width: 479px){
