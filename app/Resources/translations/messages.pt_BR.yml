@@ -29,3 +29,5 @@ form:
 resource:
     is_enabled: Sim
     is_not_enabled: Não
+
+Invalid credentials.: Login ou senha inválidos.

@@ -1,0 +1,28 @@
+{% if error is defined %}
+    {% if error %}
+        <div class="error">
+            <div class="message-box-wrap">
+                {{ error.messageKey|trans }}
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+{% if app.request.hasPreviousSession %}
+    {% for type, messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+            <div class="{{ type }}" role="alert">
+                <div class="message-box-wrap">
+                    <strong>
+                        {% if type == 'success' %}
+                            <span class="glyphicon glyphicon-ok"></span>
+                        {% elseif type == 'danger' %}
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                        {% endif %}
+                        {{ message }}
+                    </strong>
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endif %}

@@ -1,0 +1,101 @@
+{% extends 'site/base.html.twig' %}
+
+{% block main_container %}
+
+    <div class="page_title2">
+        <div class="container">
+            <div class="title"><h1>Área do Cliente</h1><br></div>
+        </div>
+    </div><!-- end page title -->
+
+    <div class="clearfix"></div>
+
+    <div class="container">
+        <div class="content_fullwidth lessmar">
+
+            <div class="login_form">
+
+                {{ include('site/_partials/_flash_messages.html.twig') }}
+
+                {{ form_start(form, { 'action': path('site_login_check'), 'attr': {
+                    'class': 'sky-form',
+                    'id': 'sky-form'
+                } }) }}
+
+                <header>Login</header>
+
+                <fieldset>
+
+                    <section>
+                        <div class="row">
+                            {{ form_label(form._username, null, {
+                                'label_attr': {'class': 'label col col-4'}
+                            }) }}
+                            <div class="col col-8">
+                                <label class="input">
+                                    <i class="icon-append icon-user"></i>
+                                    {{ form_widget(form._username, {
+                                        'attr':{'value': last_username }
+                                    }) }}
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section>
+                        <div class="row">
+                            {{ form_label(form._password, null, {
+                                'label_attr': {'class': 'label col col-4'}
+                            }) }}
+                            <div class="col col-8">
+                                <label class="input">
+                                    <i class="icon-append icon-lock"></i>
+                                    {{ form_widget(form._password) }}
+                                </label>
+                                <div class="note">
+                                    <a href="#sky-form2" class="modal-opener">
+                                        {{ 'user.login.links.forgot_password'|trans }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section>
+                        <div class="row">
+                            <div class="col col-4"></div>
+                            <div class="col col-8">
+                                <label class="checkbox">
+                                    {{ form_widget(form._remember_me) }}<i></i>{{ 'user.form.remember_me'|trans }}
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+                </fieldset>
+                <footer>
+                    <div class="fright">
+                        <button type="submit" class="button">Log in</button>
+                    </div>
+
+                </footer>
+
+                {{ form_widget(form._token) }}
+
+                {{ form_end(form, {'render_rest': false}) }}
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="clearfix margin_top7"></div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('site/assets/js/_validation/login.js') }}"></script>
+
+{% endblock %}

@@ -4,7 +4,7 @@ site_login:
     defaults:
         _controller: app.user.controller.security:loginAction
         _app_options:
-            template: "site/login.html.twig"
+            template: "site/security/login.html.twig"
             form: 'SiteBundle\Form\SiteSecurityLoginType'
 
 site_login_check:
