@@ -1,34 +1,74 @@
 {% extends 'site/base.html.twig' %}
 
-{% block body %}
+{% block main_container %}
 
-    <h3>{{ 'user.resetting.reset.title'|trans }}</h3>
+    <div class="page_title2">
+        <div class="container">
+            <div class="title"><h1>Área do Cliente</h1><br></div>
+        </div>
+    </div><!-- end page title -->
 
-    {{ form_start(form, { 'action': path('site_resetting_reset', {'token' : token}), 'attr': {'novalidate': 'novalidate'} }) }}
+    <div class="clearfix"></div>
 
-    <div class="row">
-        <div class="col-lg-12">
+    <div class="container">
+        <div class="content_fullwidth lessmar">
+            <div class="login_form">
 
-            {{ include('_partials/_alerts.html.twig') }}
+                {{ include('site/_partials/_flash_messages.html.twig') }}
+                {{ form_errors(form) }}
 
-            {{ form_errors(form) }}
-            {{ form_row(form.plainPassword.first) }}
-            {{ form_row(form.plainPassword.second) }}
+                {{ form_start(form, { 'action': path('site_resetting_reset', {'token' : token}), 'attr': {
+                    'class': 'sky-form',
+                    'id': 'sky-form3'
+                } }) }}
 
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <button class="btn btn-primary">{{ 'user.resetting.reset.btns.send'|trans }}</button>
+                <header>{{ 'user.resetting.reset.title'|trans }}</header>
 
-                    <a class="pull-right"
-                       href="{{ path('site_login') }}">{{ 'user.resetting.request.links.login'|trans }}
-                    </a>
-                </div>
+                <fieldset>
+                    <section>
+                        {{ form_label(form.plainPassword.first, null, {
+                            'label_attr': {'class': 'label'}
+                        }) }}
+                        <label class="input">
+                            <i class="icon-append icon-lock"></i>
+                            {{ form_widget(form.plainPassword.first) }}
+                        </label>
+                        {{ form_errors(form.plainPassword.first) }}
+                    </section>
+                    <section>
+                        {{ form_label(form.plainPassword.second, null, {
+                            'label_attr': {'class': 'label'}
+                        }) }}
+                        <label class="input">
+                            <i class="icon-append icon-lock"></i>
+                            {{ form_widget(form.plainPassword.second) }}
+                        </label>
+                        {{ form_errors(form.plainPassword.second) }}
+                    </section>
+                </fieldset>
+
+                <footer>
+                    <button type="submit" name="submit" class="button">
+                        {{ 'user.resetting.reset.btns.send'|trans }}
+                    </button>
+                </footer>
+
+                {{ form_widget(form._token) }}
+
+                {{ form_end(form, {'render_rest': false}) }}
+
             </div>
         </div>
     </div>
 
-    {{ form_widget(form._token) }}
+    <div class="clearfix margin_top7"></div>
 
-    {{ form_end(form, {'render_rest': false}) }}
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('site/assets/js/_validation/login.js') }}"></script>
 
 {% endblock %}

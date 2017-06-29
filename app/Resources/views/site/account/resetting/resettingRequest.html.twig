@@ -1,35 +1,66 @@
 {% extends 'site/base.html.twig' %}
 
-{% block body %}
+{% block main_container %}
 
-    <h3>{{ 'user.resetting.request.title'|trans }}</h3>
+    <div class="page_title2">
+        <div class="container">
+            <div class="title"><h1>Área do Cliente</h1><br></div>
+        </div>
+    </div><!-- end page title -->
 
-    {{ form_start(form, { 'action': path('site_resetting_request') }) }}
+    <div class="clearfix"></div>
 
-    <div class="row">
-        <div class="col-lg-12">
+    <div class="container">
+        <div class="content_fullwidth lessmar">
 
-            {{ include('_partials/_flash_messages.html.twig') }}
+            <div class="login_form">
 
-            {{ form_errors(form) }}
+                {{ include('site/_partials/_flash_messages.html.twig') }}
+                {{ form_errors(form) }}
 
-            {{ form_row(form.email) }}
+                {{ form_start(form, { 'action': path('site_resetting_request'), 'attr': {
+                    'class': 'sky-form',
+                    'id': 'sky-form2'
+                } }) }}
 
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <button class="btn btn-primary">{{ 'user.resetting.request.btns.send'|trans }}</button>
+                <header>{{ 'user.resetting.request.title'|trans }}</header>
 
-                    <a class="pull-right" href="{{ path('site_login') }}">
-                        {{ 'user.resetting.request.links.login'|trans }}
-                    </a>
-                </div>
+                <fieldset>
+                    <section>
+                        {{ form_label(form.email, null, {
+                            'label_attr': {'class': 'label'}
+                        }) }}
+                        <label class="input">
+                            <i class="icon-append icon-user"></i>
+                            {{ form_widget(form.email) }}
+                        </label>
+                    </section>
+                </fieldset>
+
+                <footer>
+                    <button type="submit" name="submit" class="button">
+                        {{ 'user.resetting.request.btns.send'|trans }}
+                    </button>
+                    <a href="{{ path('site_login') }}" class="button button-secondary"
+                       style="margin-right: 0px;">Voltar</a>
+                </footer>
+
+                {{ form_widget(form._token) }}
+
+                {{ form_end(form, {'render_rest': false}) }}
+
             </div>
-
         </div>
     </div>
 
-    {{ form_widget(form._token) }}
+    <div class="clearfix margin_top7"></div>
 
-    {{ form_end(form, {'render_rest': false}) }}
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('site/assets/js/_validation/login.js') }}"></script>
 
 {% endblock %}

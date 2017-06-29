@@ -5633,3 +5633,21 @@ ul.recentnews {
 	padding: 15px 20px 20px 20px !important;
 	text-align: center;
 }
+
+.message-box-wrap ul{
+	margin: 0 0 0px 0
+}
+
+em.invalid {
+	display: block;
+	margin-top: 6px;
+	padding: 0 1px;
+	font-style: normal;
+	font-size: 11px;
+	line-height: 15px;
+	color: #ee9393;
+}
+
+.login_form {
+	width: 500px !important;
+}

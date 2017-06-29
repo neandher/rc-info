@@ -13,7 +13,7 @@
                     },
                     _password: {
                         required: true,
-                        minlength: 3,
+                        minlength: 1,
                         maxlength: 20
                     }
                 },
@@ -41,7 +41,7 @@
             {
                 // Rules for form validation
                 rules: {
-                    email: {
+                    'resetting_request[email]': {
                         required: true,
                         email: true
                     }
@@ -49,20 +49,39 @@
 
                 // Messages for form validation
                 messages: {
-                    email: {
+                    'resetting_request[email]': {
                         required: 'Digite o seu e-mail',
                         email: 'E-mail inválido'
                     }
                 },
 
-                // Ajax form submition
-                submitHandler: function (form) {
-                    $(form).ajaxSubmit(
-                        {
-                            success: function () {
-                                $("#sky-form2").addClass('submited');
-                            }
-                        });
+                // Do not change code below
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
+                }
+            });
+
+        // Validation for recovery form
+        $("#sky-form3").validate(
+            {
+                // Rules for form validation
+                rules: {
+                    'resetting_reset[plainPassword][first]': {
+                        required: true
+                    },
+                    'resetting_reset[plainPassword][second]': {
+                        required: true
+                    }
+                },
+
+                // Messages for form validation
+                messages: {
+                    'resetting_reset[plainPassword][first]': {
+                        required: 'Digite uma nova senha'
+                    },
+                    'resetting_reset[plainPassword][second]': {
+                        required: 'Digite a confirmação da nova senha'
+                    }
                 },
 
                 // Do not change code below

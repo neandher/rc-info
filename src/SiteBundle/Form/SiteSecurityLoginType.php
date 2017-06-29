@@ -15,7 +15,7 @@ class SiteSecurityLoginType extends SecurityLoginType
         $builder
             ->remove('_username')
             ->add('_username', TextType::class, [
-                'label' => 'user.form.cnpj',
+                'label' => 'user.form.cnpj_email',
             ]);
     }
 }

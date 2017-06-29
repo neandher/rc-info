@@ -47,6 +47,7 @@ user:
     form:
         cnpj: CNPJ
         email: E-mail
+        cnpj_email: CNPJ ou E-mail
         current_password: Senha atual
         password: Senha
         confirm_password: Confirme a Senha

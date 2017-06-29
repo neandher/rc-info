@@ -1,2 +1,13 @@
 {% extends 'form_div_layout.html.twig' %}
 
+{% block form_errors -%}
+    {% if errors|length > 0 -%}
+        {% if form.parent %}<em class="invalid">{% else %}<div class="error"><div class="message-box-wrap">{% endif %}
+        <ul class="">
+            {%- for error in errors -%}
+                <li><span class="fa fa-exclamation-circle"></span> {{ error.message }}</li>
+            {%- endfor -%}
+        </ul>
+        {% if form.parent %}</em>{% else %}</div></div>{% endif %}
+    {%- endif %}
+{%- endblock form_errors %}
