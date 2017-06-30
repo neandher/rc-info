@@ -5634,6 +5634,10 @@ ul.recentnews {
 	text-align: center;
 }
 
+.feature_section30 .fancybox img{
+	width: 100%;
+}
+
 .message-box-wrap ul{
 	margin: 0 0 0px 0
 }
@@ -5650,4 +5654,20 @@ em.invalid {
 
 .login_form {
 	width: 500px !important;
+}
+
+.left_sidebar .sidebar_widget ul.arrows_list1 li {
+	height: 44px;
+}
+
+.left_sidebar .sidebar_widget ul.arrows_list1 li a {
+	font-size: 15px;
+}
+
+.left_sidebar .sidebar_widget ul.arrows_list1 {
+	 margin-top: 0px;
+}
+
+.content_right {
+	width: 75%;
 }

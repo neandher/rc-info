@@ -1,6 +1,7 @@
 <?php
 
 namespace AdminBundle\Repository;
+
 use AppBundle\Repository\BaseRepository;
 use AppBundle\Util\Pagination;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
@@ -22,7 +23,9 @@ class BillRepository extends BaseRepository
             ->innerJoin('bill.billStatus', 'billStatus')
             ->addSelect('billStatus')
             ->innerJoin('bill.customer', 'customer')
-            ->addSelect('customer');
+            ->addSelect('customer')
+            ->innerJoin('customer.siteUser', 'siteUser')
+            ->addSelect('siteUser');
 
         if (!empty($routeParams['search'])) {
             $qb

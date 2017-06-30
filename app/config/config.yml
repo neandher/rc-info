@@ -100,6 +100,10 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
 
+        filters:
+            portal_customer_filter:
+                class:   SiteBundle\Doctrine\CustomerFilter
+
 # Swiftmailer Configuration
 swiftmailer:
     transport: '%mailer_transport%'

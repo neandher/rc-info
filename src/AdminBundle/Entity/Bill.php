@@ -2,6 +2,7 @@
 
 namespace AdminBundle\Entity;
 
+use SiteBundle\Annotation\CustomerAware;
 use AppBundle\Resource\Model\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use SiteBundle\Entity\Customer;
@@ -10,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="AdminBundle\Repository\BillRepository")
  * @ORM\Table(name="bill")
+ * @CustomerAware(customerFieldName="customer_id")
  */
 class Bill
 {

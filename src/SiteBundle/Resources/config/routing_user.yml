@@ -23,7 +23,7 @@ site_resetting_request:
     defaults:
         _controller: app.controller.site_user:resettingRequestAction
         _app_options:
-            template: "site/account/resetting/resettingRequest.html.twig"
+            template: "site/portal/resetting/resettingRequest.html.twig"
             redirect: site_login
             email_params: {from: "%site_resetting_email.from%", route: "%site_resetting_email.route%", template: "%site_resetting_email.template%"}
 
@@ -33,8 +33,8 @@ site_resetting_reset:
     defaults:
         _controller: app.controller.site_user:resettingResetAction
         _app_options:
-            template: "site/account/resetting/resettingReset.html.twig"
-            redirect: site_account_dashboard
+            template: "site/portal/resetting/resettingReset.html.twig"
+            redirect: site_portal_dashboard
 
 site_change_password:
     path: /change-password
@@ -42,5 +42,5 @@ site_change_password:
     defaults:
         _controller: app.controller.site_user:changePasswordAction
         _app_options:
-            template: "site/account/changePassword/changePassword.html.twig"
-            redirect: site_account_dashboard
+            template: "site/portal/changePassword/changePassword.html.twig"
+            redirect: site_portal_dashboard

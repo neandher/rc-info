@@ -2,7 +2,7 @@
 
 namespace UserBundle\EventListener;
 
-use ShopBundle\Entity\Customer;
+use SiteBundle\Entity\Customer;
 use UserBundle\Model\UserInterface;
 use AppBundle\Util\Canonicalizer;
 use Doctrine\Common\EventSubscriber;

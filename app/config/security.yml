@@ -53,7 +53,7 @@ security:
                 login_path: site_login
                 check_path: site_login_check
                 failure_path: site_login
-                default_target_path: site_account_dashboard
+                default_target_path: site_portal_dashboard
                 use_forward: false
                 use_referer: true
             remember_me:
@@ -77,5 +77,5 @@ security:
         - { path: "%app.security.admin_regex%/resetting", role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: "%app.security.admin_regex%", role: ROLE_ADMINISTRATION_ACCESS }
 
-        - { path: "%app.security.site_regex%account", role: ROLE_USER }
+        - { path: "%app.security.site_regex%portal", role: ROLE_USER }
         - { path: "%app.security.site_regex%login", role: IS_AUTHENTICATED_ANONYMOUSLY }

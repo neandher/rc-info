@@ -1,0 +1,45 @@
+{% extends 'site/portal/base.html.twig' %}
+
+{% block content_right %}
+
+    <div class="one_full">
+
+        <h3>Minhas <strong>Faturas</strong></h3>
+
+        <div class="table-style">
+            <table class="table-list">
+                <tr>
+                    <th>Emissão</th>
+                    <th>Vencimento</th>
+                    <th>Valor</th>
+                    <th>Status</th>
+                    <th>Opções</th>
+                </tr>
+                {% for bill in bills %}
+                    <tr>
+                        <td>{{ bill.createdAt|date }}</td>
+                        <td><strong>{{ bill.dueDateAt|date }}</strong></td>
+                        <td>R$ {{ bill.amount|number_format }}</td>
+                        <td>
+                            {% if bill.isDateOverDue %}
+                                <div class="highlight red">
+                                    {{ 'admin.billStatus.dateOverDue'|trans }}
+                                </div>
+                            {% else %}
+                                <div class="highlight
+                                {% if bill.billStatus.referency == 'pago' %}green{% else %}blue{% endif %}">
+                                    {{ bill.billStatus.description }}
+                                </div>
+                            {% endif %}
+                        </td>
+                        <td><a href="#"><i class="fa fa-print"></i></a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+

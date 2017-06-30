@@ -3,9 +3,9 @@ site:
     type:     annotation
     prefix:   /
 
-site_account:
-    resource: '@SiteBundle/Controller/Account'
-    prefix: /account
+site_portal:
+    resource: '@SiteBundle/Controller/Portal'
+    prefix: /portal
 
 site_user:
     resource: "@SiteBundle/Resources/config/routing_user.yml"

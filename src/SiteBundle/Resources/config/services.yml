@@ -33,3 +33,13 @@ services:
         arguments: ['@app.user.login_manager', 'site']
         tags:
             - { name: kernel.event_subscriber}
+
+    app.site_portal.doctrine_filter_configurator:
+        class: SiteBundle\Doctrine\Configurator
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@security.token_storage"
+            - "@annotation_reader"
+            - "@security.authorization_checker"
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }

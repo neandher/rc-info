@@ -1,0 +1,21 @@
+{% extends 'site/base.html.twig' %}
+
+{% block main_container %}
+
+    {% include('site/_partials/_client_page_title.html.twig') %}
+
+    <div class="clearfix"></div>
+
+    <div class="container">
+
+        {% include('site/portal/_partials/_sidebar.html.twig') %}
+
+        <div class="content_right">
+            {% block content_right %}{% endblock %}
+        </div>
+
+    </div>
+
+    <div class="clearfix margin_top10"></div>
+
+{% endblock %}
