@@ -19,6 +19,7 @@ class DashboardController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('admin/dashboard.html.twig');
+        //return $this->render('admin/dashboard.html.twig');
+        return $this->redirectToRoute('admin_customer_index');
     }
 }
