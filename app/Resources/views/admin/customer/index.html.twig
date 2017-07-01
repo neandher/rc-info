@@ -45,6 +45,7 @@
                     </a>
                 </th>
                 <th>E-mail</th>
+                <th>CNPJ</th>
                 <th>Ativo</th>
                 <th>Último Login</th>
                 <th>
@@ -62,6 +63,7 @@
                     <td>{{ customer.id }}</td>
                     <td>{{ customer.name }}</td>
                     <td>{{ customer.email }}</td>
+                    <td>{{ customer.cnpj }}</td>
                     <td>
                         {% if customer.siteUser.isEnabled == '1' %}
                             <span class="label label-sm label-success">
