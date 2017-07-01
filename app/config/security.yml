@@ -63,7 +63,7 @@ security:
                 remember_me_parameter: _remember_me
             logout:
                 path: site_logout
-                target: site_login
+                target: site_homepage
                 invalidate_session: false
             anonymous: true
     
