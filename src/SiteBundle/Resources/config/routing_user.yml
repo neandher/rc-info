@@ -37,10 +37,10 @@ site_resetting_reset:
             redirect: site_portal_dashboard
 
 site_change_password:
-    path: /change-password
+    path: /portal/change-password
     methods: [GET, POST]
     defaults:
         _controller: app.controller.site_user:changePasswordAction
         _app_options:
             template: "site/portal/changePassword/changePassword.html.twig"
-            redirect: site_portal_dashboard
+            redirect: site_change_password

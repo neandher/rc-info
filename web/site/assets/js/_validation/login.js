@@ -89,6 +89,40 @@
                     error.insertAfter(element.parent());
                 }
             });
+
+        $("#sky-form4").validate(
+            {
+                // Rules for form validation
+                rules: {
+                    'change_password[current_password]': {
+                        required: true
+                    },
+                    'change_password[plainPassword][first]': {
+                        required: true
+                    },
+                    'change_password[plainPassword][second]': {
+                        required: true
+                    }
+                },
+
+                // Messages for form validation
+                messages: {
+                    'change_password[current_password]': {
+                        required: 'Digite seu senha atual'
+                    },
+                    'change_password[plainPassword][first]': {
+                        required: 'Digite uma nova senha'
+                    },
+                    'change_password[plainPassword][second]': {
+                        required: 'Digite a confirmação da nova senha'
+                    }
+                },
+
+                // Do not change code below
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
+                }
+            });
     });
 
 })(jQuery);
