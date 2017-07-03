@@ -161,6 +161,11 @@
                             {% endblock %}
                             {% block li_actions %}
                                 <li>
+                                    <a href="{{ path('admin_bill_boleto', {id: bill.id}) }}" target="_blank">
+                                        Visualizar Boleto
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="javascript:;" data-toggle="modal"
                                        data-target="#modalConfirmation"
                                        data-path="{{ path('admin_bill_delete', {id: bill.id}) ~ pagination.buildQuery }}"

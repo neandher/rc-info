@@ -6,9 +6,13 @@ use AdminBundle\Entity\Bill;
 use AdminBundle\Entity\BillStatus;
 use AdminBundle\Form\Type\BillType;
 use AppBundle\Event\FlashBagEvents;
+use Carbon\Carbon;
+use Eduardokum\LaravelBoleto\Boleto\Banco\Bancoob;
+use Eduardokum\LaravelBoleto\Pessoa;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class BillController
@@ -112,7 +116,7 @@ class BillController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             $this->setBillStatus($bill);
 
             $em = $this->getDoctrine()->getManager();
@@ -199,5 +203,74 @@ class BillController extends BaseController
         }
 
         $bill->setBillStatus($this->getDoctrine()->getRepository(BillStatus::class)->findOneByReferency($status));
+    }
+
+    /**
+     * @Route("/{id}/boleto", requirements={"id" : "\d+"}, name="admin_bill_boleto")
+     * @param Request $request
+     * @param Bill $bill
+     * @return Response
+     */
+    public function boleto(Request $request, Bill $bill)
+    {
+        $beneficiario = new Pessoa([
+            'nome' => 'RC Informática',
+            'endereco' => 'Rua um, 123',
+            'cep' => '99999-999',
+            'uf' => 'ES',
+            'cidade' => 'Vila Velha',
+            'documento' => '99.999.999/9999-99',
+        ]);
+
+        $pagador = new Pessoa([
+            'nome' => $bill->getCustomer()->getName(),
+            'endereco' => 'Rua um, 123',
+            'bairro' => 'Bairro',
+            'cep' => '99999-999',
+            'uf' => 'UF',
+            'cidade' => 'CIDADE',
+            'documento' => '999.999.999-99',
+        ]);
+        //var_dump($this->get('assets.packages')->getUrl('/site/assets/images/client-logo3.png'));
+        //exit;
+        $boletoArray = [
+            'logo' => 'e:/web/rc-info/web/site/assets/images/client-logo3.png', // Logo da empresa
+            'dataVencimento' => new Carbon($bill->getDueDateAt()->format('Y/m/d')),
+            'valor' => $bill->getAmount(),
+            'multa' => 0, // porcento
+            'juros' => 0, // porcento ao mes
+            'juros_apos' => 1, // juros e multa após
+            'diasProtesto' => false, // protestar após, se for necessário
+            'numero' => 1,
+            'numeroDocumento' => 1,
+            'pagador' => $pagador, // Objeto PessoaContract
+            'beneficiario' => $beneficiario, // Objeto PessoaContract
+            'agencia' => 9999, // BB, Bradesco, CEF, HSBC, Itáu
+            'agenciaDv' => 9, // se possuir
+            'conta' => 99999, // BB, Bradesco, CEF, HSBC, Itáu, Santander
+            'contaDv' => 9, // Bradesco, HSBC, Itáu
+            'carteira' => 3, // BB, Bradesco, CEF, HSBC, Itáu, Santander
+            'convenio' => 9999999, // BB
+            'variacaoCarteira' => 99, // BB
+            'range' => 99999, // HSBC
+            'codigoCliente' => 99999, // Bradesco, CEF, Santander
+            'ios' => 0, // Santander
+            'descricaoDemonstrativo' => ['msg1', 'msg2', 'msg3'], // máximo de 5
+            'instrucoes' => ['inst1', 'inst2'], // máximo de 5
+            'aceite' => 1,
+            'especieDoc' => 'DM',
+        ];
+
+        $boleto = new Bancoob($boletoArray);
+
+        //$boleto->renderPDF();
+        //$boleto->renderHTML();
+
+        // Os dois métodos aceita como parâmetro 2 boleano.
+        // 1º Se True após renderizado irá mostrar a janela de impressão. O Valor default é false.
+        // 2º Se False irá esconder as instruções de impressão. O valor default é true
+        //$boleto->renderPDF(true, false); // mostra a janela de impressão e esconde as instruções de impressão
+        
+        return new Response($boleto->renderHTML(false, $this->container));
     }
 }
