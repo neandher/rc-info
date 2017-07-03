@@ -8,6 +8,7 @@ use AdminBundle\Form\Type\BillType;
 use AppBundle\Event\FlashBagEvents;
 use Carbon\Carbon;
 use Eduardokum\LaravelBoleto\Boleto\Banco\Bancoob;
+use Eduardokum\LaravelBoleto\Boleto\Banco\Caixa;
 use Eduardokum\LaravelBoleto\Boleto\Render\Html;
 use Eduardokum\LaravelBoleto\Boleto\Render\Pdf;
 use Eduardokum\LaravelBoleto\Pessoa;
@@ -216,12 +217,12 @@ class BillController extends BaseController
     public function boleto(Request $request, Bill $bill)
     {
         $beneficiario = new Pessoa([
-            'nome' => 'RC Informática',
-            'endereco' => 'Rua um, 123',
-            'cep' => '99999-999',
+            'nome' => 'R C INFORMATICA',
+            'endereco' => 'AV COR PEDRO MAIA DE CARVALHO',
+            'cep' => '29102570',
             'uf' => 'ES',
             'cidade' => 'Vila Velha',
-            'documento' => '99.999.999/9999-99',
+            'documento' => '04.445.096/0001-52',
         ]);
 
         $pagador = new Pessoa([
@@ -235,30 +236,42 @@ class BillController extends BaseController
         ]);
 
         $boletoArray = [
-            'logo'                   => $this->getParameter('kernel.project_dir') . '/web/site/assets/images/client-logo3.png',
-            'dataVencimento'         => new Carbon($bill->getDueDateAt()->format('Y/m/d')),
-            'valor'                  => $bill->getAmount(),
-            'multa'                  => false,
-            'juros'                  => false,
-            'numero'                 => 1,
-            'numeroDocumento'        => 1,
-            'pagador'                => $pagador,
-            'beneficiario'           => $beneficiario,
-            'carteira'               => 1,
-            'agencia'                => 1111,
-            'convenio'               => 123123,
-            'conta'                  => 22222,
-            'descricaoDemonstrativo' => ['demonstrativo 1', 'demonstrativo 2', 'demonstrativo 3'],
-            'instrucoes'             => ['instrucao 1', 'instrucao 2', 'instrucao 3'],
-            'aceite'                 => 'S',
-            'especieDoc'             => 'DM',
+            'logo' => $this->getParameter('kernel.project_dir') . '/web/site/assets/images/client-logo3.png',
+            'dataVencimento' => new Carbon($bill->getDueDateAt()->format('Y/m/d')),
+            'valor' => $bill->getAmount(),
+            'multa' => false,
+            'juros' => false,
+            'numero' => '1',
+            'numeroDocumento' => '1',
+            'pagador' => $pagador,
+            'beneficiario' => $beneficiario,
+            'carteira' => 'RG',
+            'codigoCliente' => '808414-9',
+            'agencia' => '3132',
+            'conta' => '845.2',
+            'descricaoDemonstrativo' => [
+                'MULTA DE R$: 4,94 APÓS : ' . $bill->getDueDateAt()->format('d/m/Y'),
+                'JUROS DE R$: 0,81 AO DIA',
+                'NÃO RECEBER APÓS 120 DIAS DO VENCIMENTO',
+                'ATENÇÃO após efetuar o pagamento entre em contato com nosso escritório e retire sua senha de liberação 33499130',
+                'Título sujeito a protesto | Link para atualização de vencimento | bloquetoexpresso.caixa.gov.br'
+            ],
+            'instrucoes' => [
+                'MULTA DE R$: 4,94 APÓS : ' . $bill->getDueDateAt()->format('d/m/Y'),
+                'JUROS DE R$: 0,81 AO DIA',
+                'NÃO RECEBER APÓS 120 DIAS DO VENCIMENTO',
+                'Link para atualização de vencimento',
+                'bloquetoexpresso.caixa.gov.br'
+            ],
+            'aceite' => 'S',
+            'especieDoc' => 'DM',
         ];
 
-        $boleto = new Bancoob($boletoArray);
-        
+        $boleto = new Caixa($boletoArray);
+
         $dadosBoleto = $boleto->toArray();
-        $dadosBoleto['imprimir_carregamento'] = true;
-        
+        $dadosBoleto['imprimir_carregamento'] = false;
+
         $html = new Html($dadosBoleto);
         $dadosBoleto['css'] = $html->writeCss();
         $dadosBoleto['codigo_barras'] = $html->getImagemCodigoDeBarras($dadosBoleto['codigo_barras']);
