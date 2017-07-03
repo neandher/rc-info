@@ -74,8 +74,6 @@ twig:
         decimals: 2
         decimal_point: ','
         thousands_separator: '.'
-    paths:
-        '%kernel.project_dir%/vendor/eduardokum/laravel-boleto/src/Boleto/Render/view': view_boleto
     form_themes:
         - 'admin/_form/_layout.html.twig'
         - "admin/_form/_fields.html.twig"

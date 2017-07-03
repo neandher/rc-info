@@ -8,6 +8,8 @@ use AdminBundle\Form\Type\BillType;
 use AppBundle\Event\FlashBagEvents;
 use Carbon\Carbon;
 use Eduardokum\LaravelBoleto\Boleto\Banco\Bancoob;
+use Eduardokum\LaravelBoleto\Boleto\Render\Html;
+use Eduardokum\LaravelBoleto\Boleto\Render\Pdf;
 use Eduardokum\LaravelBoleto\Pessoa;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -214,7 +216,7 @@ class BillController extends BaseController
     public function boleto(Request $request, Bill $bill)
     {
         $beneficiario = new Pessoa([
-            'nome' => 'RC Informática',
+            'nome' => 'RC InformÃ¡tica',
             'endereco' => 'Rua um, 123',
             'cep' => '99999-999',
             'uf' => 'ES',
@@ -231,46 +233,52 @@ class BillController extends BaseController
             'cidade' => 'CIDADE',
             'documento' => '999.999.999-99',
         ]);
-        //var_dump($this->get('assets.packages')->getUrl('/site/assets/images/client-logo3.png'));
-        //exit;
+
         $boletoArray = [
-            'logo' => 'e:/web/rc-info/web/site/assets/images/client-logo3.png', // Logo da empresa
-            'dataVencimento' => new Carbon($bill->getDueDateAt()->format('Y/m/d')),
-            'valor' => $bill->getAmount(),
-            'multa' => 0, // porcento
-            'juros' => 0, // porcento ao mes
-            'juros_apos' => 1, // juros e multa após
-            'diasProtesto' => false, // protestar após, se for necessário
-            'numero' => 1,
-            'numeroDocumento' => 1,
-            'pagador' => $pagador, // Objeto PessoaContract
-            'beneficiario' => $beneficiario, // Objeto PessoaContract
-            'agencia' => 9999, // BB, Bradesco, CEF, HSBC, Itáu
-            'agenciaDv' => 9, // se possuir
-            'conta' => 99999, // BB, Bradesco, CEF, HSBC, Itáu, Santander
-            'contaDv' => 9, // Bradesco, HSBC, Itáu
-            'carteira' => 3, // BB, Bradesco, CEF, HSBC, Itáu, Santander
-            'convenio' => 9999999, // BB
-            'variacaoCarteira' => 99, // BB
-            'range' => 99999, // HSBC
-            'codigoCliente' => 99999, // Bradesco, CEF, Santander
-            'ios' => 0, // Santander
-            'descricaoDemonstrativo' => ['msg1', 'msg2', 'msg3'], // máximo de 5
-            'instrucoes' => ['inst1', 'inst2'], // máximo de 5
-            'aceite' => 1,
-            'especieDoc' => 'DM',
+            'logo'                   => $this->getParameter('kernel.project_dir') . '/web/site/assets/images/client-logo3.png',
+            'dataVencimento'         => new Carbon($bill->getDueDateAt()->format('Y/m/d')),
+            'valor'                  => $bill->getAmount(),
+            'multa'                  => false,
+            'juros'                  => false,
+            'numero'                 => 1,
+            'numeroDocumento'        => 1,
+            'pagador'                => $pagador,
+            'beneficiario'           => $beneficiario,
+            'carteira'               => 1,
+            'agencia'                => 1111,
+            'convenio'               => 123123,
+            'conta'                  => 22222,
+            'descricaoDemonstrativo' => ['demonstrativo 1', 'demonstrativo 2', 'demonstrativo 3'],
+            'instrucoes'             => ['instrucao 1', 'instrucao 2', 'instrucao 3'],
+            'aceite'                 => 'S',
+            'especieDoc'             => 'DM',
         ];
 
         $boleto = new Bancoob($boletoArray);
-
-        //$boleto->renderPDF();
-        //$boleto->renderHTML();
-
-        // Os dois métodos aceita como parâmetro 2 boleano.
-        // 1º Se True após renderizado irá mostrar a janela de impressão. O Valor default é false.
-        // 2º Se False irá esconder as instruções de impressão. O valor default é true
-        //$boleto->renderPDF(true, false); // mostra a janela de impressão e esconde as instruções de impressão
         
-        return new Response($boleto->renderHTML(false, $this->container));
+        $dadosBoleto = $boleto->toArray();
+        $dadosBoleto['imprimir_carregamento'] = true;
+        
+        $html = new Html($dadosBoleto);
+        $dadosBoleto['css'] = $html->writeCss();
+        $dadosBoleto['codigo_barras'] = $html->getImagemCodigoDeBarras($dadosBoleto['codigo_barras']);
+
+        /*$pdf = new Pdf();
+        $pdf->addBoleto($boleto);
+        $pdf_inline = $pdf->gerarBoleto($pdf::OUTPUT_STRING);
+
+        $download = false;
+
+        return new Response(
+            $pdf_inline,
+            200,
+            [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => ($download ? 'attachment; ' : '')
+                    . 'inline; filename="bancoob.pdf"'
+            ]
+        );*/
+
+        return $this->render('admin/boleto/_boleto.html.twig', $dadosBoleto);
     }
 }
