@@ -1,0 +1,46 @@
+<?php
+
+namespace SiteBundle\Entity;
+
+use AppBundle\Resource\Model\TimestampableTrait;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="SiteBundle\Repository\CustomerAddressesRepository")
+ * @ORM\Table(name="customer_addresses")
+ */
+class CustomerAddresses
+{
+    use TimestampableTrait;
+
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $street;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $district;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $city;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $postcode;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $mainAddress;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $complement;
+}

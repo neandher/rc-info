@@ -3,6 +3,7 @@
 namespace SiteBundle\Entity;
 
 use AppBundle\Resource\Model\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -68,10 +69,28 @@ class Customer
     /**
      * @var SiteUser
      *
-     * @ORM\OneToOne(targetEntity="SiteBundle\Entity\SiteUser", mappedBy="customer", cascade={"all"})     
+     * @ORM\OneToOne(targetEntity="SiteBundle\Entity\SiteUser", mappedBy="customer", cascade={"all"})
      * @Assert\Valid()
      */
     protected $siteUser;
+
+    /**
+     * @var CustomerAddresses
+     *
+     * @ORM\OneToMany(targetEntity="SiteBundle\Entity\CustomerAddresses", mappedBy="customer", cascade={"persist", "remove"})
+     * @Assert\Count(min="1")
+     * @Assert\Valid()
+     */
+    private $customerAddresses;
+
+    /**
+     * Customer constructor.
+     */
+    public function __construct()
+    {
+        $this->customerAddresses = new ArrayCollection();
+    }
+
 
     /**
      * Get id
@@ -225,6 +244,33 @@ class Customer
     {
         if (null !== $siteUser) {
             $siteUser->setCustomer($this);
+        }
+    }
+
+    /**
+     * @return ArrayCollection|CustomerAddresses[]
+     */
+    public function getCustomerAddresses()
+    {
+        return $this->customerAddresses;
+    }
+
+    /**
+     * @param CustomerAddresses $customerAddress
+     */
+    public function addCustomerAddress(CustomerAddresses $customerAddress)
+    {
+        $customerAddress->setCustomer($this);
+        $this->customerAddresses->add($customerAddress);
+    }
+
+    /**
+     * @param CustomerAddresses $customerAddress
+     */
+    public function removeCustomerAddress(CustomerAddresses $customerAddress)
+    {
+        if ($this->customerAddresses->contains($customerAddress)) {
+            $this->customerAddresses->removeElement($customerAddress);
         }
     }
 }

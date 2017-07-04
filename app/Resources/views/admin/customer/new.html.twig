@@ -6,7 +6,7 @@
 
         {% block form_start %}
             {{ form_start(form, {'action': path('admin_customer_new') ~ pagination.buildQuery,
-                'attr' : {'class' : '_form-horizontal'}}) }}
+                'attr' : {'class' : '_form-horizontal', 'novalidate': true}}) }}
         {% endblock %}
 
         {% block icon_list %}
@@ -23,6 +23,9 @@
             <li role="presentation" class="active">
                 <a href="#geral" aria-controls="geral" role="tab" data-toggle="tab">Geral</a>
             </li>
+            <li role="presentation">
+                <a href="#addresses" aria-controls="addresses" role="tab" data-toggle="tab">Endereço</a>
+            </li>
         {% endblock %}
 
         {% block tab_pane %}
@@ -32,10 +35,16 @@
                         {{ form_row(form.name, {'attr': {'autofocus': true}}) }}
                     </div>
                     <div class="col-md-6">{{ form_row(form.email) }}</div>
+                </div>
+                <div class="row">
                     <div class="col-md-6">{{ form_row(form.cnpj) }}</div>
                     <div class="col-md-6">{{ form_row(form.phoneNumber) }}</div>
+                </div>
+                <div class="row">
                     <div class="col-md-6">{{ form_row(form.siteUser.plainPassword.first) }}</div>
                     <div class="col-md-6">{{ form_row(form.siteUser.plainPassword.second) }}</div>
+                </div>
+                <div class="row">
                     <div class="col-md-6">
                         {{ form_widget(form.siteUser.isEnabled, {'attr': {
                             'data-on-color': 'success',
@@ -47,6 +56,29 @@
                     </div>
                 </div>
             </div>
+
+            <div role="tabpanel" class="tab-pane" id="addresses">
+                <div id="customerAddress"
+                     data-prototype="{% include 'admin/customer/collection/_customerAddress.html.twig'
+                     with {'item': form.customerAddresses, 'prototype': true} %}">
+                    {% if form.vars.submitted and form.vars.valid == false %}
+                        {% for customerAddress in form.customerAddresses %}
+                            {% include 'admin/customer/collection/_customerAddress.html.twig'
+                            with {'item' : customerAddress, 'collection': true } %}
+                        {% endfor %}
+                    {% endif %}
+
+                    <div id="panel_add_customerAddress">
+                        <a href="#" class="btn btn-default col-xs-12" id="btn_add_customerAddress">
+                            <span class="fa fa-plus"></span>
+                            {{ 'admin.customerAddresses.new'|trans }}
+                        </a>
+                        <div class="clearfix"></div>
+                    </div>
+
+                </div>
+            </div>
+
         {% endblock %}
 
     {% endembed %}
@@ -56,8 +88,7 @@
 {% block javascripts %}
     {% embed 'admin/_partials/_block_javascripts.html.twig' %}
         {% block page_level_scripts %}
-            <script src="{{ asset('admin/assets/pages/scripts/components-bootstrap-switch.min.js') }}"
-                    type="text/javascript"></script>
+            <script src="{{ asset('admin/assets/global/scripts/customerAddressesCollection.js') }}"></script>
         {% endblock %}
     {% endembed %}
 {% endblock %}

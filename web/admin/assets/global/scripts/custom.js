@@ -1,8 +1,14 @@
-$('.js-datepicker').datepicker({
-    format: 'dd/mm/yyyy',
-    language: 'pt-BR',
-    clearBtn: true,
-    autoclose: true
+$(document).ready(function () {
+    showTabError();
+});
+
+$('body').on('focus', ".js-datepicker", function () {
+    $('.js-datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        language: 'pt-BR',
+        clearBtn: true,
+        autoclose: true
+    });
 });
 
 $('#modalConfirmation').on('show.bs.modal', function (event) {
@@ -39,3 +45,27 @@ $('.delete-resource-form').on('click', function () {
 
     return false;
 });
+
+function formCollectionAddDelActions(form) {
+    //$(form).validator('update');
+}
+
+function showTabError() {
+
+    var $tab_content = $(".tab-content");
+
+    $tab_content.find("div.tab-pane:has(div.has-error)").each(function (index, tab) {
+
+        var id = $(tab).attr("id");
+        $('a[href="#' + id + '"]').tab('show');
+
+        $(tab).find('div.has-error').each(function (_index, _field) {
+            $('html, body').animate({
+                scrollTop: $(_field).offset().top
+            }, 2000);
+            return false;
+        });
+
+        return false;
+    });
+}

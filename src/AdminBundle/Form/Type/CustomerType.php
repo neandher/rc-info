@@ -3,6 +3,8 @@
 namespace AdminBundle\Form\Type;
 
 use SiteBundle\Entity\Customer;
+use SiteBundle\Form\CustomerAddressesType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use UserBundle\Form\Type\PlainPasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -24,7 +26,16 @@ class CustomerType extends PlainPasswordType
                 'label' => 'admin.customers.fields.phone_number',
                 'required' => false
             ])
-            ->add('siteUser', SiteUserType::class, ['label' => false]);
+            ->add('siteUser', SiteUserType::class, ['label' => false])
+            ->add('customerAddresses', CollectionType::class, [
+                'entry_type' => CustomerAddressesType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'label' => 'admin.customerAddresses.title',
+                'label_attr' => ['class' => 'hide'],
+                'attr' => ['class' => 'hide'],
+            ]);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace AdminBundle\Controller;
 
 use AdminBundle\Form\Type\CustomerType;
 use AppBundle\Event\FlashBagEvents;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SiteBundle\Entity\Customer;
@@ -111,6 +112,11 @@ class CustomerController extends BaseController
 
         $this->addDefaultSubmitButtons($form);
 
+        $originalCustomerAddresses = new ArrayCollection();
+        foreach ($customer->getCustomerAddresses() as $customerAddress) {
+            $originalCustomerAddresses->add($customerAddress);
+        }
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -121,6 +127,14 @@ class CustomerController extends BaseController
             );
 
             $em = $this->getDoctrine()->getManager();
+
+            foreach ($originalCustomerAddresses as $customerAddress) {
+                if (false === $customer->getCustomerAddresses()->contains($customerAddress)) {
+                    $customerAddress->setCurriculo(null);
+                    $em->remove($customerAddress);
+                }
+            }
+
             $em->persist($customer);
             $em->flush();
 

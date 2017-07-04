@@ -1,0 +1,51 @@
+{% if prototype is defined %}
+    <div class='row'>
+        <div class='col-md-6'>{{ form_row(item.vars.prototype.street)|e('html_attr') }}</div>
+        <div class='col-md-6'>{{ form_row(item.vars.prototype.district)|e('html_attr') }}</div>
+    </div>
+    <div class='row'>
+        <div class='col-md-6'>{{ form_row(item.vars.prototype.city)|e('html_attr') }}</div>
+        <div class='col-md-6'>{{ form_row(item.vars.prototype.postcode)|e('html_attr') }}</div>
+    </div>
+    <div class='row'>
+        <div class='col-md-6'>{{ form_row(item.vars.prototype.uf)|e('html_attr') }}</div>
+        <div class='col-md-6'>{{ form_row(item.vars.prototype.complement)|e('html_attr') }}</div>
+    </div>
+    <div class='row'>
+        <div class='col-md-6'>{{ form_widget(item.vars.prototype.mainAddress, {'attr': {
+                'data-on-color': 'success',
+                'data-off-color': 'danger',
+                'data-on-text': 'resource.is_enabled'|trans,
+                'data-off-text': 'resource.is_not_enabled'|trans,
+                'checked': true
+            }})|e('html_attr') }}</div>
+    </div>
+{% endif %}
+
+{% if collection is defined %}
+    <div class='panel panel-default'>
+        <div class='panel-body'>
+            <div class='row'>
+                <div class='col-md-6'>{{ form_row(item.street) }}</div>
+                <div class='col-md-6'>{{ form_row(item.district) }}</div>
+            </div>
+            <div class='row'>
+                <div class='col-md-6'>{{ form_row(item.city) }}</div>
+                <div class='col-md-6'>{{ form_row(item.postcode) }}</div>
+            </div>
+            <div class='row'>
+                <div class='col-md-6'>{{ form_row(item.uf) }}</div>
+                <div class='col-md-6'>{{ form_row(item.complement) }}</div>
+            </div>
+            <div class='row'>
+                <div class='col-md-6'>{{ form_widget(item.mainAddress, {'attr': {
+                        'data-on-color': 'success',
+                        'data-off-color': 'danger',
+                        'data-on-text': 'resource.is_enabled'|trans,
+                        'data-off-text': 'resource.is_not_enabled'|trans,
+                        'checked': true
+                    }}) }}</div>
+            </div>
+        </div>
+    </div>
+{% endif %}

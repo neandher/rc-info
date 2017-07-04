@@ -16,6 +16,18 @@ admin:
             created_at: Data Criação
         impersonate: Cliente %name% logado com sucesso
 
+    customerAddresses:
+        title: Endereços
+        new: Novo Endereço
+        fields:
+            street: Rua
+            district: Bairro
+            city: Cidade
+            postcode: Cep
+            uf: Estado
+            mainAddress: Endereço Principal
+            complement: Complemento
+            createdAt: Data de Criação
     banner:
         title: Banner
         new: Novo Banner
