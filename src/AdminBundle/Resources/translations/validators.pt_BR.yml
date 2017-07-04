@@ -1,0 +1,4 @@
+admin:
+    customer_addresses:
+        count_min: Insira ao menos um endereço.
+        hasMainAddress: Marque um endereço como principal.

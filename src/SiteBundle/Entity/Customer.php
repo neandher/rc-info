@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Customer
@@ -78,7 +79,7 @@ class Customer
      * @var CustomerAddresses
      *
      * @ORM\OneToMany(targetEntity="SiteBundle\Entity\CustomerAddresses", mappedBy="customer", cascade={"persist", "remove"})
-     * @Assert\Count(min="1")
+     * @Assert\Count(min="1", minMessage="admin.customer_addresses.count_min")
      * @Assert\Valid()
      */
     private $customerAddresses;
@@ -271,6 +272,46 @@ class Customer
     {
         if ($this->customerAddresses->contains($customerAddress)) {
             $this->customerAddresses->removeElement($customerAddress);
+        }
+    }
+
+    /**
+     * @return CustomerAddresses
+     */
+    public function getMainAddress()
+    {
+        $mainAddress = null;
+        foreach ($this->customerAddresses as $customerAddress) {
+            if ($customerAddress->getMainAddress() == true) {
+                $mainAddress = $customerAddress;
+                break;
+            }
+        }
+        return $mainAddress;
+    }
+
+    /**
+     * @Assert\Callback()
+     * @param ExecutionContextInterface $context
+     * @param $payload
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        $hasMainAddress = false;
+        foreach ($this->customerAddresses as $customerAddress) {
+            if ($customerAddress->getMainAddress() == true) {
+                $hasMainAddress = true;
+            }
+        }
+
+        if (!$hasMainAddress) {
+            if ($this->customerAddresses->count() == 1) {
+                $this->customerAddresses->first()->setMainAddress(true);
+            } else {
+                $context->buildViolation('admin.customer_addresses.hasMainAddress')
+                    ->atPath('custommerAddresses')
+                    ->addViolation();
+            }
         }
     }
 }

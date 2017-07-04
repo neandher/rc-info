@@ -130,7 +130,7 @@ class CustomerController extends BaseController
 
             foreach ($originalCustomerAddresses as $customerAddress) {
                 if (false === $customer->getCustomerAddresses()->contains($customerAddress)) {
-                    $customerAddress->setCurriculo(null);
+                    $customerAddress->setCustomer(null);
                     $em->remove($customerAddress);
                 }
             }

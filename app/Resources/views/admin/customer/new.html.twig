@@ -88,6 +88,7 @@
 {% block javascripts %}
     {% embed 'admin/_partials/_block_javascripts.html.twig' %}
         {% block page_level_scripts %}
+            <script src="{{ asset('bower_components/jquery.inputmask/dist/jquery.inputmask.bundle.js') }}"></script>
             <script src="{{ asset('admin/assets/global/scripts/customerAddressesCollection.js') }}"></script>
         {% endblock %}
     {% endembed %}

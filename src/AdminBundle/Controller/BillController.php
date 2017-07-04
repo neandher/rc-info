@@ -4,6 +4,7 @@ namespace AdminBundle\Controller;
 
 use AdminBundle\Entity\Bill;
 use AdminBundle\Entity\BillStatus;
+use AdminBundle\Entity\Company;
 use AdminBundle\Form\Type\BillType;
 use AppBundle\Event\FlashBagEvents;
 use Carbon\Carbon;
@@ -210,45 +211,46 @@ class BillController extends BaseController
 
     /**
      * @Route("/{id}/boleto", requirements={"id" : "\d+"}, name="admin_bill_boleto")
-     * @param Request $request
      * @param Bill $bill
      * @return Response
      */
-    public function boleto(Request $request, Bill $bill)
+    public function boleto(Bill $bill)
     {
+        $company = new Company();
+
         $beneficiario = new Pessoa([
-            'nome' => 'R C INFORMATICA',
-            'endereco' => 'AV COR PEDRO MAIA DE CARVALHO',
-            'cep' => '29102570',
-            'uf' => 'ES',
-            'cidade' => 'Vila Velha',
-            'documento' => '04.445.096/0001-52',
+            'nome' => $company->getNomeFantasia(),
+            'endereco' => $company->getAddressStreet(),
+            'cep' => $company->getPostcode(),
+            'uf' => $company->getUf(),
+            'cidade' => $company->getCity(),
+            'documento' => $company->getCnpj(),
         ]);
 
         $pagador = new Pessoa([
             'nome' => $bill->getCustomer()->getName(),
-            'endereco' => 'Rua um, 123',
-            'bairro' => 'Bairro',
-            'cep' => '99999-999',
-            'uf' => 'UF',
-            'cidade' => 'CIDADE',
-            'documento' => '999.999.999-99',
+            'endereco' => $bill->getCustomer()->getMainAddress()->getStreet(),
+            'bairro' => $bill->getCustomer()->getMainAddress()->getDistrict(),
+            'cep' => $bill->getCustomer()->getMainAddress()->getPostcode(),
+            'uf' => $bill->getCustomer()->getMainAddress()->getUf()->getSigla(),
+            'cidade' => $bill->getCustomer()->getMainAddress()->getCity(),
+            'documento' => $bill->getCustomer()->getCnpj(),
         ]);
 
         $boletoArray = [
-            'logo' => $this->getParameter('kernel.project_dir') . '/web/site/assets/images/client-logo3.png',
+            'logo' => false,
             'dataVencimento' => new Carbon($bill->getDueDateAt()->format('Y/m/d')),
             'valor' => $bill->getAmount(),
             'multa' => false,
             'juros' => false,
-            'numero' => '1',
-            'numeroDocumento' => '1',
+            'numero' => $bill->getId(),
+            'numeroDocumento' => $bill->getId(),
             'pagador' => $pagador,
             'beneficiario' => $beneficiario,
-            'carteira' => 'RG',
-            'codigoCliente' => '808414-9',
-            'agencia' => '3132',
-            'conta' => '845.2',
+            'carteira' => $company->getBoletoCarteira(),
+            'codigoCliente' => $company->getBoletoCodigoCliente(),
+            'agencia' => $company->getAgencia(),
+            'conta' => $company->getBoletoCodigoCliente(),
             'descricaoDemonstrativo' => [
                 'MULTA DE R$: 4,94 APÓS : ' . $bill->getDueDateAt()->format('d/m/Y'),
                 'JUROS DE R$: 0,81 AO DIA',
@@ -263,12 +265,12 @@ class BillController extends BaseController
                 'Link para atualização de vencimento',
                 'bloquetoexpresso.caixa.gov.br'
             ],
-            'aceite' => 'S',
-            'especieDoc' => 'DM',
+            'aceite' => $company->getBoletoAceite(),
+            'especieDoc' => $company->getBoletoEspecieDoc(),
         ];
 
         $boleto = new Caixa($boletoArray);
-
+        
         $dadosBoleto = $boleto->toArray();
         $dadosBoleto['imprimir_carregamento'] = false;
 
@@ -276,11 +278,11 @@ class BillController extends BaseController
         $dadosBoleto['css'] = $html->writeCss();
         $dadosBoleto['codigo_barras'] = $html->getImagemCodigoDeBarras($dadosBoleto['codigo_barras']);
 
-        /*$pdf = new Pdf();
+        $download = false;
+
+        $pdf = new Pdf();
         $pdf->addBoleto($boleto);
         $pdf_inline = $pdf->gerarBoleto($pdf::OUTPUT_STRING);
-
-        $download = false;
 
         return new Response(
             $pdf_inline,
@@ -288,10 +290,22 @@ class BillController extends BaseController
             [
                 'Content-Type' => 'application/pdf',
                 'Content-Disposition' => ($download ? 'attachment; ' : '')
-                    . 'inline; filename="bancoob.pdf"'
+                    . 'inline; filename="boleto.pdf"'
+            ]
+        );
+
+        //return $this->render('admin/boleto/_boleto.html.twig', $dadosBoleto);
+
+        /*$html = $this->render('admin/boleto/_boleto.html.twig', $dadosBoleto);
+
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            200,
+            [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => ($download ? 'attachment; ' : '')
+                    . 'filename="' . 'boleto' . '.pdf"'
             ]
         );*/
-
-        return $this->render('admin/boleto/_boleto.html.twig', $dadosBoleto);
     }
 }

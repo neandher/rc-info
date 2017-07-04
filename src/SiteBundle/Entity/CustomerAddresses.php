@@ -42,6 +42,7 @@ class CustomerAddresses
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $postcode;
 
@@ -51,7 +52,7 @@ class CustomerAddresses
     private $mainAddress;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $complement;
 

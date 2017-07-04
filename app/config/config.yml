@@ -127,3 +127,11 @@ vich_uploader:
             delete_on_update: true
             inject_on_load: true
             namer:  vich_uploader.namer_uniqid
+
+knp_snappy:
+    #temporary_folder: "%kernel.cache_dir%/snappy"
+    pdf:
+        enabled:    true
+        #binary:     /usr/local/bin/wkhtmltopdf #"\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe\"" for Windows users
+        binary:     "\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe\""
+        options:    []

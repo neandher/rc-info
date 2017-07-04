@@ -1,5 +1,6 @@
 $(document).ready(function () {
     showTabError();
+    initInputMask();
 });
 
 $('body').on('focus', ".js-datepicker", function () {

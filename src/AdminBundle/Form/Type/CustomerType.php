@@ -3,7 +3,6 @@
 namespace AdminBundle\Form\Type;
 
 use SiteBundle\Entity\Customer;
-use SiteBundle\Form\CustomerAddressesType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use UserBundle\Form\Type\PlainPasswordType;
@@ -21,10 +20,14 @@ class CustomerType extends PlainPasswordType
         $builder
             ->add('name', TextType::class, ['label' => 'admin.customers.fields.name'])
             ->add('email', EmailType::class, ['label' => 'admin.customers.fields.email'])
-            ->add('cnpj', TextType::class, ['label' => 'admin.customers.fields.cnpj'])
+            ->add('cnpj', TextType::class, [
+                'label' => 'admin.customers.fields.cnpj',
+                'attr' => ['class' => "mask_cnpj"]
+            ])
             ->add('phoneNumber', TextType::class, [
                 'label' => 'admin.customers.fields.phone_number',
-                'required' => false
+                'required' => false,
+                'attr' => ['class' => 'mask_phone']
             ])
             ->add('siteUser', SiteUserType::class, ['label' => false])
             ->add('customerAddresses', CollectionType::class, [

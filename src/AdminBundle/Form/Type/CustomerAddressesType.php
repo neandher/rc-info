@@ -1,9 +1,8 @@
 <?php
 
-namespace SiteBundle\Form;
+namespace AdminBundle\Form\Type;
 
 use AdminBundle\Entity\Uf;
-use AdminBundle\Form\Type\SwitchType;
 use AdminBundle\Repository\UfRepository;
 use SiteBundle\Entity\CustomerAddresses;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -23,7 +22,10 @@ class CustomerAddressesType extends AbstractType
             ->add('street', TextType::class, ['label' => 'admin.customerAddresses.fields.street'])
             ->add('district', TextType::class, ['label' => 'admin.customerAddresses.fields.district'])
             ->add('city', TextType::class, ['label' => 'admin.customerAddresses.fields.city'])
-            ->add('postcode', TextType::class, ['label' => 'admin.customerAddresses.fields.postcode'])
+            ->add('postcode', TextType::class, [
+                'label' => 'admin.customerAddresses.fields.postcode',
+                'attr' => ['class' => 'mask_cep']
+            ])
             ->add('mainAddress', SwitchType::class, ['label' => 'admin.customerAddresses.fields.mainAddress'])
             ->add('complement', TextType::class, ['label' => 'admin.customerAddresses.fields.complement'])
             ->add('uf', EntityType::class, [
