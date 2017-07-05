@@ -1,0 +1,32 @@
+<?php
+
+namespace AdminBundle\Entity;
+
+use AppBundle\Resource\Model\TimestampableTrait;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="boleto_remessa")
+ */
+class BoletoRemessa
+{
+    use TimestampableTrait;
+
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $sent;
+}

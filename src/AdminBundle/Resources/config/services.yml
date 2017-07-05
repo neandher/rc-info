@@ -41,3 +41,19 @@ services:
             - '@router'
             - 'ROLE_ADMINISTRATION_ACCESS'
             - '@app.util.flash_bag'
+
+    app.admin.bill_boleto:
+        class: AdminBundle\Bill\Boleto
+        arguments: ['%boletos_path%']
+
+    app.admin.bill_boleto.generate:
+        class: AdminBundle\EventListener\BillBoletoGenerate
+        arguments: ['@app.admin.bill_boleto']
+        tags:
+            - { name: kernel.event_subscriber }
+
+    app.admin.bill_remessa.generate:
+        class: AdminBundle\EventListener\BillRemessaGenerate
+        arguments: ['@doctrine.orm.default_entity_manager']
+        tags:
+            - { name: kernel.event_subscriber }

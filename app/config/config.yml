@@ -35,6 +35,10 @@ parameters:
     upload_cache_relative_path: "/uploads/cache"
     upload_banner_image_relative_path: "/uploads/banner_images"
 
+    ### boletos path ###
+    boletos_path: "%kernel.project_dir%/web/files/boletos_pdf"
+    boletos_remessa: "%kernel.project_dir%/web/files/boletos_remessa"
+
 framework:
     #esi: ~
     #translator: { fallbacks: ['%locale%'] }

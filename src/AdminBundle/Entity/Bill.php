@@ -90,6 +90,14 @@ class Bill
     private $customer;
 
     /**
+     * @var BillRemessa
+     *
+     * @ORM\ManyToOne(targetEntity="AdminBundle\Entity\BillRemessa", inversedBy="bill", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $billRemessa;
+
+    /**
      * @return int
      */
     public function getId()
@@ -249,11 +257,29 @@ class Bill
     public function isDateOverDue()
     {
         $isDateOverDue = false;
-        
+
         if ($this->getPaymentDateAt() === null && $this->getDueDateAt() < (new \DateTime(date('y-m-d')))) {
             $isDateOverDue = true;
         }
-        
+
         return $isDateOverDue;
+    }
+
+    /**
+     * @return BillRemessa
+     */
+    public function getBillRemessa()
+    {
+        return $this->billRemessa;
+    }
+
+    /**
+     * @param BillRemessa $billRemessa
+     * @return Bill
+     */
+    public function setBillRemessa($billRemessa)
+    {
+        $this->billRemessa = $billRemessa;
+        return $this;
     }
 }

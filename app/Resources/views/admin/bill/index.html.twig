@@ -161,8 +161,8 @@
                             {% endblock %}
                             {% block li_actions %}
                                 <li>
-                                    <a href="{{ path('admin_bill_boleto', {id: bill.id}) }}" target="_blank">
-                                        Visualizar Boleto
+                                    <a href="{{ path('admin_bill_boleto', {id: bill.id}) }}">
+                                        <i class="fa fa-download"></i> Baixar Boleto
                                     </a>
                                 </li>
                                 <li>

@@ -32,7 +32,11 @@
                                 </div>
                             {% endif %}
                         </td>
-                        <td><a href="#"><i class="fa fa-print"></i></a></td>
+                        <td>
+                            <a href="{{ path('site_portal_faturas_boleto', {id: bill.id}) }}">
+                                <i class="fa fa-print"></i>
+                            </a>
+                        </td>
                     </tr>
                 {% endfor %}
             </table>

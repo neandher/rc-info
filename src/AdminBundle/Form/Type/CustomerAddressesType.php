@@ -22,7 +22,7 @@ class CustomerAddressesType extends AbstractType
             ->add('street', TextType::class, ['label' => 'admin.customerAddresses.fields.street'])
             ->add('district', TextType::class, ['label' => 'admin.customerAddresses.fields.district'])
             ->add('city', TextType::class, ['label' => 'admin.customerAddresses.fields.city'])
-            ->add('postcode', TextType::class, [
+            ->add('zipCode', TextType::class, [
                 'label' => 'admin.customerAddresses.fields.postcode',
                 'attr' => ['class' => 'mask_cep']
             ])

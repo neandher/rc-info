@@ -44,7 +44,7 @@ class CustomerAddresses
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
      */
-    private $postcode;
+    private $zipCode;
 
     /**
      * @ORM\Column(type="boolean")
@@ -157,13 +157,13 @@ class CustomerAddresses
     /**
      * Set postcode
      *
-     * @param string $postcode
+     * @param string $zipCode
      *
      * @return CustomerAddresses
      */
-    public function setPostcode($postcode)
+    public function setZipCode($zipCode)
     {
-        $this->postcode = $postcode;
+        $this->zipCode = $zipCode;
 
         return $this;
     }
@@ -173,9 +173,9 @@ class CustomerAddresses
      *
      * @return string
      */
-    public function getPostcode()
+    public function getZipCode()
     {
-        return $this->postcode;
+        return $this->zipCode;
     }
 
     /**

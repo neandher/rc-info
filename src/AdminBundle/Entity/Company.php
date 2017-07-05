@@ -8,7 +8,7 @@ class Company
     private $razaoSocial = 'VIRGILANY PERDIGAO ME';
     private $addressStreet = 'AV COR PEDRO MAIA DE CARVALHO';
     private $addressNumber = '425';
-    private $postcode = '29.102-570';
+    private $zipCode = '29.102-570';
     private $city = 'Vila Velha';
     private $uf = 'ES';
     private $cnpj = '04.445.096/0001-52';
@@ -222,18 +222,18 @@ class Company
     /**
      * @return mixed
      */
-    public function getPostcode()
+    public function getZipCode()
     {
-        return $this->postcode;
+        return $this->zipCode;
     }
 
     /**
-     * @param mixed $postcode
+     * @param mixed $zipCode
      * @return Company
      */
-    public function setPostcode($postcode)
+    public function setZipCode($zipCode)
     {
-        $this->postcode = $postcode;
+        $this->zipCode = $zipCode;
         return $this;
     }
 

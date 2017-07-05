@@ -4,17 +4,12 @@ namespace AdminBundle\Controller;
 
 use AdminBundle\Entity\Bill;
 use AdminBundle\Entity\BillStatus;
-use AdminBundle\Entity\Company;
+use AdminBundle\Event\BillEvents;
 use AdminBundle\Form\Type\BillType;
 use AppBundle\Event\FlashBagEvents;
-use Carbon\Carbon;
-use Eduardokum\LaravelBoleto\Boleto\Banco\Bancoob;
-use Eduardokum\LaravelBoleto\Boleto\Banco\Caixa;
-use Eduardokum\LaravelBoleto\Boleto\Render\Html;
-use Eduardokum\LaravelBoleto\Boleto\Render\Pdf;
-use Eduardokum\LaravelBoleto\Pessoa;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -74,9 +69,13 @@ class BillController extends BaseController
 
             $this->setBillStatus($bill);
 
+            $this->get('event_dispatcher')->dispatch(BillEvents::CREATE_SUCCESS, new GenericEvent($bill));
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($bill);
             $em->flush();
+
+            $this->get('event_dispatcher')->dispatch(BillEvents::CREATE_COMPLETED, new GenericEvent($bill));
 
             $this->get('app.util.flash_bag')->newMessage(
                 FlashBagEvents::MESSAGE_TYPE_SUCCESS,
@@ -121,7 +120,22 @@ class BillController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            if ($bill->getBillRemessa()->getSent()) {
+
+                $this->get('app.util.flash_bag')->newMessage(
+                    FlashBagEvents::MESSAGE_TYPE_ERROR,
+                    'Não é possível alterar uma cobrança após o arquivo de remessa já ter sido enviado.'
+                );
+
+                return $this->redirectToRoute('admin_bill_edit', array_merge(
+                    ['id' => $bill->getId()],
+                    $pagination->getRouteParams()
+                ));
+            }
+
             $this->setBillStatus($bill);
+
+            $this->get('event_dispatcher')->dispatch(BillEvents::UPDATE_SUCCESS, new GenericEvent($bill));
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($bill);
@@ -211,101 +225,25 @@ class BillController extends BaseController
 
     /**
      * @Route("/{id}/boleto", requirements={"id" : "\d+"}, name="admin_bill_boleto")
+     * @param Request $request
      * @param Bill $bill
      * @return Response
      */
-    public function boleto(Bill $bill)
+    public function getBoleto(Request $request, Bill $bill)
     {
-        $company = new Company();
+        $pagination = $this->get('app.util.pagination')->handle($request, Bill::class);
+        $response = $this->get('app.admin.bill_boleto')->download($bill);
 
-        $beneficiario = new Pessoa([
-            'nome' => $company->getNomeFantasia(),
-            'endereco' => $company->getAddressStreet(),
-            'cep' => $company->getPostcode(),
-            'uf' => $company->getUf(),
-            'cidade' => $company->getCity(),
-            'documento' => $company->getCnpj(),
-        ]);
+        if (!$response) {
 
-        $pagador = new Pessoa([
-            'nome' => $bill->getCustomer()->getName(),
-            'endereco' => $bill->getCustomer()->getMainAddress()->getStreet(),
-            'bairro' => $bill->getCustomer()->getMainAddress()->getDistrict(),
-            'cep' => $bill->getCustomer()->getMainAddress()->getPostcode(),
-            'uf' => $bill->getCustomer()->getMainAddress()->getUf()->getSigla(),
-            'cidade' => $bill->getCustomer()->getMainAddress()->getCity(),
-            'documento' => $bill->getCustomer()->getCnpj(),
-        ]);
+            $this->get('app.util.flash_bag')->newMessage(
+                FlashBagEvents::MESSAGE_TYPE_ERROR,
+                'Houve um erro ao baixar o arquivo.'
+            );
 
-        $boletoArray = [
-            'logo' => false,
-            'dataVencimento' => new Carbon($bill->getDueDateAt()->format('Y/m/d')),
-            'valor' => $bill->getAmount(),
-            'multa' => false,
-            'juros' => false,
-            'numero' => $bill->getId(),
-            'numeroDocumento' => $bill->getId(),
-            'pagador' => $pagador,
-            'beneficiario' => $beneficiario,
-            'carteira' => $company->getBoletoCarteira(),
-            'codigoCliente' => $company->getBoletoCodigoCliente(),
-            'agencia' => $company->getAgencia(),
-            'conta' => $company->getBoletoCodigoCliente(),
-            'descricaoDemonstrativo' => [
-                'MULTA DE R$: 4,94 APÓS : ' . $bill->getDueDateAt()->format('d/m/Y'),
-                'JUROS DE R$: 0,81 AO DIA',
-                'NÃO RECEBER APÓS 120 DIAS DO VENCIMENTO',
-                'ATENÇÃO após efetuar o pagamento entre em contato com nosso escritório e retire sua senha de liberação 33499130',
-                'Título sujeito a protesto | Link para atualização de vencimento | bloquetoexpresso.caixa.gov.br'
-            ],
-            'instrucoes' => [
-                'MULTA DE R$: 4,94 APÓS : ' . $bill->getDueDateAt()->format('d/m/Y'),
-                'JUROS DE R$: 0,81 AO DIA',
-                'NÃO RECEBER APÓS 120 DIAS DO VENCIMENTO',
-                'Link para atualização de vencimento',
-                'bloquetoexpresso.caixa.gov.br'
-            ],
-            'aceite' => $company->getBoletoAceite(),
-            'especieDoc' => $company->getBoletoEspecieDoc(),
-        ];
+            return $this->redirectToRoute('admin_bill_index', $pagination->getRouteParams());
+        }
 
-        $boleto = new Caixa($boletoArray);
-        
-        $dadosBoleto = $boleto->toArray();
-        $dadosBoleto['imprimir_carregamento'] = false;
-
-        $html = new Html($dadosBoleto);
-        $dadosBoleto['css'] = $html->writeCss();
-        $dadosBoleto['codigo_barras'] = $html->getImagemCodigoDeBarras($dadosBoleto['codigo_barras']);
-
-        $download = false;
-
-        $pdf = new Pdf();
-        $pdf->addBoleto($boleto);
-        $pdf_inline = $pdf->gerarBoleto($pdf::OUTPUT_STRING);
-
-        return new Response(
-            $pdf_inline,
-            200,
-            [
-                'Content-Type' => 'application/pdf',
-                'Content-Disposition' => ($download ? 'attachment; ' : '')
-                    . 'inline; filename="boleto.pdf"'
-            ]
-        );
-
-        //return $this->render('admin/boleto/_boleto.html.twig', $dadosBoleto);
-
-        /*$html = $this->render('admin/boleto/_boleto.html.twig', $dadosBoleto);
-
-        return new Response(
-            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
-            200,
-            [
-                'Content-Type' => 'application/pdf',
-                'Content-Disposition' => ($download ? 'attachment; ' : '')
-                    . 'filename="' . 'boleto' . '.pdf"'
-            ]
-        );*/
+        return $response;
     }
 }
