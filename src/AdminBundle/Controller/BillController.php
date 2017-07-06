@@ -29,6 +29,12 @@ class BillController extends BaseController
      */
     public function indexAction(Request $request)
     {
+        $bill = $this->getDoctrine()->getRepository(Bill::class)->findOneBy(['id' => 7]);
+
+        $this->get('app.admin.bill_remessa')->save($bill);
+
+        exit;
+
         $pagination = $this->get('app.util.pagination')->handle($request, Bill::class);
 
         $bills = $this->getDoctrine()->getRepository(Bill::class)->findLatest($pagination);

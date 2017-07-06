@@ -46,6 +46,10 @@ services:
         class: AdminBundle\Bill\Boleto
         arguments: ['%boletos_path%']
 
+    app.admin.bill_remessa:
+        class: AdminBundle\Bill\Remessa
+        arguments: ['%boletos_remessa%']
+
     app.admin.bill_boleto.generate:
         class: AdminBundle\EventListener\BillBoletoGenerate
         arguments: ['@app.admin.bill_boleto']

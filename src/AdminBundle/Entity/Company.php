@@ -10,11 +10,13 @@ class Company
     private $addressNumber = '425';
     private $zipCode = '29.102-570';
     private $city = 'Vila Velha';
+    private $district;
     private $uf = 'ES';
     private $cnpj = '04.445.096/0001-52';
     private $agencia = '3132';
-    private $conta = '845.2';
-    private $conta_digito = '';
+    private $agenciaDigito = '1';
+    private $conta = '845';
+    private $contaDigito = '2';
     private $codigoBanco = '104';
     private $boletoCarteira = 'RG';
     private $boletoCodigoCliente = '808414-9';
@@ -188,16 +190,16 @@ class Company
      */
     public function getContaDigito()
     {
-        return $this->conta_digito;
+        return $this->contaDigito;
     }
 
     /**
-     * @param mixed $conta_digito
+     * @param mixed $contaDigito
      * @return Company
      */
-    public function setContaDigito($conta_digito)
+    public function setContaDigito($contaDigito)
     {
-        $this->conta_digito = $conta_digito;
+        $this->contaDigito = $contaDigito;
         return $this;
     }
 
@@ -306,6 +308,42 @@ class Company
     public function setUf($uf)
     {
         $this->uf = $uf;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDistrict()
+    {
+        return $this->district;
+    }
+
+    /**
+     * @param mixed $district
+     * @return Company
+     */
+    public function setDistrict($district)
+    {
+        $this->district = $district;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAgenciaDigito()
+    {
+        return $this->agenciaDigito;
+    }
+
+    /**
+     * @param string $agenciaDigito
+     * @return Company
+     */
+    public function setAgenciaDigito($agenciaDigito)
+    {
+        $this->agenciaDigito = $agenciaDigito;
         return $this;
     }
 }

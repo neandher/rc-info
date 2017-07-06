@@ -28,7 +28,14 @@ class Boleto
     {
         $company = new Company();
 
-        $beneficiario = $this->getBeneficiario();
+        $beneficiario = new Pessoa([
+            'nome' => $company->getNomeFantasia(),
+            'endereco' => $company->getAddressStreet(),
+            'cep' => $company->getZipCode(),
+            'uf' => $company->getUf(),
+            'cidade' => $company->getCity(),
+            'documento' => $company->getCnpj(),
+        ]);
 
         $pagador = new Pessoa([
             'nome' => $bill->getCustomer()->getName(),
@@ -122,19 +129,5 @@ class Boleto
             );
         }
         return false;
-    }
-
-    private function getBeneficiario()
-    {
-        $company = new Company();
-
-        return new Pessoa([
-            'nome' => $company->getNomeFantasia(),
-            'endereco' => $company->getAddressStreet(),
-            'cep' => $company->getZipCode(),
-            'uf' => $company->getUf(),
-            'cidade' => $company->getCity(),
-            'documento' => $company->getCnpj(),
-        ]);
     }
 }
