@@ -29,11 +29,11 @@ class BillController extends BaseController
      */
     public function indexAction(Request $request)
     {
-        $bill = $this->getDoctrine()->getRepository(Bill::class)->findOneBy(['id' => 7]);
+        /*$bill = $this->getDoctrine()->getRepository(Bill::class)->findOneBy(['id' => 7]);
 
         $this->get('app.admin.bill_remessa')->save($bill);
 
-        exit;
+        exit;*/
 
         $pagination = $this->get('app.util.pagination')->handle($request, Bill::class);
 
@@ -81,7 +81,7 @@ class BillController extends BaseController
             $em->persist($bill);
             $em->flush();
 
-            $this->get('event_dispatcher')->dispatch(BillEvents::CREATE_COMPLETED, new GenericEvent($bill));
+            $this->get('event_dispatcher')->dispatch(BillEvents::CREATE_COMPLETED, new GenericEvent($bill->getBillRemessa()));
 
             $this->get('app.util.flash_bag')->newMessage(
                 FlashBagEvents::MESSAGE_TYPE_SUCCESS,
@@ -117,7 +117,8 @@ class BillController extends BaseController
         $pagination = $this->get('app.util.pagination')->handle($request, Bill::class);
 
         $form = $this->createForm(BillType::class, $bill, [
-            'validation_groups' => ['Default']
+            'validation_groups' => ['Default'],
+            'is_edit' => true
         ]);
 
         $this->addDefaultSubmitButtons($form);
@@ -126,26 +127,16 @@ class BillController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($bill->getBillRemessa()->getSent()) {
-
-                $this->get('app.util.flash_bag')->newMessage(
-                    FlashBagEvents::MESSAGE_TYPE_ERROR,
-                    'Não é possível alterar uma cobrança após o arquivo de remessa já ter sido enviado.'
-                );
-
-                return $this->redirectToRoute('admin_bill_edit', array_merge(
-                    ['id' => $bill->getId()],
-                    $pagination->getRouteParams()
-                ));
-            }
-
             $this->setBillStatus($bill);
-
-            $this->get('event_dispatcher')->dispatch(BillEvents::UPDATE_SUCCESS, new GenericEvent($bill));
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($bill);
             $em->flush();
+
+            $this->get('event_dispatcher')->dispatch(
+                BillEvents::UPDATE_COMPLETED, 
+                new GenericEvent($bill->getBillRemessa())
+            );
 
             $this->get('app.util.flash_bag')->newMessage(
                 FlashBagEvents::MESSAGE_TYPE_SUCCESS,
@@ -186,6 +177,14 @@ class BillController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($bill->getBillRemessa()->getSent()) {
+                $this->get('app.util.flash_bag')->newMessage(
+                    FlashBagEvents::MESSAGE_TYPE_ERROR,
+                    'Não é possível deletar uma cobrança em que o arquivo de remessa já foi enviado.'
+                );
+                return $this->redirectToRoute('admin_bill_index', $pagination->getRouteParams());
+            }
 
             $em = $this->getDoctrine()->getManager();
             $em->remove($bill);
@@ -230,15 +229,16 @@ class BillController extends BaseController
     }
 
     /**
-     * @Route("/{id}/boleto", requirements={"id" : "\d+"}, name="admin_bill_boleto")
+     * @Route("/{id}/boleto/", requirements={"id" : "\d+"}, name="admin_bill_boleto")
      * @param Request $request
      * @param Bill $bill
      * @return Response
      */
     public function getBoleto(Request $request, Bill $bill)
     {
+        $inline = $request->query->get('inline', false);
         $pagination = $this->get('app.util.pagination')->handle($request, Bill::class);
-        $response = $this->get('app.admin.bill_boleto')->download($bill);
+        $response = $this->get('app.admin.bill_boleto')->download($bill, $inline);
 
         if (!$response) {
 

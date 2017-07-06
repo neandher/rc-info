@@ -113,7 +113,7 @@ class Boleto
         //return $this->render('admin/boleto/_boleto.html.twig', $dadosBoleto);
     }
 
-    public function download(Bill $bill)
+    public function download(Bill $bill, $inline = false)
     {
         $file = $this->boletosPath . '/fatura_' . $bill->getId() . '.pdf';
 
@@ -123,8 +123,8 @@ class Boleto
                 200,
                 [
                     'Content-Type' => 'application/pdf',
-                    //'Content-Disposition' => 'attachment; filename="fatura_' . $bill->getId() . '.pdf"'
-                    'Content-Disposition' => 'inline; filename="fatura_' . $bill->getId() . '.pdf"'
+                    'Content-Disposition' => ($inline ? 'inline; ' : 'attachment;') 
+                        . ' filename="fatura_' . $bill->getId() . '.pdf"'
                 ]
             );
         }

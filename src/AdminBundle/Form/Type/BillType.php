@@ -19,19 +19,57 @@ class BillType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /** @var Bill $bill */
+        $bill = $builder->getData();
+
+        $remessaSent = false;
+
+        if ($options['is_edit']) {
+            $remessaSent = $bill->getBillRemessa()->getSent();
+        }
+
+        $arrayDueDateAt = [
+            'label' => 'admin.bill.fields.dueDateAt',
+        ];
+
+        $arrayAmount = [
+            'label' => 'admin.bill.fields.amount'
+        ];
+
+        $arrayCustomer = [];
+
+        if ($options['is_edit'] && $remessaSent) {
+
+            $arrayDueDateAt = array_merge($arrayDueDateAt, [
+                'attr' => [
+                    'class' => '',
+                    'readonly' => true
+                ]
+            ]);
+
+            $arrayAmount = array_merge($arrayAmount, [
+                'attr' => [
+                    'readonly' => true
+                ]
+            ]);
+
+            $arrayCustomer = array_merge($arrayAmount, [
+                'attr' => [
+                    'readonly' => true
+                ]
+            ]);
+        }
+
         $builder
             ->add('description', TextType::class, [
-                'label' => 'admin.bill.fields.description',
-                'required' => false
+                'label' => 'admin.bill.fields.description'
             ])
-            ->add('dueDateAt', DatePickerType::class, ['label' => 'admin.bill.fields.dueDateAt'])
+            ->add('dueDateAt', DatePickerType::class, $arrayDueDateAt)
             ->add('paymentDateAt', DatePickerType::class, [
                 'label' => 'admin.bill.fields.paymentDateAt',
                 'required' => false
             ])
-            ->add('amount', MoneyCustomType::class, [
-                'label' => 'admin.bill.fields.amount',
-            ])
+            ->add('amount', MoneyCustomType::class, $arrayAmount)
             ->add('amountPaid', MoneyCustomType::class, [
                 'label' => 'admin.bill.fields.amountPaid',
                 'required' => false
@@ -40,7 +78,7 @@ class BillType extends AbstractType
                 'label' => 'admin.bill.fields.note',
                 'required' => false
             ])
-            ->add('customerChoices', CustomerChoicesType::class);
+            ->add('customerChoices', CustomerChoicesType::class, $arrayCustomer);
     }
 
     /**
@@ -48,9 +86,10 @@ class BillType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => Bill::class
-        ));
+        $resolver->setDefaults([
+            'data_class' => Bill::class,
+            'is_edit' => false
+        ]);
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace AdminBundle\EventListener;
 
+use AdminBundle\Bill\Remessa;
 use AdminBundle\Entity\Bill;
 use AdminBundle\Entity\BillRemessa;
 use AdminBundle\Event\BillEvents;
@@ -15,14 +16,20 @@ class BillRemessaGenerate implements EventSubscriberInterface
      * @var EntityManagerInterface
      */
     private $em;
+    /**
+     * @var Remessa
+     */
+    private $remessa;
 
     /**
      * BillRemessaGenerate constructor.
      * @param EntityManagerInterface $em
+     * @param Remessa $remessa
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, Remessa $remessa)
     {
         $this->em = $em;
+        $this->remessa = $remessa;
     }
 
     /**
@@ -32,7 +39,8 @@ class BillRemessaGenerate implements EventSubscriberInterface
     {
         return [
             BillEvents::CREATE_SUCCESS => 'onCreateSuccess',
-            BillEvents::CREATE_COMPLETED => 'onCreateCompleted',
+            BillEvents::CREATE_COMPLETED => 'save',
+            BillEvents::UPDATE_COMPLETED => 'save',
         ];
     }
 
@@ -48,11 +56,15 @@ class BillRemessaGenerate implements EventSubscriberInterface
             ->addBill($bill);
     }
 
-    public function onCreateCompleted(GenericEvent $event)
+    public function save(GenericEvent $event)
     {
-        /** @var Bill $bill */
-        $bill = $event->getSubject();
+        /** @var BillRemessa $billRemessa */
+        $billRemessa = $event->getSubject();
 
-        //gerar o arquivo de remessa
+        if ($billRemessa->getSent()) {
+            return;
+        }
+
+        $this->remessa->save($billRemessa->getBills(), $billRemessa->getId());
     }
 }

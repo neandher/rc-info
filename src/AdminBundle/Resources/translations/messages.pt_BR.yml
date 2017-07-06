@@ -57,4 +57,15 @@ admin:
             amount: Valor
             amountPaid: Valor Pago
             note: Observações
-            createdAt: Data de Emissão
+            createdAt: Emissão
+            updatedAt: Atualização
+
+    billRemessa:
+        title: Remessa
+        not_found: Nenhuma remessa encontrada
+        fields:
+            description: Descrição
+            sent: Arquivo Enviado
+            sentAt: Arquivo Enviado Alterado Em
+            createdAt: Emissão
+            updatedAt: Atualização

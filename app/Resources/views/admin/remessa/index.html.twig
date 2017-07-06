@@ -1,0 +1,153 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block stylesheets %}
+    {% embed 'admin/_partials/_block_stylesheets.html.twig' %}{% endembed %}
+{% endblock %}
+
+{% block page_content %}
+
+    {% embed 'admin/_partials/_default_table_list.html.twig' %}
+
+        {% block icon_list %}
+            <i class="icon-wallet font-green-sharp bold"></i>
+        {% endblock %}
+
+        {% block caption_subject %}
+            {{ 'admin.billRemessa.title'|trans }} ({{ remessas.nbResults }} registros)
+        {% endblock %}
+
+        {% block actions %}
+            {#<a href="{{ path('admin_remessa_new') ~ pagination.buildQuery }}" class="btn green">
+                <i class="fa fa-plus"></i> {{ 'admin.remessa.new'|trans }}
+            </a>#}
+        {% endblock %}
+
+        {% block filters %}
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="busca" name="search"
+                       value="{% if app.request.query.has('search') %}{{ app.request.query.get('search') }}{% endif %}">
+            </div>
+
+            <div class="form-group">
+                <input type="number" class="form-control col-md-4"
+                       placeholder="{{ 'form.placeholder.num_items'|trans }}"
+                       name="num_items"
+                       value="{{ app.request.query.get('num_items', pagination.routeParams('num_items')) }}"
+                       min="5" max="500">
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-default form-control">
+                    <i class="fa fa-search"></i> {{ 'form.submit_actions.search'|trans }}
+                </button>
+            </div>
+
+            <div class="form-group">
+                <a href="{{ path('admin_bill_remessa_index') }}"
+                   class="btn btn-default form-control">
+                    <i class="fa fa-times"></i> {{ 'form.submit_actions.reset'|trans }}
+                </a>
+            </div>
+        {% endblock %}
+
+        {% block table_tr_th %}
+            <tr>
+                <th>ID</th>
+                <th>
+                    <a href="{{ path('admin_bill_remessa_index') ~ pagination.buildQuery('sorting')  ~ pagination.sortingFieldQuery('description') }}">
+                        {{ 'admin.billRemessa.fields.description'|trans }}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path('admin_bill_remessa_index') ~ pagination.buildQuery('sorting')  ~ pagination.sortingFieldQuery('sent') }}">
+                        {{ 'admin.billRemessa.fields.sent'|trans }}
+                    </a></th>
+                <th>
+                    <a href="{{ path('admin_bill_remessa_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('createdAt') }}">
+                        {{ 'admin.billRemessa.fields.createdAt'|trans }}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path('admin_bill_remessa_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('updatedAt') }}">
+                        {{ 'admin.billRemessa.fields.updatedAt'|trans }}
+                    </a>
+                </th>
+                <th>Ações</th>
+            </tr>
+        {% endblock %}
+
+        {% block table_tr_td %}
+            {% for remessa in remessas %}
+                <tr>
+                    <td>{{ remessa.id }}</td>
+                    <td>{{ remessa.description }}</td>
+                    <td>
+                        {% if remessa.sent %}
+                            <a href="{{ path('admin_bill_remessa_sent', {id: remessa.id}) ~ pagination.buildQuery ~ '&sent=0' }}"
+                               class="label label-sm label-success" title="Atualizar para arquivo não enviado.">
+                                <i class="fa fa-check"></i>
+                                {% if remessa.sentAt %} Atualizado em: {{ remessa.sentAt|date('d/m/y H:i') }}{% endif %}
+                            </a>
+                        {% else %}
+                            <a href="{{ path('admin_bill_remessa_sent', {id: remessa.id}) ~ pagination.buildQuery ~ '&sent=1' }}"
+                               class="label label-sm label-danger" title="Atualizar para arquivo enviado.">
+                                <i class="fa fa-remove"></i>
+                                {% if remessa.sentAt %} Atualizado em: {{ remessa.sentAt|date('d/m/Y H:i') }}{% endif %}
+                            </a>
+                        {% endif %}
+                    </td>
+                    <td>{{ remessa.createdAt|date('d/m/Y H:i') }}</td>
+                    <td>{{ remessa.updatedAt|date('d/m/Y H:i') }}</td>
+                    <td>
+                        {% embed 'admin/_partials/_actions_btn_group.html.twig' %}
+                            {% block buttons %}
+                                <a href="#" title="Editar" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                                <button type="button" class="btn btn-default btn-sm dropdown-toggle"
+                                        data-toggle="dropdown" data-close-others="true">
+                                    <i class="fa fa-angle-down"></i>
+                                </button>
+                            {% endblock %}
+                            {% block li_actions %}
+                                <li>
+                                    <a href="{{ path('admin_bill_remessa_download', {id: remessa.id}) ~ pagination.buildQuery }}">
+                                        <i class="fa fa-download"></i> Baixar Arquivo
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" data-toggle="modal"
+                                       data-target="#modalConfirmation"
+                                       data-path="{{ path('admin_bill_remessa_delete', {id: remessa.id}) ~ pagination.buildQuery }}"
+                                       data-crf="{{ form_widget(delete_forms[remessa.id]._token)|escape }}"
+                                    >
+                                        <i class="fa fa-trash"></i> Deletar
+                                    </a>
+                                </li>
+                            {% endblock %}
+                        {% endembed %}
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endblock %}
+
+        {% block list_info %}
+            Exibindo {{ remessas.currentPageOffsetStart }} a
+            {{ remessas.currentPageOffsetEnd }} de
+            {{ remessas.nbResults }} registros
+        {% endblock %}
+
+        {% block list_pagination %}
+            {{ pagerfanta(remessas, 'twitter_bootstrap3',{
+                routeName: 'admin_bill_remessa_index',
+                routeParams: app.request.query.all
+            }) }}
+        {% endblock %}
+
+    {% endembed %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {% embed 'admin/_partials/_block_javascripts.html.twig' %}{% endembed %}
+{% endblock %}

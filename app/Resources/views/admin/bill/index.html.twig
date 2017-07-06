@@ -116,6 +116,11 @@
                         {{ 'admin.bill.fields.createdAt'|trans }}
                     </a>
                 </th>
+                <th>
+                    <a href="{{ path('admin_bill_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('updatedAt') }}">
+                        {{ 'admin.bill.fields.updatedAt'|trans }}
+                    </a>
+                </th>
                 <th>Ações</th>
             </tr>
         {% endblock %}
@@ -146,7 +151,8 @@
                             </span>
                         {% endif %}
                     </td>
-                    <td>{{ bill.createdAt|date }}</td>
+                    <td>{{ bill.createdAt|date('d/m/Y H:i') }}</td>
+                    <td>{{ bill.updatedAt|date('d/m/Y H:i') }}</td>
                     <td>
                         {% embed 'admin/_partials/_actions_btn_group.html.twig' %}
                             {% block buttons %}
@@ -160,6 +166,11 @@
                                 </button>
                             {% endblock %}
                             {% block li_actions %}
+                                <li>
+                                    <a href="{{ path('admin_bill_boleto', {id: bill.id}) ~ '?inline=1' }}" target="_blank">
+                                        <i class="fa fa-search"></i> Visualizar Boleto
+                                    </a>
+                                </li>
                                 <li>
                                     <a href="{{ path('admin_bill_boleto', {id: bill.id}) }}">
                                         <i class="fa fa-download"></i> Baixar Boleto

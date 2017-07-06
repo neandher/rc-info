@@ -65,7 +65,8 @@
                 </ul>
             </li>
             <li class="nav-item
-            {% if 'admin_bill' in app.request.attributes.get('_route') %}active{% endif %}">
+            {% if 'admin_bill' in app.request.attributes.get('_route') and
+            app.request.attributes.get('_route') != 'admin_bill_remessa_index'%}active{% endif %}">
                 <a href="{{ path('admin_bill_index') }}" class="nav-link">
                     <i class="icon-wallet"></i>
                     <span class="title">{{ 'admin.bill.title'|trans }}</span>
@@ -76,16 +77,16 @@
                     {% if 'admin_bill' in app.request.attributes.get('_route') %}open{% endif %}"></span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="icon-book-open"></i>
-                    <span class="title">Boletos</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
+            <li class="nav-item
+            {% if 'admin_bill_remessa' in app.request.attributes.get('_route') %}active{% endif %}">
+                <a href="{{ path('admin_bill_remessa_index') }}" class="nav-link">
                     <i class="icon-docs"></i>
-                    <span class="title">Remessa</span>
+                    <span class="title">{{ 'admin.billRemessa.title'|trans }}</span>
+                    {% if 'admin_bill_remessa' in app.request.attributes.get('_route') %}
+                        <span class="selected"></span>
+                    {% endif %}
+                    <span class="arrow
+                    {% if 'admin_bill_remessa' in app.request.attributes.get('_route') %}open{% endif %}"></span>
                 </a>
             </li>
             <li class="nav-item">

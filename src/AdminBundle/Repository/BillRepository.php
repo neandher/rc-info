@@ -47,6 +47,12 @@ class BillRepository extends BaseRepository
             $qb->andWhere('bill.dueDateAt <= :date_end')->setParameter('date_end', $date_end);
         }
 
+        if (!empty($routeParams['sent'])) {
+            $qb->innerJoin('bill.billRemessa', 'remessa')
+                ->addSelect('remessa')
+                ->andWhere('remessa.sent = 1');
+        }
+
         if (!isset($routeParams['sorting'])) {
             $qb->orderBy('bill.id', 'desc');
         } else {

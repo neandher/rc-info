@@ -3,7 +3,7 @@
 namespace AdminBundle\EventListener;
 
 use AdminBundle\Bill\Boleto;
-use AdminBundle\Entity\Bill;
+use AdminBundle\Entity\BillRemessa;
 use AdminBundle\Event\BillEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -31,14 +31,21 @@ class BillBoletoGenerate implements EventSubscriberInterface
     {
         return [
             BillEvents::CREATE_COMPLETED => 'generate',
+            BillEvents::UPDATE_COMPLETED => 'generate',
         ];
     }
 
     public function generate(GenericEvent $event)
     {
-        /** @var Bill $bill */
-        $bill = $event->getSubject();
+        /** @var BillRemessa $billRemessa */
+        $billRemessa = $event->getSubject();
 
-        $this->boleto->renderPdf($bill, true);
+        if ($billRemessa->getSent()) {
+            return;
+        }
+
+        foreach ($billRemessa->getBills() as $bill) {
+            $this->boleto->renderPdf($bill, true);
+        }
     }
 }

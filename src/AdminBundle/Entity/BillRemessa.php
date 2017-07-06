@@ -5,9 +5,10 @@ namespace AdminBundle\Entity;
 use AppBundle\Resource\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity(repositoryClass="")
+ * @ORM\Entity(repositoryClass="AdminBundle\Repository\BillRemessaRepository")
  * @ORM\Table(name="bill_remessa")
  */
 class BillRemessa
@@ -30,6 +31,13 @@ class BillRemessa
      * @ORM\Column(type="boolean")
      */
     private $sent;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="change", field={"sent"})
+     */
+    private $sentAt;
 
     /**
      * @var Bill
@@ -106,9 +114,27 @@ class BillRemessa
     }
 
     /**
+     * @return \DateTime
+     */
+    public function getSentAt()
+    {
+        return $this->sentAt;
+    }
+
+    /**
+     * @param \DateTime $sentAt
+     * @return BillRemessa
+     */
+    public function setSentAt($sentAt)
+    {
+        $this->sentAt = $sentAt;
+        return $this;
+    }
+
+    /**
      * @return ArrayCollection|Bill
      */
-    public function getBill()
+    public function getBills()
     {
         return $this->bill;
     }

@@ -26,6 +26,7 @@ class FaturasController extends Controller
     {
         $request->query->add(['sorting' => ['dueDateAt' => 'desc']]);
         $request->query->add(['num_items' => 6]);
+        $request->query->add(['sent' => true]);
 
         $pagination = $this->get('app.util.pagination')->handle($request, Bill::class);;
 
