@@ -28,48 +28,17 @@ class BillType extends AbstractType
             $remessaSent = $bill->getBillRemessa()->getSent();
         }
 
-        $arrayDueDateAt = [
-            'label' => 'admin.bill.fields.dueDateAt',
-        ];
-
-        $arrayAmount = [
-            'label' => 'admin.bill.fields.amount'
-        ];
-
-        $arrayCustomer = [];
-
-        if ($options['is_edit'] && $remessaSent) {
-
-            $arrayDueDateAt = array_merge($arrayDueDateAt, [
-                'attr' => [
-                    'class' => '',
-                    'readonly' => true
-                ]
-            ]);
-
-            $arrayAmount = array_merge($arrayAmount, [
-                'attr' => [
-                    'readonly' => true
-                ]
-            ]);
-
-            $arrayCustomer = array_merge($arrayAmount, [
-                'attr' => [
-                    'readonly' => true
-                ]
-            ]);
-        }
-
         $builder
             ->add('description', TextType::class, [
-                'label' => 'admin.bill.fields.description'
+                'label' => 'admin.bill.fields.description',
+                'required' => false
             ])
-            ->add('dueDateAt', DatePickerType::class, $arrayDueDateAt)
+            ->add('dueDateAt', DatePickerType::class, ['label' => 'admin.bill.fields.dueDateAt'])
             ->add('paymentDateAt', DatePickerType::class, [
                 'label' => 'admin.bill.fields.paymentDateAt',
                 'required' => false
             ])
-            ->add('amount', MoneyCustomType::class, $arrayAmount)
+            ->add('amount', MoneyCustomType::class, ['label' => 'admin.bill.fields.amount'])
             ->add('amountPaid', MoneyCustomType::class, [
                 'label' => 'admin.bill.fields.amountPaid',
                 'required' => false
@@ -78,7 +47,13 @@ class BillType extends AbstractType
                 'label' => 'admin.bill.fields.note',
                 'required' => false
             ])
-            ->add('customerChoices', CustomerChoicesType::class, $arrayCustomer);
+            ->add('customerChoices', CustomerChoicesType::class);
+
+        if ($remessaSent) {
+            $builder->remove('dueDateAt')
+                ->remove('amount')
+                ->remove('customerChoices');
+        }
     }
 
     /**

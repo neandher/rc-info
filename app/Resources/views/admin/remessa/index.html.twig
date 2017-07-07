@@ -67,11 +67,6 @@
                         {{ 'admin.billRemessa.fields.createdAt'|trans }}
                     </a>
                 </th>
-                <th>
-                    <a href="{{ path('admin_bill_remessa_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('updatedAt') }}">
-                        {{ 'admin.billRemessa.fields.updatedAt'|trans }}
-                    </a>
-                </th>
                 <th>Ações</th>
             </tr>
         {% endblock %}
@@ -97,7 +92,6 @@
                         {% endif %}
                     </td>
                     <td>{{ remessa.createdAt|date('d/m/Y H:i') }}</td>
-                    <td>{{ remessa.updatedAt|date('d/m/Y H:i') }}</td>
                     <td>
                         {% embed 'admin/_partials/_actions_btn_group.html.twig' %}
                             {% block buttons %}
