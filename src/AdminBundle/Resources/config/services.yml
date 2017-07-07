@@ -44,11 +44,11 @@ services:
 
     app.admin.bill_boleto:
         class: AdminBundle\Bill\Boleto
-        arguments: ['%boletos_path%']
+        arguments: ['%boletos_path%', '@doctrine.orm.default_entity_manager']
 
     app.admin.bill_remessa:
         class: AdminBundle\Bill\Remessa
-        arguments: ['%boletos_remessa%']
+        arguments: ['%boletos_remessa%', '@doctrine.orm.default_entity_manager']
 
     app.admin.bill_boleto.generate:
         class: AdminBundle\EventListener\BillBoletoGenerate

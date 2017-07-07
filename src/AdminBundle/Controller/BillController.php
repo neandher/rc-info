@@ -4,6 +4,7 @@ namespace AdminBundle\Controller;
 
 use AdminBundle\Entity\Bill;
 use AdminBundle\Entity\BillStatus;
+use AdminBundle\Entity\Company;
 use AdminBundle\Event\BillEvents;
 use AdminBundle\Form\Type\BillType;
 use AppBundle\Event\FlashBagEvents;
@@ -32,6 +33,18 @@ class BillController extends BaseController
         /*$bill = $this->getDoctrine()->getRepository(Bill::class)->findOneBy(['id' => 7]);
 
         $this->get('app.admin.bill_remessa')->save($bill);
+
+        exit;*/
+
+        /*$companys = $this->getDoctrine()->getRepository(Company::class)->findAll();
+
+        if (!count($companys) > 0) {
+            return;
+        }
+
+        $company = $companys[0];
+
+        var_dump(number_format($company->getJuros(), 2, ',', '.'));
 
         exit;*/
 

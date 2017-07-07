@@ -51,6 +51,8 @@ class CustomerRepository extends BaseRepository
     public function queryLatestForm()
     {
         return $this->createQueryBuilder('customer')
+            ->leftJoin('customer.siteUser', 'siteUser')
+            ->addSelect('siteUser')
             ->orderBy('customer.name', 'ASC');
     }
 }

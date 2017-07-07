@@ -10,6 +10,7 @@ use Cnab\Banco;
 use Cnab\Especie;
 use Cnab\Remessa\Cnab240\Arquivo;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\PersistentCollection;
 use Eduardokum\LaravelBoleto\Boleto\Banco\Caixa;
 use Eduardokum\LaravelBoleto\Boleto\Render\Html;
@@ -20,14 +21,20 @@ use Symfony\Component\HttpFoundation\Response;
 class Remessa
 {
     private $remessasPath;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
 
     /**
      * Boleto constructor.
      * @param $remessasPath
+     * @param EntityManagerInterface $em
      */
-    public function __construct($remessasPath)
+    public function __construct($remessasPath, EntityManagerInterface $em)
     {
         $this->remessasPath = $remessasPath;
+        $this->em = $em;
     }
 
     /**
@@ -36,7 +43,13 @@ class Remessa
      */
     public function save($bills, $remessaId)
     {
-        $company = new Company();
+        $companys = $this->em->getRepository(Company::class)->findAll();
+
+        if (!count($companys) > 0) {
+            return;
+        }
+
+        $company = $companys[0];
 
         $arquivo = new \CnabPHP\Remessa(104, 'cnab240_SIGCB', [
             'nome_empresa' => $company->getRazaoSocial(), // seu nome de empresa
@@ -46,7 +59,7 @@ class Remessa
             'agencia_dv' => $company->getAgenciaDigito(), // somente o digito verificador da agencia
             'conta' => $company->getConta(), // número da conta
             'conta_dv' => $company->getContaDigito(), // digito da conta
-            'codigo_beneficiario' => $company->getBoletoCodigoCliente(), // codigo fornecido pelo banco
+            'codigo_beneficiario' => $company->getCodigoCliente(), // codigo fornecido pelo banco
             'numero_sequencial_arquivo' => $remessaId, // sequencial do arquivo um numero novo para cada arquivo gerado
         ]);
 
@@ -61,11 +74,11 @@ class Remessa
                 'nosso_numero' => $bill->getId(), // numero sequencial de boleto
                 //'seu_numero' => 43,// se nao informado usarei o nosso numero
 
-                'especie_titulo' => "DM", // informar dm e sera convertido para codigo em qualquer laytou conferir em especie.php
+                'especie_titulo' => $company->getEspecieDoc(), // informar dm e sera convertido para codigo em qualquer laytou conferir em especie.php
                 'valor' => $bill->getAmount(), // Valor do boleto como float valido em php
                 'emissao_boleto' => 2, // tipo de emissao do boleto informar 2 para emissao pelo beneficiario e 1 para emissao pelo banco
-                'protestar' => 3, // 1 = Protestar com (Prazo) dias, 3 = Devolver ap�s (Prazo) dias
-                'prazo_protesto' => 5, // Informar o numero de dias apos o vencimento para iniciar o protesto
+                'protestar' => $company->getCodigoProtesto(), // 1 = Protestar com (Prazo) dias, 3 = Devolver ap�s (Prazo) dias
+                'prazo_protesto' => $company->getPrazoProtesto(), // Informar o numero de dias apos o vencimento para iniciar o protesto
                 'nome_pagador' => $bill->getCustomer()->getName(), // O Pagador � o cliente, preste atenção nos campos abaixo
                 'tipo_inscricao' => 2, //campo fixo, escreva '1' se for pessoa fisica, 2 se for pessoa juridica
                 'numero_inscricao' => $bill->getCustomer()->getCnpj(),//cpf ou ncpj do pagador
@@ -76,15 +89,15 @@ class Remessa
                 'uf_pagador' => $bill->getCustomer()->getMainAddress()->getUf()->getSigla(),
                 'data_vencimento' => $bill->getDueDateAt()->format('Y-m-d'), // informar a data neste formato
                 'data_emissao' => $bill->getCreatedAt()->format('Y-m-d'), // informar a data neste formato
-                'vlr_juros' => 0.81, // Valor do juros de 1 dia'
+                'vlr_juros' => $company->getJuros(), // Valor do juros de 1 dia'
                 'data_desconto' => $bill->getDueDateAt()->format('Y-m-d'), // informar a data neste formato
                 'vlr_desconto' => '0', // Valor do desconto
-                'baixar' => 1, // codigo para indicar o tipo de baixa '1' (Baixar/ Devolver) ou '2' (N�o Baixar / N�o Devolver)
-                'prazo_baixa' => 120, // prazo de dias para o cliente pagar ap�s o vencimento
-                'mensagem' => 'JUROS de R$0,81 ao dia' . PHP_EOL . "Não receber apos 120 dias",
+                'baixar' => $company->getCodigoBaixaDevolucao(), // codigo para indicar o tipo de baixa '1' (Baixar/ Devolver) ou '2' (N�o Baixar / N�o Devolver)
+                'prazo_baixa' => $company->getPrazoBaixaDevolucao(), // prazo de dias para o cliente pagar ap�s o vencimento
+                'mensagem' => 'JUROS de R$' . number_format($company->getJuros(), 2, '.', '') . ' ao dia' . PHP_EOL . "Não receber apos " . $company->getPrazoAposVencimento() . " dias",
                 'email_pagador' => $bill->getCustomer()->getEmail(), // data da multa
                 'data_multa' => $bill->getDueDateAt()->add(new \DateInterval('P1D'))->format('Y-m-d'), // informar a data neste formato, // data da multa
-                'vlr_multa' => 4.94, // valor da multa
+                'vlr_multa' => $company->getMulta(), // valor da multa
             ]);
         }
 

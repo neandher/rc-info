@@ -1,0 +1,164 @@
+<?php
+
+namespace AdminBundle\Entity;
+
+use AppBundle\Resource\Model\AddressTrait;
+use AppBundle\Resource\Model\TimestampableTrait;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="company")
+ */
+class Company
+{
+    /*private $nomeFantasia = 'R C INFORMATICA';
+    private $razaoSocial = 'VIRGILANY PERDIGAO ME';
+    private $addressStreet = 'AV COR PEDRO MAIA DE CARVALHO';
+    private $addressNumber = '425';
+    private $zipCode = '29.102-570';
+    private $city = 'Vila Velha';
+    private $district;
+    private $uf = 'ES';
+    private $cnpj = '04.445.096/0001-52';
+    private $agencia = '3132';
+    private $agenciaDigito = '1';
+    private $conta = '845';
+    private $contaDigito = '2';
+    private $codigoBanco = '104';
+    private $carteira = 'RG';
+    private $codigoCliente = '808414-9';
+    private $aceite = 'S';
+    private $especieDoc = 'DM';
+    private $juros = '0,81';
+    private $multa = '4,94';
+    private $prazoAposVencimento = 120;
+    private $codigoProtesto = 1; // 1 = Protestar com (Prazo) dias, 3 = Devolver apos (Prazo) dias
+    private $prazoProtesto = 5; // Informar o numero de dias apos o vencimento para iniciar o protesto
+    private $codigoBaixaDevolucao = 1; // codigo para indicar o tipo de baixa '1' (Baixar/ Devolver) ou '2' (Nao Baixar / Nao Devolver)
+    private $prazoBaixaDevolucao = 120; // prazo de dias para o cliente pagar apos o vencimento*/
+
+    use AddressTrait, TimestampableTrait;
+
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $nomeFantasia;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $razaoSocial;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $cnpj;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $agencia;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $agenciaDigito;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $conta;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $contaDigito;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $codigoBanco;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $carteira;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $codigoCliente;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $aceite;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $especieDoc;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $juros;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $multa;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $prazoAposVencimento;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $codigoProtesto;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $prazoProtesto;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $codigoBaixaDevolucao;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $prazoBaixaDevolucao;
+}

@@ -69,3 +69,36 @@ admin:
             sentAt: Arquivo Enviado Alterado Em
             createdAt: Emissão
             updatedAt: Atualização
+
+    company:
+        title: Empresa
+        new: Nova Empresa
+        edit: Editar Empresa
+        fields:
+            nomeFantasia: Nome Fantasia
+            razaoSocial: Razão Social
+            cnpj: Cnpj
+            agencia: Agência
+            agenciaDigito: Agência Dígito
+            conta: Conta
+            contaDigito: Conta Dígito
+            codigoBanco: Código do Banco
+            carteira: Carteira
+            codigoCliente: Código Cliente
+            aceite: Aceite
+            especieDoc: Espécie Doc
+            juros: Juros ao Dia
+            multa: Multa
+            prazoAposVencimento: Prazo pós Vencimento
+            codigoProtesto: Código Protesto
+            prazoProtesto: Prazo Protesto
+            codigoBaixaDevolucao: Código Baixa/Devolução
+            prazoBaixaDevolucao: Prazo Baixa/Devolução
+            street: Rua
+            district: Bairro
+            city: Cidade
+            zipCode: Cep
+            uf: Estado
+            complement: Complemento
+            createdAt: Criado Em
+            updatedAt: Atualizado Em
