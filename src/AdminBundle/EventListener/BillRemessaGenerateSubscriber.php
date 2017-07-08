@@ -6,16 +6,11 @@ use AdminBundle\Bill\Remessa;
 use AdminBundle\Entity\Bill;
 use AdminBundle\Entity\BillRemessa;
 use AdminBundle\Event\BillEvents;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class BillRemessaGenerate implements EventSubscriberInterface
+class BillRemessaGenerateSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
     /**
      * @var Remessa
      */
@@ -23,12 +18,10 @@ class BillRemessaGenerate implements EventSubscriberInterface
 
     /**
      * BillRemessaGenerate constructor.
-     * @param EntityManagerInterface $em
      * @param Remessa $remessa
      */
-    public function __construct(EntityManagerInterface $em, Remessa $remessa)
+    public function __construct(Remessa $remessa)
     {
-        $this->em = $em;
         $this->remessa = $remessa;
     }
 
@@ -39,8 +32,8 @@ class BillRemessaGenerate implements EventSubscriberInterface
     {
         return [
             BillEvents::CREATE_SUCCESS => 'onCreateSuccess',
-            BillEvents::CREATE_COMPLETED => 'save',
-            BillEvents::UPDATE_COMPLETED => 'save',
+            BillEvents::CREATE_COMPLETED => 'generate',
+            BillEvents::UPDATE_COMPLETED => 'generate',
         ];
     }
 
@@ -56,7 +49,7 @@ class BillRemessaGenerate implements EventSubscriberInterface
             ->addBill($bill);
     }
 
-    public function save(GenericEvent $event)
+    public function generate(GenericEvent $event)
     {
         /** @var BillRemessa $billRemessa */
         $billRemessa = $event->getSubject();
@@ -64,7 +57,13 @@ class BillRemessaGenerate implements EventSubscriberInterface
         if ($billRemessa->getSent()) {
             return;
         }
+        
+        $company = $event->getArgument('company');
+        
+        if(!$company){
+            return;
+        }
 
-        $this->remessa->save($billRemessa->getBills(), $billRemessa->getId());
+        $this->remessa->renderRem($billRemessa, $company);
     }
 }

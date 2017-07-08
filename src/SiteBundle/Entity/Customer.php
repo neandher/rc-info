@@ -68,6 +68,24 @@ class Customer
     private $phoneNumber;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(type="smallint")
+     * @Assert\NotBlank()
+     * @Assert\LessThan(value="31")
+     */
+    private $billPayDay;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="decimal", scale=2)
+     * @Assert\NotBlank()
+     * @Assert\LessThan(value="99999999.99")
+     */
+    private $billAmount;
+
+    /**
      * @var SiteUser
      *
      * @ORM\OneToOne(targetEntity="SiteBundle\Entity\SiteUser", mappedBy="customer", cascade={"all"})
@@ -313,6 +331,42 @@ class Customer
                     ->addViolation();
             }
         }
+    }
+
+    /**
+     * @return int
+     */
+    public function getBillPayDay()
+    {
+        return $this->billPayDay;
+    }
+
+    /**
+     * @param int $billPayDay
+     * @return Customer
+     */
+    public function setBillPayDay($billPayDay)
+    {
+        $this->billPayDay = $billPayDay;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBillAmount()
+    {
+        return $this->billAmount;
+    }
+
+    /**
+     * @param string $billAmount
+     * @return Customer
+     */
+    public function setBillAmount($billAmount)
+    {
+        $this->billAmount = $billAmount;
+        return $this;
     }
 }
 

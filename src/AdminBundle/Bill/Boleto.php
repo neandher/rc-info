@@ -5,7 +5,6 @@ namespace AdminBundle\Bill;
 use AdminBundle\Entity\Bill;
 use AdminBundle\Entity\Company;
 use Carbon\Carbon;
-use Doctrine\ORM\EntityManagerInterface;
 use Eduardokum\LaravelBoleto\Boleto\Banco\Caixa;
 use Eduardokum\LaravelBoleto\Boleto\Render\Html;
 use Eduardokum\LaravelBoleto\Boleto\Render\Pdf;
@@ -14,33 +13,22 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Boleto
 {
-    private $boletosPath;
     /**
-     * @var EntityManagerInterface
+     * @var string
      */
-    private $em;
+    private $boletosPath;
 
     /**
      * Boleto constructor.
      * @param $boletosPath
-     * @param EntityManagerInterface $em
      */
-    public function __construct($boletosPath, EntityManagerInterface $em)
+    public function __construct($boletosPath)
     {
         $this->boletosPath = $boletosPath;
-        $this->em = $em;
     }
 
-    public function renderPdf(Bill $bill, $save = false, $download = false)
+    public function renderPdf(Bill $bill, Company $company, $save = false, $download = false)
     {
-        $companys = $this->em->getRepository(Company::class)->findAll();
-
-        if (!count($companys) > 0) {
-            return;
-        }
-
-        $company = $companys[0];
-
         $beneficiario = new Pessoa([
             'nome' => $company->getNomeFantasia(),
             'endereco' => $company->getStreet(),
@@ -108,7 +96,7 @@ class Boleto
         if ($save) {
             $pdf->gerarBoleto(
                 $pdf::OUTPUT_SAVE,
-                $this->boletosPath . '/fatura_' . $bill->getId() . '.pdf'
+                $this->boletosPath . '/' . $this->getBoletoFileName($bill)
             );
         } else {
             $pdf_inline = $pdf->gerarBoleto($pdf::OUTPUT_STRING);
@@ -118,7 +106,7 @@ class Boleto
                 [
                     'Content-Type' => 'application/pdf',
                     'Content-Disposition' => ($download ? 'attachment; ' : '')
-                        . 'inline; filename="fatura_' . $bill->getId() . '.pdf"'
+                        . 'inline; filename="' . $this->getBoletoFileName($bill) . '"'
                 ]
             );
         }
@@ -128,7 +116,7 @@ class Boleto
 
     public function download(Bill $bill, $inline = false)
     {
-        $file = $this->boletosPath . '/fatura_' . $bill->getId() . '.pdf';
+        $file = $this->boletosPath . '/' . $this->getBoletoFileName($bill);
 
         if (file_exists($file)) {
             return new Response(
@@ -137,10 +125,15 @@ class Boleto
                 [
                     'Content-Type' => 'application/pdf',
                     'Content-Disposition' => ($inline ? 'inline; ' : 'attachment;')
-                        . ' filename="fatura_' . $bill->getId() . '.pdf"'
+                        . ' filename="' . $this->getBoletoFileName($bill) . '"'
                 ]
             );
         }
         return false;
+    }
+
+    public function getBoletoFileName(Bill $bill)
+    {
+        return 'fatura_' . $bill->getId() . '.pdf';
     }
 }

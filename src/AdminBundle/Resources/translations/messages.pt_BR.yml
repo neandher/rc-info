@@ -12,6 +12,8 @@ admin:
             cnpj: CNPJ
             password: Senha
             phone_number: Telefone
+            billPayDay: Dia de Vencimento
+            billAmount: Valor Mensal
             last_login: Último Login
             created_at: Data Criação
         impersonate: Cliente %name% logado com sucesso
@@ -48,6 +50,7 @@ admin:
     bill:
         title: Cobranças
         new: Nova Cobrança
+        monthly_invoice: Gerar Fatura Mensal
         edit: Editar Cobrança
         not_found: Nenhuma cobrança encontrada
         fields:

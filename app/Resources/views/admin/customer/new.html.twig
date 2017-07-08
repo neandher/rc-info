@@ -24,6 +24,9 @@
                 <a href="#geral" aria-controls="geral" role="tab" data-toggle="tab">Geral</a>
             </li>
             <li role="presentation">
+                <a href="#bill" aria-controls="bill" role="tab" data-toggle="tab">Cobrança</a>
+            </li>
+            <li role="presentation">
                 <a href="#addresses" aria-controls="addresses" role="tab" data-toggle="tab">Endereço</a>
             </li>
         {% endblock %}
@@ -54,6 +57,13 @@
                             'checked': true
                         }}) }}
                     </div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="bill">
+                <div class="row">
+                    <div class="col-md-6">{{ form_row(form.billPayDay) }}</div>
+                    <div class="col-md-6">{{ form_row(form.billAmount) }}</div>
                 </div>
             </div>
 

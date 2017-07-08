@@ -55,4 +55,16 @@ class CustomerRepository extends BaseRepository
             ->addSelect('siteUser')
             ->orderBy('customer.name', 'ASC');
     }
+
+    public function findAllCustom()
+    {
+        return $this->createQueryBuilder('c')
+            ->innerJoin('c.siteUser', 'site_user')
+            ->addSelect('site_user')
+            ->innerJoin('c.customerAddresses', 'customer_addresses')
+            ->addSelect('customer_addresses')
+            ->innerJoin('customer_addresses.uf', 'uf')
+            ->addSelect('uf')
+            ->orderBy('c.name', 'asc')->getQuery()->getResult();
+    }
 }

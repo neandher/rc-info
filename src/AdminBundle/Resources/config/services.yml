@@ -44,20 +44,24 @@ services:
 
     app.admin.bill_boleto:
         class: AdminBundle\Bill\Boleto
-        arguments: ['%boletos_path%', '@doctrine.orm.default_entity_manager']
+        arguments: ['%boletos_path%']
 
     app.admin.bill_remessa:
         class: AdminBundle\Bill\Remessa
-        arguments: ['%boletos_remessa%', '@doctrine.orm.default_entity_manager']
+        arguments: ['%boletos_remessa%']
 
     app.admin.bill_boleto.generate:
-        class: AdminBundle\EventListener\BillBoletoGenerate
+        class: AdminBundle\EventListener\BillBoletoGenerateSubscriber
         arguments: ['@app.admin.bill_boleto']
         tags:
             - { name: kernel.event_subscriber }
 
     app.admin.bill_remessa.generate:
-        class: AdminBundle\EventListener\BillRemessaGenerate
-        arguments: ['@doctrine.orm.default_entity_manager', '@app.admin.bill_remessa']
+        class: AdminBundle\EventListener\BillRemessaGenerateSubscriber
+        arguments: ['@app.admin.bill_remessa']
         tags:
             - { name: kernel.event_subscriber }
+
+    app.admin.company_find:
+        class: AdminBundle\Company\FindCompany
+        arguments: ['@doctrine.orm.default_entity_manager']

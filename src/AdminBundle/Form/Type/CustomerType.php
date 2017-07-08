@@ -5,6 +5,7 @@ namespace AdminBundle\Form\Type;
 use SiteBundle\Entity\Customer;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use UserBundle\Form\Type\PlainPasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,6 +29,12 @@ class CustomerType extends PlainPasswordType
                 'label' => 'admin.customers.fields.phone_number',
                 'required' => false,
                 'attr' => ['class' => 'mask_phone']
+            ])
+            ->add('billPayDay', IntegerType::class, [
+                'label' => 'admin.customers.fields.billPayDay',
+            ])
+            ->add('billAmount', MoneyCustomType::class, [
+                'label' => 'admin.customers.fields.billAmount',
             ])
             ->add('siteUser', SiteUserType::class, ['label' => false])
             ->add('customerAddresses', CollectionType::class, [

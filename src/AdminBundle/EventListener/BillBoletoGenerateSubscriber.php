@@ -8,7 +8,7 @@ use AdminBundle\Event\BillEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class BillBoletoGenerate implements EventSubscriberInterface
+class BillBoletoGenerateSubscriber implements EventSubscriberInterface
 {
     /**
      * @var Boleto
@@ -44,8 +44,14 @@ class BillBoletoGenerate implements EventSubscriberInterface
             return;
         }
 
+        $company = $event->getArgument('company');
+
+        if (!$company) {
+            return;
+        }
+
         foreach ($billRemessa->getBills() as $bill) {
-            $this->boleto->renderPdf($bill, true);
+            $this->boleto->renderPdf($bill, $company, true);
         }
     }
 }

@@ -3,13 +3,16 @@
 namespace AdminBundle\Controller;
 
 use AdminBundle\Entity\Bill;
+use AdminBundle\Entity\BillRemessa;
 use AdminBundle\Entity\BillStatus;
 use AdminBundle\Entity\Company;
 use AdminBundle\Event\BillEvents;
+use AdminBundle\Form\Type\BillMonthlyInvoiceType;
 use AdminBundle\Form\Type\BillType;
 use AppBundle\Event\FlashBagEvents;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SiteBundle\Entity\Customer;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,11 +62,14 @@ class BillController extends BaseController
 
         $billstatus = $this->getDoctrine()->getRepository(BillStatus::class)->findAll();
 
+        $billMonthlyInvoiceForm = $this->createForm(BillMonthlyInvoiceType::class);
+
         return $this->render('admin/bill/index.html.twig', [
             'bills' => $bills,
             'bill_status' => $billstatus,
             'pagination' => $pagination,
-            'delete_forms' => $deleteForms
+            'delete_forms' => $deleteForms,
+            'billMonthlyInvoice' => $billMonthlyInvoiceForm->createView()
         ]);
     }
 
@@ -147,7 +153,7 @@ class BillController extends BaseController
             $em->flush();
 
             $this->get('event_dispatcher')->dispatch(
-                BillEvents::UPDATE_COMPLETED, 
+                BillEvents::UPDATE_COMPLETED,
                 new GenericEvent($bill->getBillRemessa())
             );
 
@@ -264,5 +270,71 @@ class BillController extends BaseController
         }
 
         return $response;
+    }
+
+    /**
+     * @Route("/monthInvoice", name="admin_bill_monthly_invoice")
+     * @Method("POST")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function monthlyInvoice(Request $request)
+    {
+        $form = $this->createForm(BillMonthlyInvoiceType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid() && $form->isSubmitted()) {
+
+            $em = $this->getDoctrine()->getManager();
+
+            /** @var \DateTime $date */
+            $date = $form->getData()['date'];
+
+            $customers = $this->getDoctrine()->getRepository(Customer::class)->findAllCustom();
+            $billStatus = $this->getDoctrine()->getRepository(BillStatus::class)
+                ->findOneBy(['referency' => BillStatus::BILL_STATUS_EM_ABERTO]);
+
+            $billRemessa = new BillRemessa();
+            $billRemessa
+                ->setDescription('Remessa de Fatura Mensal ' . $date->format('m/Y'))
+                ->setSent(false);
+
+            $bill = null;
+
+            /** @var Customer $customer */
+            foreach ($customers as $customer) {
+
+                $dueDateAt = new \DateTime();
+                $dueDateAt->setDate($date->format('Y'), $date->format('m'), $customer->getBillPayDay());
+
+                $bill = new Bill();
+                $bill->setDescription('Cobrança de Fatura Mensal')
+                    ->setAmount($customer->getBillAmount())
+                    ->setDueDateAt($dueDateAt)
+                    ->setCustomer($customer)
+                    ->setBillStatus($billStatus)
+                    ->setBillRemessa($billRemessa);
+
+                $em->persist($bill);
+                $billRemessa->addBill($bill);
+            }
+
+            $em->flush();
+
+            $company = $this->get('app.admin.company_find')->find();
+
+            $genericEvent = new GenericEvent($billRemessa);
+            $genericEvent->setArgument('company', $company);
+
+            $this->get('event_dispatcher')->dispatch(BillEvents::CREATE_COMPLETED, $genericEvent);
+
+        } else {
+            $this->get('app.util.flash_bag')->newMessage(
+                FlashBagEvents::MESSAGE_TYPE_ERROR,
+                'Houve um erro ao gerar fatura mensal.'
+            );
+        }
+        return $this->redirectToRoute('admin_bill_index');
     }
 }

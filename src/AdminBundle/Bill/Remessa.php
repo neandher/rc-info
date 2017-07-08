@@ -2,55 +2,32 @@
 
 namespace AdminBundle\Bill;
 
-use AdminBundle\Entity\Bill;
 use AdminBundle\Entity\BillRemessa;
 use AdminBundle\Entity\Company;
-use Carbon\Carbon;
-use Cnab\Banco;
-use Cnab\Especie;
-use Cnab\Remessa\Cnab240\Arquivo;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\PersistentCollection;
-use Eduardokum\LaravelBoleto\Boleto\Banco\Caixa;
-use Eduardokum\LaravelBoleto\Boleto\Render\Html;
-use Eduardokum\LaravelBoleto\Boleto\Render\Pdf;
-use Eduardokum\LaravelBoleto\Pessoa;
 use Symfony\Component\HttpFoundation\Response;
 
 class Remessa
 {
-    private $remessasPath;
     /**
-     * @var EntityManagerInterface
+     * @var string
      */
-    private $em;
+    private $remessasPath;
 
     /**
-     * Boleto constructor.
+     * BillRemessa constructor.
      * @param $remessasPath
-     * @param EntityManagerInterface $em
      */
-    public function __construct($remessasPath, EntityManagerInterface $em)
+    public function __construct($remessasPath)
     {
         $this->remessasPath = $remessasPath;
-        $this->em = $em;
     }
 
     /**
-     * @param ArrayCollection|Bill $bills
-     * @param $remessaId
+     * @param BillRemessa $billRemessa
+     * @param Company $company
      */
-    public function save($bills, $remessaId)
+    public function renderRem(BillRemessa $billRemessa, Company $company)
     {
-        $companys = $this->em->getRepository(Company::class)->findAll();
-
-        if (!count($companys) > 0) {
-            return;
-        }
-
-        $company = $companys[0];
-
         $arquivo = new \CnabPHP\Remessa(104, 'cnab240_SIGCB', [
             'nome_empresa' => $company->getRazaoSocial(), // seu nome de empresa
             'tipo_inscricao' => 2, // 1 para cpf, 2 cnpj
@@ -60,13 +37,13 @@ class Remessa
             'conta' => $company->getConta(), // número da conta
             'conta_dv' => $company->getContaDigito(), // digito da conta
             'codigo_beneficiario' => $company->getCodigoCliente(), // codigo fornecido pelo banco
-            'numero_sequencial_arquivo' => $remessaId, // sequencial do arquivo um numero novo para cada arquivo gerado
+            'numero_sequencial_arquivo' => $billRemessa->getId(), // sequencial do arquivo um numero novo para cada arquivo gerado
         ]);
 
         $lote = $arquivo->addLote(array('tipo_servico' => 1)); // tipo_servico  = 1 para cobrança registrada, 2 para sem registro
 
         /** @var $bill $bill */
-        foreach ($bills as $bill) {
+        foreach ($billRemessa->getBills() as $bill) {
 
             $lote->inserirDetalhe([
 
@@ -102,14 +79,14 @@ class Remessa
         }
 
         $text = $arquivo->getText();
-        $filename = $this->remessasPath . '/remessa_' . $remessaId . '.REM';
+        $filename = $this->remessasPath . '/' . $this->getRemessaFileName($billRemessa);
 
         file_put_contents($filename, $text);
     }
 
     public function download(BillRemessa $billRemessa)
     {
-        $file = $this->remessasPath . '/remessa_' . $billRemessa->getId() . '.REM';
+        $file = $this->remessasPath . '/' . $this->getRemessaFileName($billRemessa);
 
         if (file_exists($file)) {
             return new Response(
@@ -117,161 +94,15 @@ class Remessa
                 200,
                 [
                     'Content-Type' => 'application/txt',
-                    'Content-Disposition' => 'inline; filename="remessa_' . $billRemessa->getId() . '.REM"'
+                    'Content-Disposition' => 'inline; filename="' . $this->getRemessaFileName($billRemessa) . '"'
                 ]
             );
         }
         return false;
     }
 
-    /*private function modelo2(Bill $bill)
+    public function getRemessaFileName(BillRemessa $billRemessa)
     {
-        $company = new Company();
-
-        $beneficiario = new Pessoa([
-            'nome' => $company->getNomeFantasia(),
-            'endereco' => $company->getAddressStreet(),
-            'cep' => $company->getZipCode(),
-            'uf' => $company->getUf(),
-            'cidade' => $company->getCity(),
-            'documento' => $company->getCnpj(),
-        ]);
-
-        $pagador = new Pessoa([
-            'nome' => $bill->getCustomer()->getName(),
-            'endereco' => $bill->getCustomer()->getMainAddress()->getStreet(),
-            'bairro' => $bill->getCustomer()->getMainAddress()->getDistrict(),
-            'cep' => $bill->getCustomer()->getMainAddress()->getZipCode(),
-            'uf' => $bill->getCustomer()->getMainAddress()->getUf()->getSigla(),
-            'cidade' => $bill->getCustomer()->getMainAddress()->getCity(),
-            'documento' => $bill->getCustomer()->getCnpj(),
-        ]);
-
-        $boletoArray = [
-            'logo' => false,
-            'dataVencimento' => new Carbon($bill->getDueDateAt()->format('Y/m/d')),
-            'valor' => $bill->getAmount(),
-            'multa' => false,
-            'juros' => false,
-            'numero' => $bill->getId(),
-            'numeroDocumento' => $bill->getId(),
-            'pagador' => $pagador,
-            'beneficiario' => $beneficiario,
-            'carteira' => $company->getBoletoCarteira(),
-            'codigoCliente' => $company->getBoletoCodigoCliente(),
-            'agencia' => $company->getAgencia(),
-            'conta' => $company->getBoletoCodigoCliente(),
-            'descricaoDemonstrativo' => [
-                'MULTA DE R$: 4,94 APÓS : ' . $bill->getDueDateAt()->format('d/m/Y'),
-                'JUROS DE R$: 0,81 AO DIA',
-                'NÃO RECEBER APÓS 120 DIAS DO VENCIMENTO',
-                'ATENÇÃO após efetuar o pagamento entre em contato com nosso escritório e retire sua senha de liberação 33499130',
-                'Título sujeito a protesto | Link para atualização de vencimento | bloquetoexpresso.caixa.gov.br'
-            ],
-            'instrucoes' => [
-                'MULTA DE R$: 4,94 APÓS : ' . $bill->getDueDateAt()->format('d/m/Y'),
-                'JUROS DE R$: 0,81 AO DIA',
-                'NÃO RECEBER APÓS 120 DIAS DO VENCIMENTO',
-                'Link para atualização de vencimento',
-                'bloquetoexpresso.caixa.gov.br'
-            ],
-            'aceite' => $company->getBoletoAceite(),
-            'especieDoc' => $company->getBoletoEspecieDoc(),
-        ];
-
-        $boleto = new Caixa($boletoArray);
-        $boleto->setLocalPagamento('PREFERENCIALMENTE NAS CASAS LOTÉRICAS ATÉ O VALOR LIMITE');
-
-        $remessa = new \Eduardokum\LaravelBoleto\Cnab\Remessa\Cnab400\Banco\Caixa(
-            [
-                'agencia' => $company->getAgencia(),
-                'idRemessa' => $remessaId,
-                'conta' => $company->getConta(),
-                'carteira' => 'RG',
-                'codigoCliente' => $company->getBoletoCodigoCliente(),
-                'beneficiario' => $beneficiario,
-            ]
-        );
-
-        var_dump($remessa);
-        exit;
-
-        $remessa->addBoleto($boleto);
-        echo $remessa->save($this->remessasPath . '/remessa_m1_' . $remessaId . '.txt');
-    }*/
-
-    /*private function modelo1(Bill $bill)
-    {
-        $company = new Company();
-
-        $codigoBanco = Banco::CEF;
-
-        $arquivo = new Arquivo($codigoBanco, 'sigcb');
-
-        $arquivo->configure([
-            'data_geracao' => new \DateTime(),
-            'data_gravacao' => new \DateTime(),
-            'nome_fantasia' => $company->getNomeFantasia(), // seu nome de empresa
-            'razao_social' => $company->getRazaoSocial(), // sua razão social
-            'cnpj' => $company->getCnpj(), // seu cnpj completo
-            'banco' => $codigoBanco, //código do banco
-            'logradouro' => $company->getAddressStreet(),
-            'numero' => $company->getAddressNumber(),
-            'bairro' => $company->getDistrict(),
-            'cidade' => $company->getCity(),
-            'uf' => $company->getUf(),
-            'cep' => $company->getZipCode(),
-            'agencia' => $company->getAgencia(),
-            'agencia_dv' => '1',
-            'operacao' => '003',
-            'conta' => $company->getConta(), // número da conta
-            //'conta_cedente_dv' => '', // digito da conta
-            'codigo_cedente' => $this->trataString($company->getBoletoCodigoCliente()),
-            'numero_sequencial_arquivo' => $remessaId
-        ]);
-
-        $arquivo->insertDetalhe(array(
-            'modalidade_carteira' => 'RG',
-            'aceite' => 'S',
-            'registrado' => true,
-            'codigo_ocorrencia' => 1, // 1 = Entrada de título, futuramente poderemos ter uma constante
-            'nosso_numero' => $bill->getId(),
-            'numero_documento' => $bill->getId(),
-            'especie' => Especie::CEF_DUPLICATA_MERCANTIL, // Você pode consultar as especies Cnab\Especie
-            'valor' => $bill->getAmount(), // Valor do boleto
-            'instrucao1' => 0,
-            'instrucao2' => 0,
-            'sacado_nome' => $bill->getCustomer()->getName(),
-            'sacado_tipo' => 'cnpj', //campo fixo, escreva 'cpf' (sim as letras cpf)
-            'sacado_cpf' => $bill->getCustomer()->getCnpj(),
-            'sacado_logradouro' => $bill->getCustomer()->getMainAddress()->getStreet(),
-            'sacado_bairro' => $bill->getCustomer()->getMainAddress()->getDistrict(),
-            'sacado_cep' => $bill->getCustomer()->getMainAddress()->getZipCode(), // sem hífem
-            'sacado_cidade' => $bill->getCustomer()->getMainAddress()->getCity(),
-            'sacado_uf' => $bill->getCustomer()->getMainAddress()->getUf()->getSigla(),
-            'data_vencimento' => $bill->getDueDateAt()->format('Y-m-d'),
-            'data_cadastro' => $bill->getCreatedAt()->format('Y-m-d'),
-            'juros_de_um_dia' => 0,
-            'valor_desconto' => 0, // Valor do desconto
-            'data_desconto' => 0,
-            'prazo' => 120, // prazo de dias para o cliente pagar após o vencimento
-            'taxa_de_permanencia' => '0',
-            'mensagem' => ' ',
-            'data_multa' => $bill->getDueDateAt()->format('Y-m-d'),
-            'valor_multa' => 0,
-            //'baixar_apos_dias' => 120,
-            //'identificacao_distribuicao' => 0
-        ));
-
-        $arquivo->save($this->remessasPath . '/remessa_m2_' . $remessaId . '.txt');
-    }*/
-
-    /*private function trataString($string)
-    {
-        return str_replace(
-            ['-'],
-            [''],
-            $string
-        );
-    }*/
+        return 'remessa_' . $billRemessa->getId() . '.REM';
+    }
 }
