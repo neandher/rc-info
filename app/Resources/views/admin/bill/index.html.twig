@@ -24,6 +24,9 @@
         {% endblock %}
 
         {% block actions %}
+            <a href="javascript:;" data-toggle="modal" data-target="#modalRetornoFile" class="btn green">
+                <i class="fa fa-download"></i> {{ 'admin.bill.retorno_file'|trans }}
+            </a>
             <a href="javascript:;" data-toggle="modal" data-target="#modalMonthlyInvoice" class="btn green">
                 <i class="fa fa-plus"></i> {{ 'admin.bill.monthly_invoice'|trans }}
             </a>
@@ -211,7 +214,7 @@
 
     {% endembed %}
 
-    <!-- Modal -->
+    <!-- modalMonthlyInvoice -->
     <div class="modal fade" id="modalMonthlyInvoice" tabindex="-1" role="basic" aria-labelledby="modalMonthlyInvoice">
         <div class="modal-dialog" role="document">
             {{ form_start(billMonthlyInvoice, {'action': path('admin_bill_monthly_invoice')}) }}
@@ -253,7 +256,41 @@
             {{ form_end(billMonthlyInvoice) }}
         </div>
     </div>
-    <!-- End Modal -->
+    <!-- End modalMonthlyInvoice -->
+
+    <!-- modalRetornoFile -->
+    <div class="modal fade" id="modalRetornoFile" tabindex="-1" role="basic" aria-labelledby="modalRetornoFile">
+        <div class="modal-dialog" role="document">
+            {{ form_start(billRetornoFile, {'action': path('admin_bill_retorno_file')}) }}
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalMonthlyInvoiceLabel">{{ 'admin.bill.retorno_file'|trans }}</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            {{ form_row(billRetornoFile.file) }}
+                        </div>
+                    </div>
+                    <br>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn red btn-outline" data-dismiss="modal">
+                        <i class="fa fa-remove"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn green btn-outline"><i class="fa fa-check"></i> Processar</button>
+                </div>
+            </div>
+            {{ form_end(billRetornoFile) }}
+        </div>
+    </div>
+    <!-- End modalRetornoFile -->
 
 {% endblock %}
 

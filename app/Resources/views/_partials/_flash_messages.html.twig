@@ -20,7 +20,7 @@
                     {% elseif type == 'danger' %}
                         <span class="glyphicon glyphicon-exclamation-sign"></span>
                     {% endif %}
-                    {{ message }}
+                    {{ message|raw }}
                 </strong>
             </div>
         {% endfor %}

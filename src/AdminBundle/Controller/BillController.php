@@ -5,15 +5,18 @@ namespace AdminBundle\Controller;
 use AdminBundle\Entity\Bill;
 use AdminBundle\Entity\BillRemessa;
 use AdminBundle\Entity\BillStatus;
-use AdminBundle\Entity\Company;
 use AdminBundle\Event\BillEvents;
+use AdminBundle\Form\Type\BillFileRetornoType;
 use AdminBundle\Form\Type\BillMonthlyInvoiceType;
 use AdminBundle\Form\Type\BillType;
 use AppBundle\Event\FlashBagEvents;
+use Cnab\Factory;
+use Cnab\Retorno\Cnab240\Detalhe;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SiteBundle\Entity\Customer;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -33,24 +36,6 @@ class BillController extends BaseController
      */
     public function indexAction(Request $request)
     {
-        /*$bill = $this->getDoctrine()->getRepository(Bill::class)->findOneBy(['id' => 7]);
-
-        $this->get('app.admin.bill_remessa')->save($bill);
-
-        exit;*/
-
-        /*$companys = $this->getDoctrine()->getRepository(Company::class)->findAll();
-
-        if (!count($companys) > 0) {
-            return;
-        }
-
-        $company = $companys[0];
-
-        var_dump(number_format($company->getJuros(), 2, ',', '.'));
-
-        exit;*/
-
         $pagination = $this->get('app.util.pagination')->handle($request, Bill::class);
 
         $bills = $this->getDoctrine()->getRepository(Bill::class)->findLatest($pagination);
@@ -63,13 +48,15 @@ class BillController extends BaseController
         $billstatus = $this->getDoctrine()->getRepository(BillStatus::class)->findAll();
 
         $billMonthlyInvoiceForm = $this->createForm(BillMonthlyInvoiceType::class);
+        $billFileRetornoForm = $this->createForm(BillFileRetornoType::class);
 
         return $this->render('admin/bill/index.html.twig', [
             'bills' => $bills,
             'bill_status' => $billstatus,
             'pagination' => $pagination,
             'delete_forms' => $deleteForms,
-            'billMonthlyInvoice' => $billMonthlyInvoiceForm->createView()
+            'billMonthlyInvoice' => $billMonthlyInvoiceForm->createView(),
+            'billRetornoFile' => $billFileRetornoForm->createView()
         ]);
     }
 
@@ -335,6 +322,92 @@ class BillController extends BaseController
                 'Houve um erro ao gerar fatura mensal.'
             );
         }
+        return $this->redirectToRoute('admin_bill_index');
+    }
+
+    /**
+     * @Route("/retornoFile", name="admin_bill_retorno_file")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function retornoFile(Request $request)
+    {
+        $form = $this->createForm(BillFileRetornoType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid() && $form->isSubmitted()) {
+
+            /** @var File $file */
+            $file = $form->getData()['file'];
+
+            $fileConstraint = new \Symfony\Component\Validator\Constraints\File([
+                'mimeTypes' => ['text/plain'],
+                'mimeTypesMessage' => 'Arquivo inválido!',
+            ]);
+
+            $errorList = $this->get('validator')->validate($file, $fileConstraint);
+
+            if (!(0 === count($errorList))) {
+                $this->get('app.util.flash_bag')->newMessage(
+                    FlashBagEvents::MESSAGE_TYPE_ERROR,
+                    $errorMessage = $errorList[0]->getMessage()
+                );
+                return $this->redirectToRoute('admin_bill_index');
+            }
+
+            $em = $this->getDoctrine()->getManager();
+
+            $billStatus = $this->getDoctrine()->getRepository(BillStatus::class)
+                ->findOneBy(['referency' => BillStatus::BILL_STATUS_PAGO]);
+
+            $cnabFactory = new Factory();
+            $arquivo = $cnabFactory->createRetorno($file->getPathname());
+            $detalhes = $arquivo->listDetalhes();
+
+            $totalBaixa = 0;
+            $msgBaixa = 'Arquivo processado com sucesso!';
+            $msgBaixa .= '<br><br>';
+
+            /** @var Detalhe $detalhe */
+            foreach ($detalhes as $detalhe) {
+
+                if ($detalhe->getValorRecebido() > 0) {
+
+                    $nossoNumero = $detalhe->getNossoNumero();
+                    $valorRecebido = $detalhe->getValorRecebido();
+                    $dataPagamento = $detalhe->getDataOcorrencia();
+
+                    $bill = $this->getDoctrine()->getRepository(Bill::class)->findOneBy(['id' => $nossoNumero]);
+
+                    if ($bill) {
+
+                        $bill->setPaymentDateAt($dataPagamento)
+                            ->setAmountPaid($valorRecebido)
+                            ->setBillStatus($billStatus);
+
+                        $em->persist($bill);
+
+                        $msgBaixa .= 'Cliente: ' . $bill->getCustomer()->getName() . '<br>';
+                        $msgBaixa .= 'Valor recebido: ' . $valorRecebido . '<br>';
+                        $msgBaixa .= 'Data de pagamento:' . $dataPagamento->format('d/m/Y');
+                        $msgBaixa .= '<br><br>';
+
+                        $totalBaixa++;
+                    }
+                }
+            }
+
+            $msgBaixa .= 'Total de baixas efetuadas: ' . $totalBaixa;
+
+            $this->get('app.util.flash_bag')->newMessage(
+                FlashBagEvents::MESSAGE_TYPE_SUCCESS,
+                $msgBaixa
+            );
+
+            $em->flush();
+        }
+
         return $this->redirectToRoute('admin_bill_index');
     }
 }

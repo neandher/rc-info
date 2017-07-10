@@ -2,12 +2,13 @@
 
 namespace AdminBundle\Form\Type;
 
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use UserBundle\Form\Type\PlainPasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class BillMonthlyInvoiceType extends PlainPasswordType
+class BillFileRetornoType extends PlainPasswordType
 {
     /**
      * @inheritDoc
@@ -15,10 +16,8 @@ class BillMonthlyInvoiceType extends PlainPasswordType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('date', DateType::class, [
-                'label' => 'Mês/Ano',
-                'format' => 'yyyy-MMMM-dd',
-                'years' => range(date('Y'), date('Y') + 5),
+            ->add('file', FileType::class, [
+                'label' => 'Selecione o Arquivo',
             ]);
     }
 

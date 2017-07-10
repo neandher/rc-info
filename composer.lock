@@ -3334,16 +3334,16 @@
         },
         {
             "name": "vich/uploader-bundle",
-            "version": "1.6.1",
+            "version": "1.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dustin10/VichUploaderBundle.git",
-                "reference": "e7a1118c5f824e3c1cff7b2aea34ee394cc72dfa"
+                "reference": "5a5f27598ba3885104bce447539b5227704f0aa5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dustin10/VichUploaderBundle/zipball/e7a1118c5f824e3c1cff7b2aea34ee394cc72dfa",
-                "reference": "e7a1118c5f824e3c1cff7b2aea34ee394cc72dfa",
+                "url": "https://api.github.com/repos/dustin10/VichUploaderBundle/zipball/5a5f27598ba3885104bce447539b5227704f0aa5",
+                "reference": "5a5f27598ba3885104bce447539b5227704f0aa5",
                 "shasum": ""
             },
             "require": {
@@ -3415,7 +3415,7 @@
                 "file uploads",
                 "upload"
             ],
-            "time": "2017-07-03T08:32:36+00:00"
+            "time": "2017-07-08T08:10:50+00:00"
         },
         {
             "name": "white-october/pagerfanta-bundle",
