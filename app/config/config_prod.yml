@@ -6,11 +6,13 @@ parameters:
 
 doctrine:
     dbal:
-        host: "%env(DATABASE_HOST)%"
-        port: "%env(DATABASE_PORT)%"
-        dbname: "%env(DATABASE_NAME)%"
-        user: "%env(DATABASE_USER)%"
-        password: "%env(DATABASE_PASS)%"
+        driver: pgsql
+        url: "%env(DATABASE_URL)%"
+        #host: "%env(DATABASE_HOST)%"
+        #port: "%env(DATABASE_PORT)%"
+        #dbname: "%env(DATABASE_NAME)%"
+        #user: "%env(DATABASE_USER)%"
+        #password: "%env(DATABASE_PASS)%"
     orm:
         metadata_cache_driver: apc
         result_cache_driver: apc
