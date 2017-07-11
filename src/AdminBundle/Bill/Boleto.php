@@ -136,4 +136,9 @@ class Boleto
     {
         return 'fatura_' . $bill->getId() . '.pdf';
     }
+    
+    public function getBoletoFilePath()
+    {
+        return $this->boletosPath;
+    }
 }

@@ -87,7 +87,10 @@ class BillController extends BaseController
             $em->persist($bill);
             $em->flush();
 
-            $this->get('event_dispatcher')->dispatch(BillEvents::CREATE_COMPLETED, new GenericEvent($bill->getBillRemessa()));
+            $genericEvent = new GenericEvent($bill->getBillRemessa());
+            $genericEvent->setArgument('company', $this->get('app.admin.company_find')->find());
+
+            $this->get('event_dispatcher')->dispatch(BillEvents::CREATE_COMPLETED, $genericEvent);
 
             $this->get('app.util.flash_bag')->newMessage(
                 FlashBagEvents::MESSAGE_TYPE_SUCCESS,
@@ -139,10 +142,10 @@ class BillController extends BaseController
             $em->persist($bill);
             $em->flush();
 
-            $this->get('event_dispatcher')->dispatch(
-                BillEvents::UPDATE_COMPLETED,
-                new GenericEvent($bill->getBillRemessa())
-            );
+            $genericEvent = new GenericEvent($bill->getBillRemessa());
+            $genericEvent->setArgument('company', $this->get('app.admin.company_find')->find());
+
+            $this->get('event_dispatcher')->dispatch(BillEvents::UPDATE_COMPLETED, $genericEvent);
 
             $this->get('app.util.flash_bag')->newMessage(
                 FlashBagEvents::MESSAGE_TYPE_SUCCESS,
@@ -193,6 +196,19 @@ class BillController extends BaseController
             }
 
             $em = $this->getDoctrine()->getManager();
+
+            if ($bill->getBillRemessa()->getBills()->count() > 1) {
+
+                $bill->getBillRemessa()->removeBill($bill);
+
+                $genericEvent = new GenericEvent($bill->getBillRemessa());
+                $genericEvent->setArgument('company', $this->get('app.admin.company_find')->find());
+
+                $this->get('event_dispatcher')->dispatch(BillEvents::DELETE_COMPLETED, $genericEvent);
+            } else {
+                $em->remove($bill->getBillRemessa());
+            }
+
             $em->remove($bill);
             $em->flush();
 
@@ -389,7 +405,7 @@ class BillController extends BaseController
                         $em->persist($bill);
 
                         $msgBaixa .= 'Cliente: ' . $bill->getCustomer()->getName() . '<br>';
-                        $msgBaixa .= 'Valor recebido: ' . $valorRecebido . '<br>';
+                        $msgBaixa .= 'Valor recebido: ' . number_format($valorRecebido, 2, ',', '.') . '<br>';
                         $msgBaixa .= 'Data de pagamento:' . $dataPagamento->format('d/m/Y');
                         $msgBaixa .= '<br><br>';
 

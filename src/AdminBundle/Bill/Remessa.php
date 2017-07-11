@@ -105,4 +105,9 @@ class Remessa
     {
         return 'remessa_' . $billRemessa->getId() . '.REM';
     }
+    
+    public function getRemessaFilePath()
+    {
+        return $this->remessasPath;
+    }
 }

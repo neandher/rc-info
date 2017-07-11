@@ -92,7 +92,7 @@ class Bill
     /**
      * @var BillRemessa
      *
-     * @ORM\ManyToOne(targetEntity="AdminBundle\Entity\BillRemessa", inversedBy="bill", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="AdminBundle\Entity\BillRemessa", inversedBy="bill", cascade={"persist"})
      * @ORM\JoinColumn(onDelete="CASCADE", nullable=false)
      */
     private $billRemessa;

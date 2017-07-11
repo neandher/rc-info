@@ -62,6 +62,18 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    app.admin.bill_boleto.remove:
+        class: AdminBundle\EventListener\BillBoletoRemoveSubscriber
+        arguments: ['@app.admin.bill_boleto']
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    app.admin.bill_remessa.remove:
+        class: AdminBundle\EventListener\BillRemessaRemoveSubscriber
+        arguments: ['@app.admin.bill_remessa']
+        tags:
+            - { name: doctrine.event_subscriber }
+
     app.admin.company_find:
         class: AdminBundle\Company\FindCompany
         arguments: ['@doctrine.orm.default_entity_manager']

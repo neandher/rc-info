@@ -34,6 +34,7 @@ class BillRemessaGenerateSubscriber implements EventSubscriberInterface
             BillEvents::CREATE_SUCCESS => 'onCreateSuccess',
             BillEvents::CREATE_COMPLETED => 'generate',
             BillEvents::UPDATE_COMPLETED => 'generate',
+            BillEvents::DELETE_COMPLETED => 'generate',
         ];
     }
 
@@ -59,10 +60,6 @@ class BillRemessaGenerateSubscriber implements EventSubscriberInterface
         }
         
         $company = $event->getArgument('company');
-        
-        if(!$company){
-            return;
-        }
 
         $this->remessa->renderRem($billRemessa, $company);
     }

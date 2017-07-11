@@ -46,10 +46,6 @@ class BillBoletoGenerateSubscriber implements EventSubscriberInterface
 
         $company = $event->getArgument('company');
 
-        if (!$company) {
-            return;
-        }
-
         foreach ($billRemessa->getBills() as $bill) {
             $this->boleto->renderPdf($bill, $company, true);
         }

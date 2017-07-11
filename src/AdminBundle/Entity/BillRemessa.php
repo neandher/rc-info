@@ -42,7 +42,7 @@ class BillRemessa
     /**
      * @var Bill
      *
-     * @ORM\OneToMany(targetEntity="AdminBundle\Entity\Bill", mappedBy="billRemessa")
+     * @ORM\OneToMany(targetEntity="AdminBundle\Entity\Bill", mappedBy="billRemessa", cascade={"remove"})
      */
     private $bill;
 
