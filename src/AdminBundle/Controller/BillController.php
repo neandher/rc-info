@@ -181,7 +181,7 @@ class BillController extends BaseController
     {
         $pagination = $this->get('app.util.pagination')->handle($request, Bill::class);
 
-        $form = $this->createDeleteForm($bill);
+        $form = $this->createDeleteForm($bill);  
 
         $form->handleRequest($request);
 
