@@ -38,6 +38,7 @@ parameters:
     ### boletos path ###
     boletos_path: "%kernel.project_dir%/web/files/boletos_pdf"
     boletos_remessa: "%kernel.project_dir%/web/files/boletos_remessa"
+    boletos_logo_path: "%kernel.project_dir%/web/site/assets/images/colors/blue/logo-rc-boleto.jpg"
 
 framework:
     #esi: ~

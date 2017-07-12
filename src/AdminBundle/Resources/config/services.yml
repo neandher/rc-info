@@ -44,7 +44,7 @@ services:
 
     app.admin.bill_boleto:
         class: AdminBundle\Bill\Boleto
-        arguments: ['%boletos_path%']
+        arguments: ['%boletos_path%', '%boletos_logo_path%']
 
     app.admin.bill_remessa:
         class: AdminBundle\Bill\Remessa

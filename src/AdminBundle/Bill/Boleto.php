@@ -17,14 +17,17 @@ class Boleto
      * @var string
      */
     private $boletosPath;
+    private $logoPath;
 
     /**
      * Boleto constructor.
      * @param $boletosPath
+     * @param $logoPath
      */
-    public function __construct($boletosPath)
+    public function __construct($boletosPath, $logoPath)
     {
         $this->boletosPath = $boletosPath;
+        $this->logoPath = $logoPath;
     }
 
     public function renderPdf(Bill $bill, Company $company, $save = false, $download = false)
@@ -49,7 +52,7 @@ class Boleto
         ]);
 
         $boletoArray = [
-            'logo' => false,
+            'logo' => $this->logoPath,
             'dataVencimento' => new Carbon($bill->getDueDateAt()->format('Y/m/d')),
             'valor' => $bill->getAmount(),
             'multa' => false,

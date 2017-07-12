@@ -332,6 +332,11 @@ class BillController extends BaseController
 
             $this->get('event_dispatcher')->dispatch(BillEvents::CREATE_COMPLETED, $genericEvent);
 
+            $this->get('app.util.flash_bag')->newMessage(
+                FlashBagEvents::MESSAGE_TYPE_SUCCESS,
+                'Faturas geradas com sucesso.'
+            );
+
         } else {
             $this->get('app.util.flash_bag')->newMessage(
                 FlashBagEvents::MESSAGE_TYPE_ERROR,
