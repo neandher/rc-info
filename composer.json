@@ -64,6 +64,14 @@
         ],
         "post-update-cmd": [
             "@symfony-scripts"
+        ],
+        "pre-autoload-dump": [
+            "rm -rf vendor/vendor/rctnet/opencnabphp/src/resources/B033",
+            "rm -rf vendor/vendor/rctnet/opencnabphp/src/resources/B104",
+            "rm -rf vendor/vendor/rctnet/opencnabphp/src/resources/B237",
+            "rm -rf vendor/vendor/rctnet/opencnabphp/src/resources/B341",
+            "rm -rf vendor/vendor/rctnet/opencnabphp/src/resources/B756",
+            "rm -rf vendor/vendor/rctnet/opencnabphp/src/resources/generico"
         ]
     },
     "config": {
