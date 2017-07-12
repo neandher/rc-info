@@ -7,6 +7,7 @@ use AdminBundle\Entity\BillRemessa;
 use AdminBundle\Event\BillEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Filesystem\Filesystem;
 
 class BillBoletoGenerateSubscriber implements EventSubscriberInterface
 {
@@ -45,6 +46,14 @@ class BillBoletoGenerateSubscriber implements EventSubscriberInterface
         }
 
         $company = $event->getArgument('company');
+
+        $boletoPath = $this->boleto->getBoletoFilePath();
+
+        $fs = new Filesystem();
+
+        if (!$fs->exists($boletoPath)) {
+            $fs->mkdir($boletoPath);
+        }
 
         foreach ($billRemessa->getBills() as $bill) {
             $this->boleto->renderPdf($bill, $company, true);

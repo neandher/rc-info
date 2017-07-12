@@ -8,6 +8,7 @@ use AdminBundle\Entity\BillRemessa;
 use AdminBundle\Event\BillEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Filesystem\Filesystem;
 
 class BillRemessaGenerateSubscriber implements EventSubscriberInterface
 {
@@ -61,6 +62,14 @@ class BillRemessaGenerateSubscriber implements EventSubscriberInterface
         
         $company = $event->getArgument('company');
 
+        $remessaPath = $this->remessa->getRemessaFilePath();
+
+        $fs = new Filesystem();
+
+        if (!$fs->exists($remessaPath)) {
+            $fs->mkdir($remessaPath);
+        }
+        
         $this->remessa->renderRem($billRemessa, $company);
     }
 }
