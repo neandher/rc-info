@@ -66,12 +66,12 @@
             "@symfony-scripts"
         ],
         "pre-autoload-dump": [
-            "rm -rf vendor/vendor/rctnet/opencnabphp/src/resources/B033",
-            "rm -rf vendor/vendor/rctnet/opencnabphp/src/resources/B104",
-            "rm -rf vendor/vendor/rctnet/opencnabphp/src/resources/B237",
-            "rm -rf vendor/vendor/rctnet/opencnabphp/src/resources/B341",
-            "rm -rf vendor/vendor/rctnet/opencnabphp/src/resources/B756",
-            "rm -rf vendor/vendor/rctnet/opencnabphp/src/resources/generico"
+            "rm -rf vendor/rctnet/opencnabphp/src/resources/B033/retorno",
+            "rm -rf vendor/rctnet/opencnabphp/src/resources/B104/retorno",
+            "rm -rf vendor/rctnet/opencnabphp/src/resources/B237/retorno",
+            "rm -rf vendor/rctnet/opencnabphp/src/resources/B341/retorno",
+            "rm -rf vendor/rctnet/opencnabphp/src/resources/B756/retorno",
+            "rm -rf vendor/rctnet/opencnabphp/src/resources/generico/retorno"
         ]
     },
     "config": {
