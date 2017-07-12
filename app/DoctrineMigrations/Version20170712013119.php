@@ -17,8 +17,8 @@ class Version20170712013119 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
 
-        $this->addSql("INSERT INTO bill_status (description, referency) VALUES (\'Pago\', \'pago\')");
-        $this->addSql("INSERT INTO bill_status (description, referency) VALUES (\'Em Aberto\', \'em_aberto\')");
+        $this->addSql('INSERT INTO bill_status (description, referency) VALUES (\'Pago\', \'pago\')');
+        $this->addSql('INSERT INTO bill_status (description, referency) VALUES (\'Em Aberto\', \'em_aberto\')');
     }
 
     /**
