@@ -2,58 +2,58 @@
 
 namespace AdminBundle\Controller;
 
-use AdminBundle\Form\Type\BannerType;
+use AdminBundle\Entity\Downloads;
+use AdminBundle\Form\Type\DownloadsType;
 use AppBundle\Event\FlashBagEvents;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use SiteBundle\Entity\Banner;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class BannerController
+ * Class DownloadsController
  * @package AppBundle\Controller\Admin
  *
- * @Route("/banner")
+ * @Route("/downloads")
  */
-class BannerController extends BaseController
+class DownloadsController extends BaseController
 {
     /**
-     * @Route("/", name="admin_banner_index")
+     * @Route("/", name="admin_downloads_index")
      * @Method({"GET"})
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
-        $pagination = $this->get('app.util.pagination')->handle($request, Banner::class);
+        $pagination = $this->get('app.util.pagination')->handle($request, Downloads::class);
 
-        $banners = $this->getDoctrine()->getRepository(Banner::class)->findLatest($pagination);
+        $downloadss = $this->getDoctrine()->getRepository(Downloads::class)->findLatest($pagination);
 
         $deleteForms = [];
-        foreach ($banners as $banner) {
-            $deleteForms[$banner->getId()] = $this->createDeleteForm($banner)->createView();
+        foreach ($downloadss as $downloads) {
+            $deleteForms[$downloads->getId()] = $this->createDeleteForm($downloads)->createView();
         }
 
-        return $this->render('admin/banner/index.html.twig', [
-            'banners' => $banners,
+        return $this->render('admin/downloads/index.html.twig', [
+            'downloadss' => $downloadss,
             'pagination' => $pagination,
             'delete_forms' => $deleteForms
         ]);
     }
 
     /**
-     * @Route("/new", name="admin_banner_new")
+     * @Route("/new", name="admin_downloads_new")
      * @Method({"GET", "POST"})
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function newAction(Request $request)
     {
-        $pagination = $this->get('app.util.pagination')->handle($request, Banner::class);
+        $pagination = $this->get('app.util.pagination')->handle($request, Downloads::class);
 
-        $banner = new Banner();
+        $downloads = new Downloads();
 
-        $form = $this->createForm(BannerType::class, $banner);
+        $form = $this->createForm(DownloadsType::class, $downloads);
         $this->addDefaultSubmitButtons($form);
 
         $form->handleRequest($request);
@@ -61,7 +61,7 @@ class BannerController extends BaseController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
-            $em->persist($banner);
+            $em->persist($downloads);
             $em->flush();
 
             $this->get('app.util.flash_bag')->newMessage(
@@ -71,33 +71,33 @@ class BannerController extends BaseController
 
             $handleSubmitButtons = $this->handleSubmitButtons(
                 $form,
-                'admin_banner_new',
-                'admin_banner_edit',
-                ['id' => $banner->getId()],
+                'admin_downloads_new',
+                'admin_downloads_edit',
+                ['id' => $downloads->getId()],
                 $pagination->getRouteParams()
             );
 
-            return $handleSubmitButtons ? $handleSubmitButtons : $this->redirectToRoute('admin_banner_index');
+            return $handleSubmitButtons ? $handleSubmitButtons : $this->redirectToRoute('admin_downloads_index');
         }
 
-        return $this->render('admin/banner/new.html.twig', [
+        return $this->render('admin/downloads/new.html.twig', [
             'form' => $form->createView(),
             'pagination' => $pagination
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", requirements={"id" : "\d+"}, name="admin_banner_edit")
+     * @Route("/{id}/edit", requirements={"id" : "\d+"}, name="admin_downloads_edit")
      * @Method({"GET", "POST"})
      * @param Request $request
-     * @param Banner $banner
+     * @param Downloads $downloads
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function editAction(Banner $banner, Request $request)
+    public function editAction(Downloads $downloads, Request $request)
     {
-        $pagination = $this->get('app.util.pagination')->handle($request, Banner::class);
+        $pagination = $this->get('app.util.pagination')->handle($request, Downloads::class);
 
-        $form = $this->createForm(BannerType::class, $banner, [
+        $form = $this->createForm(DownloadsType::class, $downloads, [
             'validation_groups' => ['Default']
         ]);
 
@@ -108,7 +108,7 @@ class BannerController extends BaseController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
-            $em->persist($banner);
+            $em->persist($downloads);
             $em->flush();
 
             $this->get('app.util.flash_bag')->newMessage(
@@ -118,41 +118,41 @@ class BannerController extends BaseController
 
             $handleSubmitButtons = $this->handleSubmitButtons(
                 $form,
-                'admin_banner_new',
-                'admin_banner_edit',
-                ['id' => $banner->getId()],
+                'admin_downloads_new',
+                'admin_downloads_edit',
+                ['id' => $downloads->getId()],
                 $pagination->getRouteParams()
             );
 
-            return $handleSubmitButtons ? $handleSubmitButtons : $this->redirectToRoute('admin_banner_index');
+            return $handleSubmitButtons ? $handleSubmitButtons : $this->redirectToRoute('admin_downloads_index');
         }
 
-        return $this->render('admin/banner/edit.html.twig', [
-            'banner' => $banner,
+        return $this->render('admin/downloads/edit.html.twig', [
+            'downloads' => $downloads,
             'form' => $form->createView(),
             'pagination' => $pagination
         ]);
     }
 
     /**
-     * @Route("/{id}/delete", requirements={"id" : "\d+"}, name="admin_banner_delete")
+     * @Route("/{id}/delete", requirements={"id" : "\d+"}, name="admin_downloads_delete")
      * @Method("DELETE")
      * @param Request $request
-     * @param Banner $banner
+     * @param Downloads $downloads
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function deletAction(Request $request, Banner $banner)
+    public function deletAction(Request $request, Downloads $downloads)
     {
-        $pagination = $this->get('app.util.pagination')->handle($request, Banner::class);
+        $pagination = $this->get('app.util.pagination')->handle($request, Downloads::class);
 
-        $form = $this->createDeleteForm($banner);
+        $form = $this->createDeleteForm($downloads);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
-            $em->remove($banner);
+            $em->remove($downloads);
             $em->flush();
 
             $this->get('app.util.flash_bag')->newMessage(
@@ -166,19 +166,30 @@ class BannerController extends BaseController
             );
         }
 
-        return $this->redirectToRoute('admin_banner_index', $pagination->getRouteParams());
+        return $this->redirectToRoute('admin_downloads_index', $pagination->getRouteParams());
     }
 
     /**
-     * @param Banner $banner
+     * @param Downloads $downloads
      * @return \Symfony\Component\Form\Form
      */
-    private function createDeleteForm(Banner $banner)
+    private function createDeleteForm(Downloads $downloads)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_banner_delete', ['id' => $banner->getId()]))
+            ->setAction($this->generateUrl('admin_downloads_delete', ['id' => $downloads->getId()]))
             ->setMethod('DELETE')
-            ->setData($banner)
+            ->setData($downloads)
             ->getForm();
+    }
+
+    /**
+     * @Route("/{id}/downloadFile", name="admin_downloads_download_file")
+     *
+     * @param Downloads $downloads
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
+    public function downloadFile(Downloads $downloads)
+    {
+        return $this->get('app.admin.download_file')->download($downloads);
     }
 }

@@ -106,3 +106,15 @@ admin:
             complement: Complemento
             createdAt: Criado Em
             updatedAt: Atualizado Em
+
+    downloads:
+        title: Downloads
+        new: Novo Envio
+        edit: Editar Download
+        not_found: Nenhum download encontrado
+        fields:
+            description: Descrição
+            image_file: Imagem
+            download_file: Arquivo
+            enabled: Ativo
+            created_at: Data Envio

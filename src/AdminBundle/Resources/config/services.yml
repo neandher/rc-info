@@ -77,3 +77,7 @@ services:
     app.admin.company_find:
         class: AdminBundle\Company\FindCompany
         arguments: ['@doctrine.orm.default_entity_manager']
+
+    app.admin.download_file:
+        class: AdminBundle\Downloads\DownloadFile
+        arguments: ['@vich_uploader.download_handler']
