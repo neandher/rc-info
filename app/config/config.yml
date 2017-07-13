@@ -30,13 +30,11 @@ parameters:
     ### uploads path ###
     upload_cache_path: "%kernel.project_dir%/web/uploads/cache"
     upload_banner_image_path: "%kernel.project_dir%/web/uploads/banner_images"
-    upload_downloads_image_path: "%kernel.project_dir%/web/uploads/downloads_images"
     upload_downloads_file_path: "%kernel.project_dir%/web/uploads/downloads_files"
 
     ### uploads relative path to web ###
     upload_cache_relative_path: "/uploads/cache"
     upload_banner_image_relative_path: "/uploads/banner_images"
-    upload_downloads_image_relative_path: "/uploads/downloads_images"
     upload_downloads_file_relative_path: "/uploads/downloads_files"
 
     ### boletos path ###
@@ -132,13 +130,6 @@ vich_uploader:
         banner_image:
             uri_prefix: "%upload_banner_image_relative_path%"
             upload_destination: "%upload_banner_image_path%"
-            delete_on_remove: true
-            delete_on_update: true
-            inject_on_load: true
-            namer:  vich_uploader.namer_uniqid
-        downloads_image:
-            uri_prefix: "%upload_downloads_image_relative_path%"
-            upload_destination: "%upload_downloads_image_path%"
             delete_on_remove: true
             delete_on_update: true
             inject_on_load: true

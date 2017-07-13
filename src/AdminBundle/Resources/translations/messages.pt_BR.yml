@@ -114,7 +114,7 @@ admin:
         not_found: Nenhum download encontrado
         fields:
             description: Descrição
-            image_file: Imagem
             download_file: Arquivo
             enabled: Ativo
             created_at: Data Envio
+            published_at: Publicado Em

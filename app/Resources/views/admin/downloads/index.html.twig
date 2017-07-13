@@ -9,7 +9,7 @@
         {% endblock %}
 
         {% block caption_subject %}
-            {{ 'admin.downloads.title'|trans }} ({{ downloadss.nbResults }} registros)
+            {{ 'admin.downloads.title'|trans }} ({{ downloads.nbResults }} registros)
         {% endblock %}
 
         {% block actions %}
@@ -44,9 +44,13 @@
                         {{ 'admin.downloads.fields.description'|trans }}
                     </a>
                 </th>
-                <th>{{ 'admin.downloads.fields.image_file'|trans }}</th>
                 <th>{{ 'admin.downloads.fields.download_file'|trans }}</th>
                 <th>{{ 'admin.downloads.fields.enabled'|trans }}</th>
+                <th>
+                    <a href="{{ path('admin_downloads_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('publishedAt') }}">
+                        {{ 'admin.downloads.fields.published_at'|trans }}
+                    </a>
+                </th>
                 <th>
                     <a href="{{ path('admin_downloads_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('createdAt') }}">
                         {{ 'admin.downloads.fields.created_at'|trans }}
@@ -57,14 +61,10 @@
         {% endblock %}
 
         {% block table_tr_td %}
-            {% for download in downloadss %}
+            {% for download in downloads %}
                 <tr>
                     <td>{{ download.id }}</td>
                     <td>{{ download.description }}</td>
-                    <td>
-                        <img src="{{ vich_uploader_asset(download, 'imageFile') }}" alt="{{ download.imageName }}"
-                             width="100"/>
-                    </td>
                     <td>
                         <a href="{{ path('admin_downloads_download_file', {id: download.id}) }}">
                             <span class="label label-sm label-success"><i class="fa fa-download"></i> Download</span>
@@ -81,6 +81,7 @@
                             </span>
                         {% endif %}
                     </td>
+                    <td>{{ download.publishedAt|date('d/m/Y H:i') }}</td>
                     <td>{{ download.createdAt|date('d/m/Y H:i') }}</td>
                     <td>
                         {% embed 'admin/_partials/_actions_btn_group.html.twig' %}
@@ -112,13 +113,13 @@
         {% endblock %}
 
         {% block list_info %}
-            Exibindo {{ downloadss.currentPageOffsetStart }} a
-            {{ downloadss.currentPageOffsetEnd }} de
-            {{ downloadss.nbResults }} registros
+            Exibindo {{ downloads.currentPageOffsetStart }} a
+            {{ downloads.currentPageOffsetEnd }} de
+            {{ downloads.nbResults }} registros
         {% endblock %}
 
         {% block list_pagination %}
-            {{ pagerfanta(downloadss, 'twitter_bootstrap3',{
+            {{ pagerfanta(downloads, 'twitter_bootstrap3',{
                 routeName: 'admin_downloads_index',
                 routeParams: app.request.query.all
             }) }}

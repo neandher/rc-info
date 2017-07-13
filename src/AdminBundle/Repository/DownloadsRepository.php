@@ -27,6 +27,14 @@ class DownloadsRepository extends BaseRepository
             )->setParameter('search', '%' . $routeParams['search'] . '%');
         }
 
+        if (!empty($routeParams['enabled'])) {
+            $qb->andWhere('d.isEnabled = 1');
+        }
+
+        if (!empty($routeParams['publishedOnly'])) {
+            $qb->andWhere(':now >= d.publishedAt')->setParameter('now', new \DateTime());
+        }
+
         $qb = $this->addOrderingQueryBuilder($qb, $routeParams);
 
         return $qb->getQuery();

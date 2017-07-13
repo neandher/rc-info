@@ -3,6 +3,7 @@
 namespace SiteBundle\Controller\Portal;
 
 use AdminBundle\Entity\Bill;
+use AdminBundle\Entity\Downloads;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,16 +12,39 @@ use Symfony\Component\HttpFoundation\Request;
  * Class DownloadsController
  * @package SiteBundle\Controller\Account
  *
+ * @Route("/downloads")
  */
 class DownloadsController extends Controller
 {
     /**
-     * @Route("/downloads", name="site_portal_downloads")
+     * @Route("/", name="site_portal_downloads")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
-        return $this->render('site/portal/downloads/index.html.twig', []);
+        $request->query->add(['sorting' => ['publishedAt' => 'desc']]);
+        $request->query->add(['enabled' => true]);
+        $request->query->add(['publishedOnly' => true]);
+        $request->query->add(['num_items' => 15]);
+
+        $pagination = $this->get('app.util.pagination')->handle($request, Downloads::class);
+
+        $downloads = $this->getDoctrine()->getRepository(Downloads::class)->findLatest($pagination);
+
+        return $this->render('site/portal/downloads/index.html.twig', [
+            'downloads' => $downloads
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/downloadFile", name="site_portal_downloads_download")
+     *
+     * @param Downloads $downloads
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
+    public function downloadFile(Downloads $downloads)
+    {
+        return $this->get('app.admin.download_file')->download($downloads);
     }
 }

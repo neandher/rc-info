@@ -27,15 +27,15 @@ class DownloadsController extends BaseController
     {
         $pagination = $this->get('app.util.pagination')->handle($request, Downloads::class);
 
-        $downloadss = $this->getDoctrine()->getRepository(Downloads::class)->findLatest($pagination);
+        $downloads = $this->getDoctrine()->getRepository(Downloads::class)->findLatest($pagination);
 
         $deleteForms = [];
-        foreach ($downloadss as $downloads) {
-            $deleteForms[$downloads->getId()] = $this->createDeleteForm($downloads)->createView();
+        foreach ($downloads as $download) {
+            $deleteForms[$download->getId()] = $this->createDeleteForm($download)->createView();
         }
 
         return $this->render('admin/downloads/index.html.twig', [
-            'downloadss' => $downloadss,
+            'downloads' => $downloads,
             'pagination' => $pagination,
             'delete_forms' => $deleteForms
         ]);

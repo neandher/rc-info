@@ -33,23 +33,6 @@ class Downloads
     private $description;
 
     /**
-     * @Vich\UploadableField(mapping="downloads_image", fileNameProperty="imageName")
-     *
-     * @var File
-     * @Assert\NotBlank(groups={"create"})
-     * @Assert\File(
-     *     groups={"create"},
-     *     mimeTypes = {"image/png", "image/jpg", "image/jpeg"}
-     * )
-     */
-    private $imageFile;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $imageName;
-
-    /**
      * @Vich\UploadableField(mapping="downloads_file", fileNameProperty="downloadName")
      *
      * @var File
@@ -62,6 +45,15 @@ class Downloads
      * @ORM\Column(type="string")
      */
     private $downloadName;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @Assert\NotBlank()
+     * @Assert\DateTime(format="d-m-Y - H:i")
+     */
+    private $publishedAt;
 
     /**
      * Get id
@@ -95,53 +87,6 @@ class Downloads
     public function getDescription()
     {
         return $this->description;
-    }
-
-    /**
-     * @return File
-     */
-    public function getImageFile()
-    {
-        return $this->imageFile;
-    }
-
-    /**
-     * @param File $imageFile
-     * @return $this
-     */
-    public function setImageFile(File $imageFile = null)
-    {
-        $this->imageFile = $imageFile;
-
-        if ($imageFile instanceof UploadedFile) {
-            $this->setUpdatedAt(new \DateTime());
-        }
-
-        return $this;
-    }
-
-    /**
-     * Set imageName
-     *
-     * @param string $imageName
-     *
-     * @return Downloads
-     */
-    public function setImageName($imageName)
-    {
-        $this->imageName = $imageName;
-
-        return $this;
-    }
-
-    /**
-     * Get imageName
-     *
-     * @return string
-     */
-    public function getImageName()
-    {
-        return $this->imageName;
     }
 
     /**
@@ -199,5 +144,23 @@ class Downloads
     public function getIsEnabled()
     {
         return $this->isEnabled;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getPublishedAt()
+    {
+        return $this->publishedAt;
+    }
+
+    /**
+     * @param \DateTime $publishedAt
+     * @return Downloads
+     */
+    public function setPublishedAt($publishedAt)
+    {
+        $this->publishedAt = $publishedAt;
+        return $this;
     }
 }
