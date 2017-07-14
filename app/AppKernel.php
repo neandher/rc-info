@@ -29,7 +29,8 @@ class AppKernel extends Kernel
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
-            new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
+            //new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
+            new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

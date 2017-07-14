@@ -6,7 +6,7 @@ use AdminBundle\Bill\Boleto;
 use AdminBundle\Entity\Bill;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Symfony\Component\Filesystem\Filesystem;
+use Knp\Bundle\GaufretteBundle\FilesystemMap;
 
 class BillBoletoRemoveSubscriber implements EventSubscriber
 {
@@ -14,14 +14,20 @@ class BillBoletoRemoveSubscriber implements EventSubscriber
      * @var Boleto
      */
     private $boleto;
+    /**
+     * @var FilesystemMap
+     */
+    private $fs;
 
     /**
      * BillBoletoRemoveSubscriber constructor.
      * @param Boleto $boleto
+     * @param FilesystemMap $fs
      */
-    public function __construct(Boleto $boleto)
+    public function __construct(Boleto $boleto, FilesystemMap $fs)
     {
         $this->boleto = $boleto;
+        $this->fs = $fs->get('boletos_fs');
     }
 
     /**
@@ -41,11 +47,10 @@ class BillBoletoRemoveSubscriber implements EventSubscriber
         if (!($entity instanceof Bill)) {
             return;
         }
-
-        $file = $this->boleto->getBoletoFilePath() . '/' . $this->boleto->getBoletoFileName($entity);
-
-        $fs = new Filesystem();
-        $fs->remove($file);
+        
+        if($this->fs->has('/' . $this->boleto->getBoletoFileName($entity))){
+            $this->fs->delete('/' . $this->boleto->getBoletoFileName($entity));
+        }
     }
 
 }

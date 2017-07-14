@@ -44,11 +44,11 @@ services:
 
     app.admin.bill_boleto:
         class: AdminBundle\Bill\Boleto
-        arguments: ['%boletos_path%', '%boletos_logo_path%']
+        arguments: ['@knp_gaufrette.filesystem_map', '%boletos_logo_path%']
 
     app.admin.bill_remessa:
         class: AdminBundle\Bill\Remessa
-        arguments: ['%boletos_remessa%']
+        arguments: ['@knp_gaufrette.filesystem_map']
 
     app.admin.bill_boleto.generate:
         class: AdminBundle\EventListener\BillBoletoGenerateSubscriber
@@ -64,13 +64,13 @@ services:
 
     app.admin.bill_boleto.remove:
         class: AdminBundle\EventListener\BillBoletoRemoveSubscriber
-        arguments: ['@app.admin.bill_boleto']
+        arguments: ['@app.admin.bill_boleto', '@knp_gaufrette.filesystem_map']
         tags:
             - { name: doctrine.event_subscriber }
 
     app.admin.bill_remessa.remove:
         class: AdminBundle\EventListener\BillRemessaRemoveSubscriber
-        arguments: ['@app.admin.bill_remessa']
+        arguments: ['@app.admin.bill_remessa', '@knp_gaufrette.filesystem_map']
         tags:
             - { name: doctrine.event_subscriber }
 

@@ -39,8 +39,12 @@ parameters:
 
     ### boletos path ###
     boletos_path: "%kernel.project_dir%/web/files/boletos_pdf"
-    boletos_remessa: "%kernel.project_dir%/web/files/boletos_remessa"
+    boletos_remessa_path: "%kernel.project_dir%/web/files/boletos_remessa"
     boletos_logo_path: "%kernel.project_dir%/web/site/assets/images/colors/blue/logo-rc-boleto.jpg"
+
+    ### boletos relative path ###
+    #boletos_relative_path: "/files/boletos_pdf"
+    #boletos_relative_remessa: "/files/boletos_remessa"
 
 framework:
     #esi: ~
@@ -126,26 +130,55 @@ stof_doctrine_extensions:
 
 vich_uploader:
     db_driver: orm
+    storage:   gaufrette
+
     mappings:
         banner_image:
             uri_prefix: "%upload_banner_image_relative_path%"
-            upload_destination: "%upload_banner_image_path%"
+            upload_destination: banner_fs
             delete_on_remove: true
             delete_on_update: true
             inject_on_load: true
             namer:  vich_uploader.namer_uniqid
         downloads_file:
             uri_prefix: "%upload_downloads_file_relative_path%"
-            upload_destination: "%upload_downloads_file_path%"
+            upload_destination: downloads_fs
             delete_on_remove: true
             delete_on_update: true
             inject_on_load: true
             namer:  vich_uploader.namer_uniqid
 
-knp_snappy:
-    #temporary_folder: "%kernel.cache_dir%/snappy"
-    pdf:
-        enabled:    true
-        #binary:     /usr/local/bin/wkhtmltopdf #"\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe\"" for Windows users
-        binary:     "\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe\""
-        options:    []
+#knp_snappy:
+#    #temporary_folder: "%kernel.cache_dir%/snappy"
+#    pdf:
+#        enabled:    true
+#        #binary:     /usr/local/bin/wkhtmltopdf #"\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe\"" for Windows users
+#        binary:     "\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe\""
+#        options:    []
+
+knp_gaufrette:
+    stream_wrapper: ~
+
+    adapters:
+        boletos:
+            local:
+                directory: "%boletos_path%"
+        remessas:
+            local:
+                directory: "%boletos_remessa_path%"
+        downloads:
+            local:
+                directory: "%upload_downloads_file_path%"
+        banner:
+            local:
+                directory: "%upload_banner_image_path%"
+
+    filesystems:
+        boletos_fs:
+            adapter: boletos
+        remessas_fs:
+            adapter: remessas
+        downloads_fs:
+            adapter: downloads
+        banner_fs:
+            adapter: banner

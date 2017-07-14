@@ -6,6 +6,7 @@ use AdminBundle\Bill\Remessa;
 use AdminBundle\Entity\BillRemessa;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Knp\Bundle\GaufretteBundle\FilesystemMap;
 use Symfony\Component\Filesystem\Filesystem;
 
 class BillRemessaRemoveSubscriber implements EventSubscriber
@@ -14,14 +15,21 @@ class BillRemessaRemoveSubscriber implements EventSubscriber
      * @var Remessa
      */
     private $remessa;
+    
+    /**
+     * @var FilesystemMap
+     */
+    private $fs;
 
     /**
      * BillRemessaRemoveSubscriber constructor.
      * @param Remessa $remessa
+     * @param FilesystemMap $fs
      */
-    public function __construct(Remessa $remessa)
+    public function __construct(Remessa $remessa, FilesystemMap $fs)
     {
         $this->remessa = $remessa;
+        $this->fs = $fs->get('remessas_fs');
     }
 
     /**
@@ -42,10 +50,9 @@ class BillRemessaRemoveSubscriber implements EventSubscriber
             return;
         }
 
-        $file = $this->remessa->getRemessaFilePath() . '/' . $this->remessa->getRemessaFileName($entity);
-
-        $fs = new Filesystem();
-        $fs->remove($file);
+        if($this->fs->has('/' . $this->remessa->getRemessaFileName($entity))){
+            $this->fs->delete('/' . $this->remessa->getRemessaFileName($entity));
+        }
     }
 
 }

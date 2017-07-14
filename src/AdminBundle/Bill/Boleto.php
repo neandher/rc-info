@@ -9,28 +9,33 @@ use Eduardokum\LaravelBoleto\Boleto\Banco\Caixa;
 use Eduardokum\LaravelBoleto\Boleto\Render\Html;
 use Eduardokum\LaravelBoleto\Boleto\Render\Pdf;
 use Eduardokum\LaravelBoleto\Pessoa;
+use Knp\Bundle\GaufretteBundle\FilesystemMap;
 use Symfony\Component\HttpFoundation\Response;
 
 class Boleto
 {
     /**
+     * @var FilesystemMap
+     */
+    private $fs;
+
+    /**
      * @var string
      */
-    private $boletosPath;
     private $logoPath;
 
     /**
      * Boleto constructor.
-     * @param $boletosPath
      * @param $logoPath
+     * @param FilesystemMap $fs
      */
-    public function __construct($boletosPath, $logoPath)
+    public function __construct(FilesystemMap $fs, $logoPath)
     {
-        $this->boletosPath = $boletosPath;
+        $this->fs = $fs->get('boletos_fs');
         $this->logoPath = $logoPath;
     }
 
-    public function renderPdf(Bill $bill, Company $company, $save = false, $download = false)
+    public function renderPdf(Bill $bill, Company $company)
     {
         $beneficiario = new Pessoa([
             'nome' => $company->getNomeFantasia(),
@@ -85,45 +90,22 @@ class Boleto
 
         $boleto = new Caixa($boletoArray);
         $boleto->setLocalPagamento('PREFERENCIALMENTE NAS CASAS LOTÉRICAS ATÉ O VALOR LIMITE');
-
-        $dadosBoleto = $boleto->toArray();
-        $dadosBoleto['imprimir_carregamento'] = false;
-
-        $html = new Html($dadosBoleto);
-        $dadosBoleto['css'] = $html->writeCss();
-        $dadosBoleto['codigo_barras'] = $html->getImagemCodigoDeBarras($dadosBoleto['codigo_barras']);
-
+        
         $pdf = new Pdf();
         $pdf->addBoleto($boleto);
-
-        if ($save) {
-            $pdf->gerarBoleto(
-                $pdf::OUTPUT_SAVE,
-                $this->boletosPath . '/' . $this->getBoletoFileName($bill)
-            );
-        } else {
-            $pdf_inline = $pdf->gerarBoleto($pdf::OUTPUT_STRING);
-            return new Response(
-                $pdf_inline,
-                200,
-                [
-                    'Content-Type' => 'application/pdf',
-                    'Content-Disposition' => ($download ? 'attachment; ' : '')
-                        . 'inline; filename="' . $this->getBoletoFileName($bill) . '"'
-                ]
-            );
-        }
-
-        //return $this->render('admin/boleto/_boleto.html.twig', $dadosBoleto);
+        
+        $content = $pdf->gerarBoleto($pdf::OUTPUT_STRING);
+        $this->fs->write($this->getBoletoFileName($bill), $content, true);
     }
 
     public function download(Bill $bill, $inline = false)
     {
-        $file = $this->boletosPath . '/' . $this->getBoletoFileName($bill);
+        if ($this->fs->has('/' . $this->getBoletoFileName($bill))) {
 
-        if (file_exists($file)) {
+            $file = $this->fs->get('/' . $this->getBoletoFileName($bill));
+
             return new Response(
-                file_get_contents($file),
+                $file->getContent(),
                 200,
                 [
                     'Content-Type' => 'application/pdf',
@@ -138,10 +120,5 @@ class Boleto
     public function getBoletoFileName(Bill $bill)
     {
         return 'fatura_' . $bill->getId() . '.pdf';
-    }
-    
-    public function getBoletoFilePath()
-    {
-        return $this->boletosPath;
     }
 }

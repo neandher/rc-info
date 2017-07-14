@@ -4,22 +4,23 @@ namespace AdminBundle\Bill;
 
 use AdminBundle\Entity\BillRemessa;
 use AdminBundle\Entity\Company;
+use Knp\Bundle\GaufretteBundle\FilesystemMap;
 use Symfony\Component\HttpFoundation\Response;
 
 class Remessa
 {
     /**
-     * @var string
+     * @var FilesystemMap
      */
-    private $remessasPath;
+    private $fs;
 
     /**
      * BillRemessa constructor.
-     * @param $remessasPath
+     * @param FilesystemMap $fs
      */
-    public function __construct($remessasPath)
+    public function __construct(FilesystemMap $fs)
     {
-        $this->remessasPath = $remessasPath;
+        $this->fs = $fs->get('remessas_fs');
     }
 
     /**
@@ -78,19 +79,17 @@ class Remessa
             ]);
         }
 
-        $text = $arquivo->getText();
-        $filename = $this->remessasPath . '/' . $this->getRemessaFileName($billRemessa);
-
-        file_put_contents($filename, $text);
+        $this->fs->write('/' . $this->getRemessaFileName($billRemessa), $arquivo->getText(), true);
     }
 
     public function download(BillRemessa $billRemessa)
     {
-        $file = $this->remessasPath . '/' . $this->getRemessaFileName($billRemessa);
+        if ($this->fs->has('/' . $this->getRemessaFileName($billRemessa))) {
 
-        if (file_exists($file)) {
+            $file = $this->fs->get('/' . $this->getRemessaFileName($billRemessa));
+
             return new Response(
-                file_get_contents($file),
+                $file->getContent(),
                 200,
                 [
                     'Content-Type' => 'application/txt',
@@ -104,10 +103,5 @@ class Remessa
     public function getRemessaFileName(BillRemessa $billRemessa)
     {
         return 'remessa_' . $billRemessa->getId() . '.REM';
-    }
-    
-    public function getRemessaFilePath()
-    {
-        return $this->remessasPath;
     }
 }
