@@ -51,7 +51,7 @@ class Bill
     private $paymentDateAt;
 
     /**
-     * @var string
+     * @var float
      *
      * @ORM\Column(type="decimal", scale=2)
      * @Assert\NotBlank()
@@ -60,7 +60,7 @@ class Bill
     private $amount;
 
     /**
-     * @var string
+     * @var float
      *
      * @ORM\Column(type="decimal", scale=2, nullable=true)
      * @Assert\LessThan(value="999999999.99")
@@ -160,7 +160,7 @@ class Bill
     }
 
     /**
-     * @return string
+     * @return float
      */
     public function getAmount()
     {
@@ -168,7 +168,7 @@ class Bill
     }
 
     /**
-     * @param string $amount
+     * @param float $amount
      * @return Bill
      */
     public function setAmount($amount)
@@ -179,7 +179,7 @@ class Bill
     }
 
     /**
-     * @return string
+     * @return float
      */
     public function getAmountPaid()
     {
@@ -187,7 +187,7 @@ class Bill
     }
 
     /**
-     * @param string $amountPaid
+     * @param float $amountPaid
      * @return Bill
      */
     public function setAmountPaid($amountPaid)

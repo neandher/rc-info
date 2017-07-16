@@ -199,6 +199,26 @@
             {% endfor %}
         {% endblock %}
 
+        {% block table_tfoot %}
+            <tfoot>
+            <tr>
+                <th colspan="8">&nbsp;</th>
+                <th colspan="2">A Receber</th>
+                <th>R$ {{ toReceive|number_format }}</th>
+            </tr>
+            <tr>
+                <th colspan="8">&nbsp;</th>
+                <th colspan="2">Vencidas</th>
+                <th>R$ {{ overdue|number_format }}</th>
+            </tr>
+            <tr>
+                <th colspan="8">&nbsp;</th>
+                <th colspan="2">Recebidas</th>
+                <th>R$ {{ received|number_format }}</th>
+            </tr>
+            </tfoot>
+        {% endblock %}
+
         {% block list_info %}
             Exibindo {{ bills.currentPageOffsetStart }} a
             {{ bills.currentPageOffsetEnd }} de

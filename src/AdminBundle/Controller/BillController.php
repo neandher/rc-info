@@ -41,8 +41,27 @@ class BillController extends BaseController
         $bills = $this->getDoctrine()->getRepository(Bill::class)->findLatest($pagination);
 
         $deleteForms = [];
+        $overdue = 0;
+        $received = 0;
+        $toReceive = 0;
+
+        /** @var Bill $bill */
         foreach ($bills as $bill) {
             $deleteForms[$bill->getId()] = $this->createDeleteForm($bill)->createView();
+
+            if ($bill->isDateOverDue()) {
+                $overdue += $bill->getAmount();
+            }
+
+            if ($bill->getBillStatus()->getReferency() == BillStatus::BILL_STATUS_PAGO) {
+                $received += $bill->getAmountPaid();
+            }
+
+            if ($bill->getBillStatus()->getReferency() == BillStatus::BILL_STATUS_EM_ABERTO &&
+                !$bill->isDateOverDue()
+            ) {
+                $toReceive += $bill->getAmount();
+            }
         }
 
         $billstatus = $this->getDoctrine()->getRepository(BillStatus::class)->findAll();
@@ -55,6 +74,9 @@ class BillController extends BaseController
             'bill_status' => $billstatus,
             'pagination' => $pagination,
             'delete_forms' => $deleteForms,
+            'overdue' => $overdue,
+            'received' => $received,
+            'toReceive' => $toReceive,
             'billMonthlyInvoice' => $billMonthlyInvoiceForm->createView(),
             'billRetornoFile' => $billFileRetornoForm->createView()
         ]);
