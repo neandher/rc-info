@@ -52,6 +52,7 @@ admin:
         new: Nova Cobrança
         monthly_invoice: Gerar Fatura Mensal
         retorno_file: Arquivo de Retorno
+        resume: Total
         edit: Editar Cobrança
         not_found: Nenhuma cobrança encontrada
         fields:

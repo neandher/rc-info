@@ -19,6 +19,8 @@ class BillRepository extends BaseRepository
     {
         $routeParams = $pagination->getRouteParams();
 
+        var_dump($routeParams);
+
         $qb = $this->createQueryBuilder('bill')
             ->innerJoin('bill.billStatus', 'billStatus')
             ->addSelect('billStatus')
@@ -47,6 +49,10 @@ class BillRepository extends BaseRepository
             $qb->andWhere('bill.dueDateAt <= :date_end')->setParameter('date_end', $date_end);
         }
 
+        if (!empty($params['overdue'])) {
+            $qb->andWhere('bill.dueDateAt <= :now')->setParameter('now', new \DateTime()); //nao esta funcionando
+        }
+
         if (!empty($routeParams['sent'])) {
             $qb->innerJoin('bill.billRemessa', 'remessa')
                 ->addSelect('remessa')
@@ -72,5 +78,36 @@ class BillRepository extends BaseRepository
         $paginator->setCurrentPage($routeParams['page']);
 
         return $paginator;
+    }
+
+    public function getAmountTotal($params = [])
+    {
+        $qb = $this->createQueryBuilder('bill')
+            ->innerJoin('bill.billStatus', 'billStatus');
+
+        if ((isset($params['date_start']) && !empty($params['date_start'])) && (isset($params['date_end']) && !empty($params['date_end']))) {
+
+            $date_start = \DateTime::createFromFormat('d/m/Y', $params['date_start'])->format('Y-m-d');
+            $date_end = \DateTime::createFromFormat('d/m/Y', $params['date_end'])->format('Y-m-d');
+
+            $qb->andWhere('bill.dueDateAt >= :date_start')->setParameter('date_start', $date_start);
+            $qb->andWhere('bill.dueDateAt <= :date_end')->setParameter('date_end', $date_end);
+        }
+
+        if (!empty($params['bill_status'])) {
+            $qb->andWhere('billStatus.id = :bill_status')->setParameter('bill_status', $params['bill_status']);
+        }
+
+        if (!empty($params['overdue'])) {
+            $qb->andWhere('bill.dueDateAt <= :now')->setParameter('now', new \DateTime());
+        }
+        
+        if (isset($params['paid']) && $params['paid'] === true) {
+            $qb->select('SUM(bill.amountPaid) as amountPaidTotal');
+        } else {
+            $qb->select('SUM(bill.amount) as amountTotal');
+        }
+
+        return $qb->getQuery()->getSingleScalarResult();
     }
 }

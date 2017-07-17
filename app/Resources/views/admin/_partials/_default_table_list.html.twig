@@ -4,19 +4,21 @@
 
         <div class="portlet light bordered">
 
-            <div class="portlet-title">
-                <div class="caption">
-                    {% block icon_list %}
-                        <i class="icon-list font-green-sharp"></i>
-                    {% endblock %}
-                    <span class="caption-subject font-green-sharp bold uppercase">
+            {% block portlet_title %}
+                <div class="portlet-title">
+                    <div class="caption">
+                        {% block icon_list %}
+                            <i class="icon-list font-green-sharp"></i>
+                        {% endblock %}
+                        <span class="caption-subject font-green-sharp bold uppercase">
                         {% block caption_subject %}{% endblock %}
                     </span>
+                    </div>
+                    <div class="actions btn-set">
+                        {% block actions %}{% endblock %}
+                    </div>
                 </div>
-                <div class="actions btn-set">
-                    {% block actions %}{% endblock %}
-                </div>
-            </div>
+            {% endblock %}
 
             <form class="form-inline" method="get" action="">
 
@@ -27,7 +29,7 @@
                     <div class="clearfix"></div>
 
                     {#<br>#}
-                    <hr>
+                    {% block body_hr_first %}<hr>{% endblock %}
 
                     {{ include('_partials/_flash_messages.html.twig') }}
 
@@ -39,7 +41,9 @@
                             <tbody>
                             {% block table_tr_td %}{% endblock %}
                             </tbody>
+                            <tfoot>
                             {% block table_tfoot %}{% endblock %}
+                            </tfoot>
                         </table>
 
                     </div>

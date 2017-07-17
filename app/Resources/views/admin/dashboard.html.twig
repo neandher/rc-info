@@ -6,6 +6,113 @@
 
     {% include '_partials/_flash_messages.html.twig' %}
 
-    <h3>Admin Dashboard</h3>
+    <div class="row">
+
+        <div class="col-md-6 col-sm-6">
+            {% embed 'admin/_partials/_default_dashboard_portlet_bill.html.twig' with {
+            caption_subject: 'Faturas A Receber',
+            caption_helper: '(Próximos 30 dias)',
+            bills: toReceive,
+            billsTotal: toReceiveTotal
+            } %}
+                {% block thead %}
+                    <tr class="uppercase">
+                        <th>ID</th>
+                        <th>{{ 'admin.customers.title_single'|trans }}</th>
+                        <th>{{ 'admin.bill.fields.dueDateAt'|trans }}</th>
+                        <th>{{ 'admin.bill.fields.amount'|trans }}</th>
+                        <th>#</th>
+                    </tr>
+                {% endblock %}
+                {% block tbody %}
+                    {% for bill in toReceive %}
+                        <tr>
+                            <td>{{ bill.id }}</td>
+                            <td>{{ bill.customer.name }}</td>
+                            <td>{{ bill.dueDateAt|date }}</td>
+                            <td>{{ bill.amount|number_format }}</td>
+                            <td>
+                                <a href="{{ path('admin_bill_edit', {id: bill.id}) }}"
+                                   class="btn btn-outline btn-sm green">
+                                    <span class="fa fa-edit"></span> Editar
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endblock %}
+            {% endembed %}
+        </div>
+
+        <div class="col-md-6 col-sm-6">
+            {% embed 'admin/_partials/_default_dashboard_portlet_bill.html.twig' with {
+            caption_subject: 'Faturas Recebidas',
+            caption_helper: '(30 dias atrás)',
+            bills: received,
+            billsTotal: receivedTotal
+            } %}
+                {% block thead %}
+                    <tr class="uppercase">
+                        <th>ID</th>
+                        <th>{{ 'admin.customers.title_single'|trans }}</th>
+                        <th>{{ 'admin.bill.fields.paymentDateAt'|trans }}</th>
+                        <th>{{ 'admin.bill.fields.amountPaid'|trans }}</th>
+                        <th>#</th>
+                    </tr>
+                {% endblock %}
+                {% block tbody %}
+                    {% for bill in received %}
+                        <tr>
+                            <td>{{ bill.id }}</td>
+                            <td>{{ bill.customer.name }}</td>
+                            <td>{{ bill.paymentDateAt|date }}</td>
+                            <td>{{ bill.amountPaid|number_format }}</td>
+                            <td>
+                                <a href="{{ path('admin_bill_edit', {id: bill.id}) }}"
+                                   class="btn btn-outline btn-sm green">
+                                    <span class="fa fa-edit"></span> Editar
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endblock %}
+            {% endembed %}
+        </div>
+
+        <div class="col-md-6 col-sm-6">
+            {% embed 'admin/_partials/_default_dashboard_portlet_bill.html.twig' with {
+            caption_subject: 'Faturas Vencidas',
+            caption_helper: '',
+            bills: overdue,
+            billsTotal: overdueTotal
+            } %}
+                {% block thead %}
+                    <tr class="uppercase">
+                        <th>ID</th>
+                        <th>{{ 'admin.customers.title_single'|trans }}</th>
+                        <th>{{ 'admin.bill.fields.dueDateAt'|trans }}</th>
+                        <th>{{ 'admin.bill.fields.amount'|trans }}</th>
+                        <th>#</th>
+                    </tr>
+                {% endblock %}
+                {% block tbody %}
+                    {% for bill in overdue %}
+                        <tr>
+                            <td>{{ bill.id }}</td>
+                            <td>{{ bill.customer.name }}</td>
+                            <td>{{ bill.dueDateAt|date }}</td>
+                            <td>{{ bill.amount|number_format }}</td>
+                            <td>
+                                <a href="{{ path('admin_bill_edit', {id: bill.id}) }}"
+                                   class="btn btn-outline btn-sm green">
+                                    <span class="fa fa-edit"></span> Editar
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endblock %}
+            {% endembed %}
+        </div>
+
+    </div>
 
 {% endblock %}
