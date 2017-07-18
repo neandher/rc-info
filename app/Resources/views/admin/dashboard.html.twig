@@ -6,6 +6,62 @@
 
     {% include '_partials/_flash_messages.html.twig' %}
 
+    <!-- BEGIN DASHBOARD STATS 1-->
+    <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 green" href="{{ path('admin_user_new') }}">
+                <div class="visual">
+                    <i class="icon-user"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span class="fa fa-plus"></span>
+                    </div>
+                    <div class="desc"><span class="fa fa-user"></span> Novo Usuário</div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 green" href="{{ path('admin_bill_new') }}">
+                <div class="visual">
+                    <i class="icon-wallet"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span class="fa fa-plus"></span>
+                    </div>
+                    <div class="desc"><span class="icon-wallet"></span> {{ 'admin.bill.new'|trans }}</div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 green" href="{{ path('admin_customer_new') }}">
+                <div class="visual">
+                    <i class="icon-globe"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span class="fa fa-plus"></span>
+                    </div>
+                    <div class="desc"><span class="fa fa-globe"></span> {{ 'admin.customers.new'|trans }}</div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 green" href="{{ path('admin_downloads_new') }}">
+                <div class="visual">
+                    <i class="icon-link"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span class="fa fa-plus"></span>
+                    </div>
+                    <div class="desc"><span class="fa fa-link"></span> {{ 'admin.downloads.new'|trans }}</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
     <div class="row">
 
         <div class="col-md-6 col-sm-6">

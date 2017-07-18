@@ -19,8 +19,6 @@ class BillRepository extends BaseRepository
     {
         $routeParams = $pagination->getRouteParams();
 
-        var_dump($routeParams);
-
         $qb = $this->createQueryBuilder('bill')
             ->innerJoin('bill.billStatus', 'billStatus')
             ->addSelect('billStatus')
@@ -49,7 +47,7 @@ class BillRepository extends BaseRepository
             $qb->andWhere('bill.dueDateAt <= :date_end')->setParameter('date_end', $date_end);
         }
 
-        if (!empty($params['overdue'])) {
+        if (!empty($routeParams['overdue'])) {
             $qb->andWhere('bill.dueDateAt <= :now')->setParameter('now', new \DateTime()); //nao esta funcionando
         }
 
