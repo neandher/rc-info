@@ -29,6 +29,7 @@ class DashboardController extends Controller
         $statusPago = $this->getDoctrine()->getRepository(BillStatus::class)->findOneBy(['referency' => BillStatus::BILL_STATUS_PAGO]);
 
         $request->query->set('num_items', 15);
+        $request->query->set('sorting', ['dueDateAt' => 'asc']);
 
         // TO RECEIVE
         $request->query->set('bill_status', $statusEmAberto->getId());

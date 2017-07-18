@@ -127,7 +127,7 @@
                         {{ 'admin.bill.fields.updatedAt'|trans }}
                     </a>
                 </th>
-                <th style="width: 13%">Ações</th>
+                <th style="width: 10%">Ações</th>
             </tr>
         {% endblock %}
 
@@ -152,7 +152,7 @@
                             </span>
                         {% else %}
                             <span class="label label-sm
-                            label-{% if bill.billStatus.referency == 'pago' %}success{% else %}warning{% endif %}">
+                            {% if bill.billStatus.referency == 'pago' %}bg-green-jungle{% else %}label-warning{% endif %}">
                                 {{ bill.billStatus.description }}
                             </span>
                         {% endif %}
@@ -164,7 +164,7 @@
                             {% block buttons %}
                                 <a href="{{ path('admin_bill_edit', { id: bill.id }) ~ pagination.buildQuery }}"
                                    title="Editar" class="btn btn-default btn-sm">
-                                    <span class="glyphicon glyphicon-pencil"></span> Editar
+                                    <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
                                 <button type="button" class="btn btn-default btn-sm dropdown-toggle"
                                         data-toggle="dropdown" data-close-others="true">

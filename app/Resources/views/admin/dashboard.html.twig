@@ -69,7 +69,8 @@
             caption_subject: 'Faturas A Receber',
             caption_helper: '(Próximos 30 dias)',
             bills: toReceive,
-            billsTotal: toReceiveTotal
+            billsTotal: toReceiveTotal,
+            bg: 'label-warning'
             } %}
                 {% block thead %}
                     <tr class="uppercase">
@@ -109,7 +110,8 @@
             caption_subject: 'Faturas Recebidas',
             caption_helper: '(30 dias atrás)',
             bills: received,
-            billsTotal: receivedTotal
+            billsTotal: receivedTotal,
+            bg: 'bg-green-jungle'
             } %}
                 {% block thead %}
                     <tr class="uppercase">
@@ -149,7 +151,8 @@
             caption_subject: 'Faturas Vencidas',
             caption_helper: '',
             bills: overdue,
-            billsTotal: overdueTotal
+            billsTotal: overdueTotal,
+            bg: 'label-danger'
             } %}
                 {% block thead %}
                     <tr class="uppercase">

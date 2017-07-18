@@ -29,12 +29,15 @@
                     <div class="clearfix"></div>
 
                     {#<br>#}
-                    {% block body_hr_first %}<hr>{% endblock %}
+                    {% block body_hr_first %}
+                        <hr>
+                    {% endblock %}
 
                     {{ include('_partials/_flash_messages.html.twig') }}
 
                     <div class="_table-responsive">
-                        <table class="table table-striped _table-bordered table-hover">
+                        {#<table class="table table-striped _table-bordered table-hover">#}
+                        <table class="table table-striped table-hover table-light">
                             <thead>
                             {% block table_tr_th %}{% endblock %}
                             </thead>
