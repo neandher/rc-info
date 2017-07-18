@@ -48,7 +48,7 @@ class BillRepository extends BaseRepository
         }
 
         if (!empty($routeParams['overdue'])) {
-            $qb->andWhere('bill.dueDateAt <= :now')->setParameter('now', new \DateTime()); //nao esta funcionando
+            $qb->andWhere('bill.dueDateAt <= :now')->setParameter('now', new \DateTime());
         }
 
         if (!empty($routeParams['sent'])) {

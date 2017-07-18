@@ -13,13 +13,15 @@
         <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu" data-keep-expanded="false"
             data-auto-scroll="true" data-slide-speed="200">
             <li class="nav-item start
-                {% if app.request.attributes.get('_route') == 'admin_dashboard' %}active{% endif %}">
-                <a href="{{ path('admin_dashboard') }}" class="nav-link">
+                {% if 'admin_index' in app.request.attributes.get('_route') %}active{% endif %}">
+                <a href="{{ path('admin_index') }}" class="nav-link">
                     <i class="icon-home"></i>
                     <span class="title">Dashboard</span>
-                    {% if 'admin_dashboard' in app.request.attributes.get('_route') %}
+                    {% if 'admin_index' in app.request.attributes.get('_route') %}
                         <span class="selected"></span>
                     {% endif %}
+                    <span class="arrow
+                    {% if 'admin_index' in app.request.attributes.get('_route') %}open{% endif %}"></span>
                 </a>
             </li>
             <li class="nav-item
