@@ -137,7 +137,8 @@ class Boleto
 
     public function getBoletoFileName(Bill $bill)
     {
-        $customerName = preg_replace('/[`^~\'"]/', null, iconv('UTF-8', 'ASCII//TRANSLIT', $bill->getCustomer()->getName()));
+        $str = $bill->getCustomer()->getName();
+        $customerName = preg_replace('/[`^~\'"]/', null, iconv(mb_detect_encoding($str), 'ASCII//TRANSLIT', $str));
         $customerName = str_replace(" ", "_", $customerName);
 
         return $customerName . '_' . $bill->getId() . date('mY') . '.pdf';
