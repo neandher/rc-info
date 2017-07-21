@@ -10,10 +10,7 @@ use Knp\Bundle\GaufretteBundle\FilesystemMap;
 
 class BillBoletoRemoveSubscriber implements EventSubscriber
 {
-    /**
-     * @var Boleto
-     */
-    private $boleto;
+    
     /**
      * @var FilesystemMap
      */
@@ -21,12 +18,10 @@ class BillBoletoRemoveSubscriber implements EventSubscriber
 
     /**
      * BillBoletoRemoveSubscriber constructor.
-     * @param Boleto $boleto
      * @param FilesystemMap $fs
      */
-    public function __construct(Boleto $boleto, FilesystemMap $fs)
+    public function __construct(FilesystemMap $fs)
     {
-        $this->boleto = $boleto;
         $this->fs = $fs->get('boletos_fs');
     }
 
@@ -48,8 +43,8 @@ class BillBoletoRemoveSubscriber implements EventSubscriber
             return;
         }
         
-        if($this->fs->has('/' . $this->boleto->getBoletoFileName($entity))){
-            $this->fs->delete('/' . $this->boleto->getBoletoFileName($entity));
+        if($this->fs->has('/' . $entity->getBoletoName())){
+            $this->fs->delete('/' . $entity->getBoletoName());
         }
     }
 

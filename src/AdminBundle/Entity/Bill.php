@@ -72,8 +72,15 @@ class Bill
      *
      * @ORM\Column(type="string", nullable=true)
      */
+    private $boletoName;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
     private $note;
-
+    
     /**
      * @var BillStatus
      *
@@ -280,6 +287,24 @@ class Bill
     public function setBillRemessa($billRemessa)
     {
         $this->billRemessa = $billRemessa;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBoletoName()
+    {
+        return $this->boletoName;
+    }
+
+    /**
+     * @param string $boletoName
+     * @return Bill
+     */
+    public function setBoletoName($boletoName)
+    {
+        $this->boletoName = $boletoName;
         return $this;
     }
 }

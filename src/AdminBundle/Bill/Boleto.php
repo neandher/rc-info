@@ -4,12 +4,15 @@ namespace AdminBundle\Bill;
 
 use AdminBundle\Entity\Bill;
 use AdminBundle\Entity\Company;
+use AdminBundle\Event\BillBoletoEvents;
 use Carbon\Carbon;
 use Eduardokum\LaravelBoleto\Boleto\Banco\Caixa;
 use Eduardokum\LaravelBoleto\Boleto\Render\Html;
 use Eduardokum\LaravelBoleto\Boleto\Render\Pdf;
 use Eduardokum\LaravelBoleto\Pessoa;
 use Knp\Bundle\GaufretteBundle\FilesystemMap;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Response;
 
 class Boleto
@@ -25,14 +28,21 @@ class Boleto
     private $logoPath;
 
     /**
-     * Boleto constructor.
-     * @param $logoPath
-     * @param FilesystemMap $fs
+     * @var EventDispatcherInterface
      */
-    public function __construct(FilesystemMap $fs, $logoPath)
+    private $dispatcher;
+
+    /**
+     * Boleto constructor.
+     * @param FilesystemMap $fs
+     * @param $logoPath
+     * @param EventDispatcherInterface $dispatcher
+     */
+    public function __construct(FilesystemMap $fs, $logoPath, EventDispatcherInterface $dispatcher)
     {
         $this->fs = $fs->get('boletos_fs');
         $this->logoPath = $logoPath;
+        $this->dispatcher = $dispatcher;
     }
 
     public function renderPdf(Bill $bill, Company $company)
@@ -90,19 +100,27 @@ class Boleto
 
         $boleto = new Caixa($boletoArray);
         $boleto->setLocalPagamento('PREFERENCIALMENTE NAS CASAS LOTÉRICAS ATÉ O VALOR LIMITE');
-        
+
         $pdf = new Pdf();
         $pdf->addBoleto($boleto);
-        
+
         $content = $pdf->gerarBoleto($pdf::OUTPUT_STRING);
-        $this->fs->write($this->getBoletoFileName($bill), $content, true);
+
+        $boletoName = $this->getBoletoFileName($bill);
+
+        $this->fs->write($boletoName, $content, true);
+
+        $genericEvent = new GenericEvent($bill);
+        $genericEvent->setArgument('boletoName', $boletoName);
+
+        $this->dispatcher->dispatch(BillBoletoEvents::GENERATE_SUCCESS, $genericEvent);
     }
 
     public function download(Bill $bill, $inline = false)
     {
-        if ($this->fs->has('/' . $this->getBoletoFileName($bill))) {
+        if ($this->fs->has('/' . $bill->getBoletoName())) {
 
-            $file = $this->fs->get('/' . $this->getBoletoFileName($bill));
+            $file = $this->fs->get('/' . $bill->getBoletoName());
 
             return new Response(
                 $file->getContent(),
@@ -110,7 +128,7 @@ class Boleto
                 [
                     'Content-Type' => 'application/pdf',
                     'Content-Disposition' => ($inline ? 'inline; ' : 'attachment;')
-                        . ' filename="' . $this->getBoletoFileName($bill) . '"'
+                        . ' filename="' . $bill->getBoletoName() . '"'
                 ]
             );
         }
@@ -119,6 +137,9 @@ class Boleto
 
     public function getBoletoFileName(Bill $bill)
     {
-        return 'fatura_' . $bill->getId() . '.pdf';
+        $customerName = preg_replace('/[`^~\'"]/', null, iconv('UTF-8', 'ASCII//TRANSLIT', $bill->getCustomer()->getName()));
+        $customerName = str_replace(" ", "_", $customerName);
+
+        return $customerName . '_' . $bill->getId() . date('mY') . '.pdf';
     }
 }

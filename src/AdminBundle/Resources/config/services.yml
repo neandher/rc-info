@@ -44,7 +44,7 @@ services:
 
     app.admin.bill_boleto:
         class: AdminBundle\Bill\Boleto
-        arguments: ['@knp_gaufrette.filesystem_map', '%boletos_logo_path%']
+        arguments: ['@knp_gaufrette.filesystem_map', '%boletos_logo_path%', '@event_dispatcher']
 
     app.admin.bill_remessa:
         class: AdminBundle\Bill\Remessa
@@ -62,9 +62,15 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    app.admin.bill_boleto.name:
+        class: AdminBundle\EventListener\BillBoletoNameSubscriber
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: kernel.event_subscriber }
+
     app.admin.bill_boleto.remove:
         class: AdminBundle\EventListener\BillBoletoRemoveSubscriber
-        arguments: ['@app.admin.bill_boleto', '@knp_gaufrette.filesystem_map']
+        arguments: ['@knp_gaufrette.filesystem_map']
         tags:
             - { name: doctrine.event_subscriber }
 
