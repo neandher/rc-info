@@ -87,7 +87,7 @@ twig:
         thousands_separator: '.'
     form_themes:
         - 'admin/_form/_layout.html.twig'
-        - "admin/_form/_fields.html.twig"
+        - 'admin/_form/_fields.html.twig'
 
 # Doctrine Configuration
 doctrine:
@@ -146,7 +146,7 @@ vich_uploader:
             delete_on_remove: true
             delete_on_update: true
             inject_on_load: true
-            namer:  vich_uploader.namer_uniqid
+            namer: app.admin.download_file_.namer
 
 #knp_snappy:
 #    #temporary_folder: "%kernel.cache_dir%/snappy"

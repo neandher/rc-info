@@ -82,15 +82,15 @@ class Boleto
             'agencia' => $company->getAgencia(),
             'conta' => $company->getCodigoCliente(),
             'descricaoDemonstrativo' => [
-                'MULTA DE R$: ' . number_format($company->getMulta(), 2, ',', '.') . ' APÓS : ' . $company->getPrazoAposVencimento(),
-                'JUROS DE R$: ' . number_format($company->getJuros(), 2, ',', '.') . ' AO DIA',
+                'MULTA DE R$: ' . number_format($company->getMulta() * $bill->getAmount(), 2, ',', '.') . ' APÓS : ' . $bill->getDueDateAt()->format('d/m/Y'),
+                'JUROS DE R$: ' . number_format($company->getJuros() * $bill->getAmount(), 2, ',', '.') . ' AO DIA',
                 'NÃO RECEBER APÓS ' . $company->getPrazoAposVencimento() . ' DIAS DO VENCIMENTO',
                 'ATENÇÃO após efetuar o pagamento entre em contato com nosso escritório e retire sua senha de liberação 33499130',
                 'Título sujeito a protesto | Link para atualização de vencimento | bloquetoexpresso.caixa.gov.br'
             ],
             'instrucoes' => [
-                'MULTA DE R$: ' . number_format($company->getMulta(), 2, ',', '.') . ' APÓS : ' . $bill->getDueDateAt()->format('d/m/Y'),
-                'JUROS DE R$: ' . number_format($company->getJuros(), 2, ',', '.') . ' AO DIA',
+                'MULTA DE R$: ' . number_format($company->getMulta() * $bill->getAmount(), 2, ',', '.') . ' APÓS : ' . $bill->getDueDateAt()->format('d/m/Y'),
+                'JUROS DE R$: ' . number_format($company->getJuros() * $bill->getAmount(), 2, ',', '.') . ' AO DIA',
                 'NÃO RECEBER APÓS ' . $company->getPrazoAposVencimento() . ' DIAS DO VENCIMENTO',
                 'Link para atualização de vencimento',
                 'bloquetoexpresso.caixa.gov.br'
@@ -138,11 +138,7 @@ class Boleto
 
     public function getBoletoFileName(Bill $bill)
     {
-        $str = $bill->getCustomer()->getName();
-        //$customerName = preg_replace('/[`^~\'"]/', null, iconv(mb_detect_encoding($str), 'ASCII//TRANSLIT', $str));
-        //$customerName = str_replace(" ", "_", $customerName);
-        $customerName = Urlizer::urlize($str, '_');
-
+        $customerName = Urlizer::urlize($bill->getCustomer()->getName(), '_');
         return $customerName . '_' . $bill->getId() . date('mY') . '.pdf';
     }
 }

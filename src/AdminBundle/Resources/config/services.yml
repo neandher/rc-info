@@ -87,3 +87,6 @@ services:
     app.admin.download_file:
         class: AdminBundle\Downloads\DownloadFile
         arguments: ['@vich_uploader.download_handler']
+
+    app.admin.download_file_.namer:
+        class: AdminBundle\VichUpload\DownloadFileNamer

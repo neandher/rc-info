@@ -7,7 +7,7 @@ use AdminBundle\Entity\Uf;
 use AdminBundle\Repository\UfRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -35,8 +35,8 @@ class CompanyType extends AbstractType
             ->add('codigoCliente', TextType::class, ['label' => 'admin.company.fields.codigoCliente'])
             ->add('aceite', TextType::class, ['label' => 'admin.company.fields.aceite'])
             ->add('especieDoc', TextType::class, ['label' => 'admin.company.fields.especieDoc'])
-            ->add('juros', MoneyCustomType::class, ['label' => 'admin.company.fields.juros'])
-            ->add('multa', MoneyCustomType::class, ['label' => 'admin.company.fields.multa'])
+            ->add('juros', PercentType::class, ['label' => 'admin.company.fields.juros'])
+            ->add('multa', PercentType::class, ['label' => 'admin.company.fields.multa'])
             ->add('prazoAposVencimento', TextType::class, ['label' => 'admin.company.fields.prazoAposVencimento'])
             ->add('codigoProtesto', TextType::class, ['label' => 'admin.company.fields.codigoProtesto'])
             ->add('prazoProtesto', TextType::class, ['label' => 'admin.company.fields.prazoProtesto'])

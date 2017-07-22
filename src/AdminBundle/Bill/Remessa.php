@@ -2,6 +2,7 @@
 
 namespace AdminBundle\Bill;
 
+use AdminBundle\Entity\Bill;
 use AdminBundle\Entity\BillRemessa;
 use AdminBundle\Entity\Company;
 use Knp\Bundle\GaufretteBundle\FilesystemMap;
@@ -43,7 +44,7 @@ class Remessa
 
         $lote = $arquivo->addLote(array('tipo_servico' => 1)); // tipo_servico  = 1 para cobrança registrada, 2 para sem registro
 
-        /** @var $bill $bill */
+        /** @var Bill $bill */
         foreach ($billRemessa->getBills() as $bill) {
 
             $lote->inserirDetalhe([
@@ -67,15 +68,15 @@ class Remessa
                 'uf_pagador' => $bill->getCustomer()->getMainAddress()->getUf()->getSigla(),
                 'data_vencimento' => $bill->getDueDateAt()->format('Y-m-d'), // informar a data neste formato
                 'data_emissao' => $bill->getCreatedAt()->format('Y-m-d'), // informar a data neste formato
-                'vlr_juros' => $company->getJuros(), // Valor do juros de 1 dia'
+                'vlr_juros' => $company->getJuros() * $bill->getAmount(), // Valor do juros de 1 dia'
                 'data_desconto' => $bill->getDueDateAt()->format('Y-m-d'), // informar a data neste formato
                 'vlr_desconto' => '0', // Valor do desconto
                 'baixar' => $company->getCodigoBaixaDevolucao(), // codigo para indicar o tipo de baixa '1' (Baixar/ Devolver) ou '2' (N�o Baixar / N�o Devolver)
                 'prazo_baixa' => $company->getPrazoBaixaDevolucao(), // prazo de dias para o cliente pagar ap�s o vencimento
-                'mensagem' => 'JUROS de R$' . number_format($company->getJuros(), 2, '.', '') . ' ao dia' . PHP_EOL . "Não receber apos " . $company->getPrazoAposVencimento() . " dias",
+                'mensagem' => 'JUROS de R$' . number_format($company->getJuros() * $bill->getAmount(), 2, '.', '') . ' ao dia' . PHP_EOL . "Não receber apos " . $company->getPrazoAposVencimento() . " dias",
                 'email_pagador' => $bill->getCustomer()->getEmail(), // data da multa
                 'data_multa' => $bill->getDueDateAt()->add(new \DateInterval('P1D'))->format('Y-m-d'), // informar a data neste formato, // data da multa
-                'vlr_multa' => $company->getMulta(), // valor da multa
+                'vlr_multa' => $company->getMulta() * $bill->getAmount(), // valor da multa
             ]);
         }
 

@@ -121,14 +121,16 @@ class Company
     private $especieDoc;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="decimal", scale=2)
      * @Assert\NotBlank()
+     * @Assert\LessThan(value="99999999.99")
      */
     private $juros;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="decimal", scale=2)
      * @Assert\NotBlank()
+     * @Assert\LessThan(value="99999999.99")
      */
     private $multa;
 
