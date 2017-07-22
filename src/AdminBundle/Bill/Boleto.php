@@ -10,6 +10,7 @@ use Eduardokum\LaravelBoleto\Boleto\Banco\Caixa;
 use Eduardokum\LaravelBoleto\Boleto\Render\Html;
 use Eduardokum\LaravelBoleto\Boleto\Render\Pdf;
 use Eduardokum\LaravelBoleto\Pessoa;
+use Gedmo\Sluggable\Util\Urlizer;
 use Knp\Bundle\GaufretteBundle\FilesystemMap;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -138,8 +139,9 @@ class Boleto
     public function getBoletoFileName(Bill $bill)
     {
         $str = $bill->getCustomer()->getName();
-        $customerName = preg_replace('/[`^~\'"]/', null, iconv(mb_detect_encoding($str), 'ASCII//TRANSLIT', $str));
-        $customerName = str_replace(" ", "_", $customerName);
+        //$customerName = preg_replace('/[`^~\'"]/', null, iconv(mb_detect_encoding($str), 'ASCII//TRANSLIT', $str));
+        //$customerName = str_replace(" ", "_", $customerName);
+        $customerName = Urlizer::urlize($str, '_');
 
         return $customerName . '_' . $bill->getId() . date('mY') . '.pdf';
     }
