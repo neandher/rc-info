@@ -3,10 +3,13 @@
 namespace AdminBundle\Controller;
 
 use AdminBundle\Entity\Downloads;
+use AdminBundle\Form\Type\DownloadsFileType;
 use AdminBundle\Form\Type\DownloadsType;
+use AdminBundle\Util\Helpers;
 use AppBundle\Event\FlashBagEvents;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -191,5 +194,107 @@ class DownloadsController extends BaseController
     public function downloadFile(Downloads $downloads)
     {
         return $this->get('app.admin.download_file')->download($downloads);
+    }
+
+    /**
+     * @Security("is_granted('IS_AUTHENTICATED_ANONYMOUSLY')")
+     * @Route("/newAjax", name="admin_downloads_new_ajax")
+     * @Method("POST")
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function newAjaxAction(Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            return Helpers::json([
+                'status' => 'error',
+                'code' => 404,
+                'msg' => 'Acesso inválido'
+            ]);
+        }
+
+        $download = new Downloads();
+        $form = $this->createForm(DownloadsType::class, $download, ['csrf_protection' => false]);
+
+        $data = json_decode($request->getContent(), true);
+
+        if($data == null){
+            return Helpers::json([
+                'status' => 'error',
+                'code' => 404,
+                'msg' => 'Json inválido.'
+            ]);
+        }
+
+        $form->submit($data);
+
+        if (!$form->isValid()) {
+            return Helpers::json([
+                'status' => 'error',
+                'code' => 400,
+                'errors' => Helpers::getErrorsFromForm($form)
+            ]);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($download);
+        $em->flush();
+
+        return Helpers::json([
+            'status' => 'success',
+            'code' => 200,
+            'data' => $download
+        ]);
+    }
+
+    /**
+     * @Security("is_granted('IS_AUTHENTICATED_ANONYMOUSLY')")
+     * @Route("/{id}/uploadAjax", name="admin_downloads_upload_ajax", requirements={"id": "\d+"})
+     * @Method("POST")
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function uploadAjaxAction(Request $request, $id)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            return Helpers::json([
+                'status' => 'error',
+                'code' => 404,
+                'msg' => 'Acesso inválido'
+            ]);
+        }
+
+        $download = $this->getDoctrine()->getRepository(Downloads::class)->findOneBy(['id' => $id]);
+
+        if (!$download) {
+            return Helpers::json([
+                'status' => 'error',
+                'code' => 404,
+                'msg' => 'Download não encontrado.'
+            ]);
+        }
+
+        $form = $this->createForm(DownloadsFileType::class, $download, ['csrf_protection' => false]);
+        $form->submit($request->files->all());
+
+        if (!$form->isValid()) {
+            return Helpers::json([
+                'status' => 'error',
+                'code' => 400,
+                'errors' => Helpers::getErrorsFromForm($form)
+            ]);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($download);
+        $em->flush();
+
+        return Helpers::json([
+            'status' => 'success',
+            'code' => 200,
+            'data' => $download
+        ]);
     }
 }

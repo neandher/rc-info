@@ -18,10 +18,10 @@ class DownloadsType extends AbstractType
     {
         $builder
             ->add('description', TextType::class, ['label' => 'admin.downloads.fields.description'])
-            ->add('downloadFile', FileType::class, [
+            /*->add('downloadFile', FileType::class, [
                 'label' => 'admin.downloads.fields.download_file',
                 'attr' => ['class' => 'form-control']
-            ])
+            ])*/
             ->add('isEnabled', SwitchType::class, ['label' => 'admin.downloads.fields.enabled'])
             ->add('publishedAt', DateTimePickerType::class,
                 [
