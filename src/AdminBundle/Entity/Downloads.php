@@ -9,11 +9,13 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass="AdminBundle\Repository\DownloadsRepository")
  * @ORM\Table(name="downloads")
  * @Vich\Uploadable()
+ * @Serializer\ExclusionPolicy("all")
  */
 class Downloads
 {
@@ -23,12 +25,14 @@ class Downloads
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
+     * @Serializer\Expose()
      */
     private $id;
 
     /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
+     * @Serializer\Expose()
      */
     private $description;
 
@@ -43,6 +47,7 @@ class Downloads
 
     /**
      * @ORM\Column(type="string")
+     * @Serializer\Expose()
      */
     private $downloadName;
 
@@ -52,6 +57,7 @@ class Downloads
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank()
      * @Assert\DateTime(format="d-m-Y - H:i")
+     * @Serializer\Expose()
      */
     private $publishedAt;
 

@@ -2,12 +2,15 @@
 
 namespace AppBundle\Resource\Model;
 
+use JMS\Serializer\Annotation as Serializer;
+
 trait ToggleableTrait
 {
     /**
      * @var bool
      *
      * @ORM\Column(type="boolean")
+     * @Serializer\Expose()
      */
     protected $isEnabled = true;
 

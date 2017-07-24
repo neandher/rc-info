@@ -4,6 +4,7 @@ namespace AppBundle\Resource\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation as Serializer;
 
 trait TimestampableTrait
 {
@@ -12,6 +13,7 @@ trait TimestampableTrait
      *
      * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="create")
+     * @Serializer\Expose()
      */
     protected $createdAt;
 
@@ -20,6 +22,7 @@ trait TimestampableTrait
      *
      * @ORM\Column(type="datetime", nullable=true)
      * @Gedmo\Timestampable(on="update")
+     * @Serializer\Expose()
      */
     protected $updatedAt;
 

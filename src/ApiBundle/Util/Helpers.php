@@ -1,6 +1,6 @@
 <?php
 
-namespace AdminBundle\Util;
+namespace ApiBundle\Util;
 
 
 use Symfony\Component\Form\FormInterface;
