@@ -9,13 +9,13 @@ class ApiBundle extends Bundle
 {
     public function boot()
     {
-        $host = $this->container->getParameter('router.request_context.host');
         $scheme = $this->container->getParameter('router.request_context.scheme');
+        $host = $this->container->getParameter('router.request_context.host');
 
         $url = $scheme . '://' . $host;
-        
+
         GlobalsHelper::setDownloadUrl(
-            $url . '/' . $this->container->getParameter('upload_downloads_file_relative_path')
+            $url . $this->container->getParameter('upload_downloads_file_relative_path')
         );
     }
 }

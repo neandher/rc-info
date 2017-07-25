@@ -50,7 +50,7 @@ var FormFileUpload = function () {
                 $(this).fileupload('option', 'done')
                 .call(this, $.Event('done'), {result: result});
             }).error(function (result){
-                console.log(result);
+                //console.log(result);
             });
         }
 
