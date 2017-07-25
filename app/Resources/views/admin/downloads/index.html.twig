@@ -71,15 +71,17 @@
                         </a>
                     </td>
                     <td>
-                        {% if download.isEnabled == '1' %}
-                            <span class="label label-sm label-success">
+                        <a href="{{ path('admin_downloads_enable', {id: download.id}) ~ pagination.buildQuery }}" title="Clique ativar/desativar">
+                            {% if download.isEnabled %}
+                                <span class="label label-sm label-success">
                                 <i class="fa fa-check"></i>
                             </span>
-                        {% else %}
-                            <span class="label label-sm label-danger">
+                            {% else %}
+                                <span class="label label-sm label-danger">
                                 <i class="fa fa-remove"></i>
                             </span>
-                        {% endif %}
+                            {% endif %}
+                        </a>
                     </td>
                     <td>{{ download.publishedAt|date('d/m/Y H:i') }}</td>
                     <td>{{ download.createdAt|date('d/m/Y H:i') }}</td>

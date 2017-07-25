@@ -65,7 +65,7 @@
                     <td>{{ customer.email }}</td>
                     <td>{{ customer.cnpj }}</td>
                     <td>
-                        {% if customer.siteUser.isEnabled == '1' %}
+                        {% if customer.siteUser.isEnabled %}
                             <span class="label label-sm label-success">
                                 <i class="fa fa-check"></i>
                             </span>

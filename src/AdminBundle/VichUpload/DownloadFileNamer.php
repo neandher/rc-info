@@ -17,11 +17,11 @@ class DownloadFileNamer implements NamerInterface
     public function name($object, PropertyMapping $mapping)
     {
         $str = str_replace(
-            "." . $mapping->getFile($object)->guessExtension(),
+            "." . $mapping->getFile($object)->getClientOriginalExtension(),
             "",
             $mapping->getFile($object)->getClientOriginalName()
         );
-        return Urlizer::urlize($str, '_') . '.' . $mapping->getFile($object)->guessExtension();
+        return Urlizer::urlize($str, '_') . '.' . $mapping->getFile($object)->getClientOriginalExtension();
     }
 
 }

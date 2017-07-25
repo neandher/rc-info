@@ -39,16 +39,12 @@
         {% block tab_pane %}
             <div role="tabpanel" class="tab-pane active" id="geral">
                 <div class="row">
-                    <div class="col-md-6">{{ form_row(form.downloadFile, {'required': false}) }}</div>
                     <div class="col-md-6">{{ form_row(form.description) }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12"><hr></div>
-                </div>
-                <div class="row">
                     <div class="col-md-6">{{ form_row(form.publishedAt) }}</div>
+                </div>
+                <div class="row">
                     <div class="col-md-6">
-                        {{ form_widget(form.isEnabled, {'attr': {'checked': true}}) }}
+                        {{ form_widget(form.isEnabled) }}
                     </div>
                 </div>
             </div>

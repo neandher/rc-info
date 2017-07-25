@@ -28,6 +28,10 @@ class DownloadsType extends AbstractType
                     'label' => 'admin.downloads.fields.published_at',
                     'attr' => ['readonly' => true, 'class' => 'form_datetime']
                 ]);
+
+        if ($options['is_edit']) {
+            $builder->remove('downloadFile');
+        }
     }
 
     /**
@@ -38,6 +42,7 @@ class DownloadsType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Downloads::class,
             'validation_groups' => ['Default', 'create'],
+            'is_edit' => false
         ]);
     }
 }

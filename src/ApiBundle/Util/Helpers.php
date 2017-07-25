@@ -26,8 +26,9 @@ class Helpers
         return $response;
     }
 
-    public static function getErrorsFromForm(FormInterface $form)
+    public static function getErrorsFromForm(FormInterface $form, $return = 'array')
     {
+        $str = '';
         $errors = array();
         foreach ($form->getErrors() as $error) {
             $errors[] = $error->getMessage();
@@ -36,9 +37,10 @@ class Helpers
             if ($childForm instanceof FormInterface) {
                 if ($childErrors = self::getErrorsFromForm($childForm)) {
                     $errors[$childForm->getName()] = $childErrors;
+                    $str .= $childErrors[0] . ' / ';
                 }
             }
         }
-        return $errors;
+        return $return == 'array' ? $errors : substr($str, 0, strlen($str) - 3);
     }
 }

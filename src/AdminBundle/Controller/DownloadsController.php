@@ -101,7 +101,8 @@ class DownloadsController extends BaseController
         $pagination = $this->get('app.util.pagination')->handle($request, Downloads::class);
 
         $form = $this->createForm(DownloadsType::class, $downloads, [
-            'validation_groups' => ['Default']
+            'validation_groups' => ['Default'],
+            'is_edit' => true
         ]);
 
         $this->addDefaultSubmitButtons($form);
@@ -194,5 +195,30 @@ class DownloadsController extends BaseController
     public function downloadFile(Downloads $downloads)
     {
         return $this->get('app.admin.download_file')->download($downloads);
+    }
+
+    /**
+     * @Route("/{id}/enable/", requirements={"id" : "\d+"}, name="admin_downloads_enable")
+     *
+     * @param Downloads $downloads
+     * @param Request $request
+     * @internal param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function enable(Request $request, Downloads $downloads)
+    {
+        if ($downloads->getIsEnabled()) {
+            $downloads->setIsEnabled(false);
+        } else {
+            $downloads->setIsEnabled(true);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($downloads);
+        $em->flush();
+
+        $pagination = $this->get('app.util.pagination')->handle($request, Downloads::class);
+
+        return $this->redirectToRoute('admin_downloads_index', $pagination->getRouteParams());
     }
 }

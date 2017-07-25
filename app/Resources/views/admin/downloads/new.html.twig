@@ -30,7 +30,7 @@
                     <div class="actions btn-set">
                         <a href="{{ path('admin_downloads_index') ~ pagination.buildQuery }}"
                            class="btn red">
-                            <span class="fa fa-remove"></span> Cancelar
+                            <span class="fa fa-arrow-circle-o-left"></span> Voltar
                         </a>
                     </div>
 
@@ -53,25 +53,22 @@
                                 <div class="row fileupload-buttonbar">
                                     <div class="col-lg-7">
                                         <!-- The fileinput-button span is used to style the file input field as button -->
-                                        <span class="btn green fileinput-button">
+                                        <span class="btn btn-success fileinput-button">
                                             <i class="fa fa-plus"></i>
-                                            <span> Add files... </span>
-                                            {#<input type="file" name="downloadFile[]" multiple="">#}
-                                            <input type="file" name="downloadFile">
-                                            <input type="hidden" name="description" value="Teste Ajax">
-                                            <input type="hidden" name="publishedAt" value="24-07-2017 16:26">
+                                            <span> Adicionar arquivos </span>
+                                            <input type="file" name="downloadFile[]" multiple="">
                                         </span>
-                                        <button type="submit" class="btn blue start">
+                                        <button type="submit" class="btn btn-primary start">
                                             <i class="fa fa-upload"></i>
-                                            <span> Start upload </span>
+                                            <span> Iniciar upload </span>
                                         </button>
-                                        <button type="reset" class="btn warning cancel">
-                                            <i class="fa fa-ban-circle"></i>
-                                            <span> Cancel upload </span>
+                                        <button type="reset" class="btn btn-warning cancel">
+                                            <i class="fa fa-remove"></i>
+                                            <span> Cancelar upload </span>
                                         </button>
-                                        <button type="button" class="btn red delete">
+                                        <button type="button" class="btn btn-danger delete">
                                             <i class="fa fa-trash"></i>
-                                            <span> Delete </span>
+                                            <span> Deletar </span>
                                         </button>
                                         <input type="checkbox" class="toggle">
                                         <!-- The global file processing state -->

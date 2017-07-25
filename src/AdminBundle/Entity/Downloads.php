@@ -2,6 +2,7 @@
 
 namespace AdminBundle\Entity;
 
+use ApiBundle\Util\GlobalsHelper;
 use AppBundle\Resource\Model\TimestampableTrait;
 use AppBundle\Resource\Model\ToggleableTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -168,5 +169,10 @@ class Downloads
     {
         $this->publishedAt = $publishedAt;
         return $this;
+    }
+
+    public function getUrl()
+    {
+        return GlobalsHelper::getDownloadUrl() . '/' . $this->downloadName;
     }
 }

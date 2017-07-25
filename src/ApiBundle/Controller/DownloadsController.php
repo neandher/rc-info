@@ -5,9 +5,11 @@ namespace ApiBundle\Controller;
 use AdminBundle\Entity\Downloads;
 use AdminBundle\Form\Type\DownloadsType;
 use ApiBundle\Util\Helpers;
+use Gedmo\Sluggable\Util\Urlizer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -29,7 +31,7 @@ class DownloadsController extends BaseController
     public function newAction(Request $request)
     {
         if (!$request->isXmlHttpRequest()) {
-            return Helpers::json([
+            return $this->createApiResponse([
                 'status' => 'error',
                 'code' => 404,
                 'msg' => 'Acesso inválido'
@@ -41,26 +43,46 @@ class DownloadsController extends BaseController
 
         //$form->submit($request->files->all());
 
-        $data = array_merge(
-            $request->request->all(),
-            $request->files->all()
-        );
+        /** @var UploadedFile[] $file */
+        foreach ($request->files->all() as $file) {
 
-        $form->submit($data);
+            $description = str_replace("." . $file[0]->getClientOriginalExtension(), "", $file[0]->getClientOriginalName());
 
-        if (!$form->isValid()) {
-            return Helpers::json([
-                'status' => 'error',
-                'code' => 400,
-                'errors' => Helpers::getErrorsFromForm($form)
-            ]);
+            $request->request->set('description', $description);
+            $request->request->set('publishedAt', (new \DateTime())->format('d-m-Y H:i'));
+            $request->request->set('isEnabled', true);
+
+            $data = array_merge(
+                $request->request->all(),
+                ['downloadFile' => $file[0]]
+            );
+
+            $form->submit($data);
+
+            if (!$form->isValid()) {
+                return $this->createApiResponse(['files' => [
+                    [
+                        'name' => $file[0]->getClientOriginalName(),
+                        'size' => $file[0]->getSize(),
+                        'error' => Helpers::getErrorsFromForm($form, 'str')
+                    ]
+                ]]);
+            }
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($download);
+            $em->flush();
         }
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($download);
-        $em->flush();
+        $return = ['files' => [
+            [
+                'name' => $download->getDownloadName(),
+                'url' => $download->getUrl(),
+                'size' => $download->getDownloadFile()->getSize()
+            ]
+        ]];
 
-        return $this->createApiResponse($download);
+        return $this->createApiResponse($return);
     }
 
 //    /**
