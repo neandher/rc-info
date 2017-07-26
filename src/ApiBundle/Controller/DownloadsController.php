@@ -43,6 +43,8 @@ class DownloadsController extends BaseController
         $download = new Downloads();
         $form = $this->createForm(DownloadsType::class, $download, ['csrf_protection' => false]);
 
+        $em = $this->getDoctrine()->getManager();
+        
         /** @var UploadedFile[] $file */
         foreach ($request->files->all() as $file) {
 
@@ -68,11 +70,11 @@ class DownloadsController extends BaseController
                     ]
                 ]]);
             }
-
-            $em = $this->getDoctrine()->getManager();
+            
             $em->persist($download);
-            $em->flush();
         }
+
+        $em->flush();
 
         $return = ['files' => [
             [

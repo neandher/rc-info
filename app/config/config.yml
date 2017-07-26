@@ -14,6 +14,7 @@ parameters:
     token_ttl: 86400
 
     email_sender: "noreply@dev.com"
+    email_contact_to: "neandher89@gmail.com"
 
     site_resetting_email.from: "%email_sender%"
     site_resetting_email.template: "site/account/resetting/email.txt.twig"
