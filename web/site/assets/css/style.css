@@ -5671,3 +5671,26 @@ em.invalid {
 .content_right {
 	width: 75%;
 }
+
+.punchtext {
+	float: left;
+	width: 100%;
+	padding: 60px 0px 50px 0px;
+}
+
+.punchtext h3 {
+	float: left;
+	margin-top: 10px;
+	color: #1da4dd;
+}
+
+.punchtext a {
+	float: right;
+	color: #fff;
+	font-size: 16px;
+	padding: 16px 40px;
+	background-color: #1da4dd;
+	border-radius: 5px;
+	-webkit-transition: all .3s ease-in-out;
+	transition: all .3s ease-in-out;
+}
