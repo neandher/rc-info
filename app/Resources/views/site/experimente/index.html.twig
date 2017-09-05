@@ -1,9 +1,158 @@
 {% extends 'site/base.html.twig' %}
 
 {% block main_container %}
-    <div class="page_title3">
+    <div class="page_title2">
         <div class="container">
-            <div class="title"><h1>EXPERIMENTE</h1></div>
+            <div class="title"><h1>Experimente</h1><br></div>
         </div>
     </div><!-- end page title -->
+
+    <div class="clearfix"></div>
+
+    <div class="container">
+
+        <div class="content_fullwidth lessmar">
+
+            <div class="one_full">
+
+                <p><strong>Teste sem compromisso.</strong> A RC Informática permite que você faça um teste de 10 dias,
+                    sem compromisso, para conhecer
+                    os benefícios do nosso sistema.</p>
+                <br>
+                <p>Preencha o formulário abaixo e entraremos em contato em seguida para fornecer o código de
+                    ativação e liberar seu acesso ao sistema.</p>
+                <br>
+
+                <div class="cforms">
+
+                    {{ include('site/_partials/_flash_messages.html.twig') }}
+                    {{ form_errors(form) }}
+
+                    {{ form_start(form, {'action': path('site_experimente'), 'attr' : {
+                        'id': 'form-experimente',
+                        'class': 'sky-form',
+                        'novalidate': true
+                    }}) }}
+
+                    <header></header>
+
+                    <fieldset>
+                        <div class="row">
+                            <section class="col col-6">
+                                {{ form_label(form.name, null, {
+                                    'label_attr': {'class': 'label'}
+                                }) }}
+                                <label class="input"> <i class="icon-append icon-user"></i>
+                                    {{ form_widget(form.name) }}
+                                </label>
+                                {{ form_errors(form.name) }}
+                            </section>
+                            <section class="col col-6">
+                                {{ form_label(form.email, null, {
+                                    'label_attr': {'class': 'label'}
+                                }) }}
+                                <label class="input"> <i class="icon-append icon-envelope-alt"></i>
+                                    {{ form_widget(form.email) }}
+                                </label>
+                                {{ form_errors(form.email) }}
+                            </section>
+                        </div>
+                        <section>
+                            {{ form_label(form.tel, null, {
+                                'label_attr': {'class': 'label'}
+                            }) }}
+                            <label class="input"> <i class="icon-append icon-phone"></i>
+                                {{ form_widget(form.tel) }}
+                            </label>
+                            {{ form_errors(form.tel) }}
+                        </section>
+                        <section>
+                            {{ form_label(form.message, null, {
+                                'label_attr': {'class': 'label'}
+                            }) }}
+                            <label class="textarea"> <i class="icon-append icon-comment"></i>
+                                {{ form_widget(form.message, {'attr': {'rows': '4'}}) }}
+                            </label>
+                            {{ form_errors(form.message) }}
+                        </section>
+                    </fieldset>
+                    <footer>
+                        <button type="submit" class="button">Enviar</button>
+                    </footer>
+                    <div class="message"><i class="icon-ok"></i>
+                        <p>Your message was successfully sent!</p>
+                    </div>
+
+                    {{ form_end(form) }}
+
+                </div>
+
+            </div><!-- end section -->
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript">
+        (function ($) {
+            "use strict";
+
+            $(function () {
+                // Validation
+                $("#form-experimente").validate(
+                    {
+                        // Rules for form validation
+                        rules: {
+                            name: {
+                                required: true
+                            },
+                            email: {
+                                required: true,
+                                email: true
+                            },
+                            tel: {
+                                required: true
+                            }
+                        },
+
+                        // Messages for form validation
+                        messages: {
+                            name: {
+                                required: 'Preencha o campo nome'
+                            },
+                            email: {
+                                required: 'Preencha o campo e-mail',
+                                email: 'Insira um e-mail válido'
+                            },
+                            tel: {
+                                required: 'Preencha o campo telefone'
+                            }
+                        },
+
+                        // Ajax form submition
+                        /*submitHandler: function (form) {
+                         $(form).ajaxSubmit(
+                         {
+                         success: function () {
+                         $("#sky-form").addClass('submited');
+                         }
+                         });
+                         },*/
+
+                        // Do not change code below
+                        errorPlacement: function (error, element) {
+                            error.insertAfter(element.parent());
+                        }
+                    });
+            });
+
+        })(jQuery);
+    </script>
+
 {% endblock %}

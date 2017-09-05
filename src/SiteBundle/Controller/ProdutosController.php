@@ -12,6 +12,6 @@ class ProdutosController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('site/produtos/index2.html.twig');
+        return $this->render('site/produtos/index.html.twig');
     }
 }
