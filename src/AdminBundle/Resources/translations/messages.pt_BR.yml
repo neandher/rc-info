@@ -119,3 +119,18 @@ admin:
             enabled: Ativo
             created_at: Data Envio
             published_at: Publicado Em
+
+    cms_downloads:
+        title: CMS Downloads
+        new: Novo Envio
+        edit: Editar Download
+        not_found: Nenhum download encontrado
+        fields:
+            description: Título
+            text: Texto
+            image_file: Imagem
+            image_file_size: (361x180)
+            url: Url
+            enabled: Ativo
+            created_at: Data Envio
+            published_at: Publicado Em

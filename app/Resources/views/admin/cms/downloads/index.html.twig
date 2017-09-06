@@ -1,0 +1,136 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block page_content %}
+
+    {% embed 'admin/_partials/_default_table_list.html.twig' %}
+
+        {% block icon_list %}
+            <i class="icon-link font-green-sharp bold"></i>
+        {% endblock %}
+
+        {% block caption_subject %}
+            {{ 'admin.cms_downloads.title'|trans }} ({{ downloads.nbResults }} registros)
+        {% endblock %}
+
+        {% block actions %}
+            <a href="{{ path('admin_cms_downloads_new') ~ pagination.buildQuery }}" class="btn green">
+                <i class="fa fa-plus"></i> {{ 'admin.cms_downloads.new'|trans }}
+            </a>
+        {% endblock %}
+
+        {% block filters %}
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="busca" name="search"
+                       value="{% if app.request.query.has('search') %}{{ app.request.query.get('search') }}{% endif %}">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-default form-control">
+                    <i class="fa fa-search"></i> Buscar
+                </button>
+            </div>
+            <div class="form-group">
+                <a href="{{ path('admin_cms_downloads_index') }}"
+                   class="btn btn-default form-control">
+                    <i class="fa fa-times"></i> Limpar
+                </a>
+            </div>
+        {% endblock %}
+
+        {% block table_tr_th %}
+            <tr>
+                <th>ID</th>
+                <th>
+                    <a href="{{ path('admin_cms_downloads_index') ~ pagination.buildQuery('sorting')  ~ pagination.sortingFieldQuery('description') }}">
+                        {{ 'admin.cms_downloads.fields.description'|trans }}
+                    </a>
+                </th>
+                <th>{{ 'admin.cms_downloads.fields.image_file'|trans }}</th>
+                <th>{{ 'admin.cms_downloads.fields.url'|trans }}</th>
+                <th>{{ 'admin.cms_downloads.fields.enabled'|trans }}</th>
+                <th>
+                    <a href="{{ path('admin_cms_downloads_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('publishedAt') }}">
+                        {{ 'admin.cms_downloads.fields.published_at'|trans }}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path('admin_cms_downloads_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('createdAt') }}">
+                        {{ 'admin.cms_downloads.fields.created_at'|trans }}
+                    </a>
+                </th>
+                <th>Ações</th>
+            </tr>
+        {% endblock %}
+
+        {% block table_tr_td %}
+            {% for download in downloads %}
+                <tr>
+                    <td>{{ download.id }}</td>
+                    <td>{{ download.description }}</td>
+                    <td>
+                        <img src="{{ vich_uploader_asset(download, 'imageFile') }}" alt="{{ download.imageName }}" width="100"/>
+                    </td>
+                    <td>
+                        <a href="{{ download.url }}">
+                            <span class="label label-sm label-success"><i class="fa fa-link"></i></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ path('admin_cms_downloads_enable', {id: download.id}) ~ pagination.buildQuery }}" title="Clique ativar/desativar">
+                            {% if download.isEnabled %}
+                                <span class="label label-sm label-success">
+                                <i class="fa fa-check"></i>
+                            </span>
+                            {% else %}
+                                <span class="label label-sm label-danger">
+                                <i class="fa fa-remove"></i>
+                            </span>
+                            {% endif %}
+                        </a>
+                    </td>
+                    <td>{{ download.publishedAt|date('d/m/Y H:i') }}</td>
+                    <td>{{ download.createdAt|date('d/m/Y H:i') }}</td>
+                    <td>
+                        {% embed 'admin/_partials/_actions_btn_group.html.twig' %}
+                            {% block buttons %}
+                                <a href="{{ path('admin_cms_downloads_edit', { id: download.id }) ~ pagination.buildQuery }}"
+                                   title="Editar" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-pencil"></span> Editar
+                                </a>
+                                <button type="button" class="btn btn-default btn-sm dropdown-toggle"
+                                        data-toggle="dropdown" data-close-others="true">
+                                    <i class="fa fa-angle-down"></i>
+                                </button>
+                            {% endblock %}
+                            {% block li_actions %}
+                                <li>
+                                    <a href="javascript:;" data-toggle="modal"
+                                       data-target="#modalConfirmation"
+                                       data-path="{{ path('admin_cms_downloads_delete', {id: download.id})|escape }}"
+                                       data-crf="{{ form_widget(delete_forms[download.id]._token)|escape }}"
+                                    >
+                                        <i class="fa fa-trash"></i> Deletar
+                                    </a>
+                                </li>
+                            {% endblock %}
+                        {% endembed %}
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endblock %}
+
+        {% block list_info %}
+            Exibindo {{ downloads.currentPageOffsetStart }} a
+            {{ downloads.currentPageOffsetEnd }} de
+            {{ downloads.nbResults }} registros
+        {% endblock %}
+
+        {% block list_pagination %}
+            {{ pagerfanta(downloads, 'twitter_bootstrap3',{
+                routeName: 'admin_cms_downloads_index',
+                routeParams: app.request.query.all
+            }) }}
+        {% endblock %}
+
+    {% endembed %}
+
+{% endblock %}
