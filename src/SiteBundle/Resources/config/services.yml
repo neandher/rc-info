@@ -43,3 +43,14 @@ services:
             - "@security.authorization_checker"
         tags:
             - { name: kernel.event_listener, event: kernel.request }
+
+
+    app.site_template.pagination_site:
+        class: SiteBundle\Template\PaginationSite
+
+    pagerfanta.view.pagination_site:
+        class: Pagerfanta\View\DefaultView
+        public: false
+        arguments:
+            - "@app.site_template.pagination_site"
+        tags: [{ name: pagerfanta.view, alias: pagination_site }]

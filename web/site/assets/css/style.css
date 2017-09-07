@@ -4154,6 +4154,7 @@ ul.post_meta_links_small {
 	text-transform: uppercase;
 	padding: 7px 10px;
 	border-radius: 3px;
+	margin: 0 2px;
 }
 .pagination a.navlinks:hover {
 	color: #fff;

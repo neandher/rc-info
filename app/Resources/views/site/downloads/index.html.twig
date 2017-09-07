@@ -35,10 +35,8 @@
             <div class="clearfix divider_dashed9"></div>
 
             <div class="pagination">
-                <b>Exibindo {{ downloads.currentPageOffsetStart }} a
-                    {{ downloads.currentPageOffsetEnd }} de
-                    {{ downloads.nbResults }} registros</b>
-                {{ pagerfanta(downloads, 'twitter_bootstrap3',{
+                <b>Página {{ downloads.currentPageOffsetStart }} de {{ downloads.nbResults }}</b>
+                {{ pagerfanta(downloads, 'pagination_site',{
                     routeName: 'site_downloads',
                     routeParams: app.request.query.all
                 }) }}
