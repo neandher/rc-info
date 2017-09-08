@@ -108,4 +108,20 @@ class BillRepository extends BaseRepository
 
         return $qb->getQuery()->getSingleScalarResult();
     }
+
+    public function findLatestPortal(Pagination $pagination)
+    {
+        $routeParams = $pagination->getRouteParams();
+
+        $routeParams['sorting'] = ['dueDateAt' => 'desc'];
+        $routeParams['num_items'] = 6;
+        $routeParams['sent'] = true;
+
+        $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryLatest($pagination), false));
+
+        $paginator->setMaxPerPage($routeParams['num_items']);
+        $paginator->setCurrentPage($routeParams['page']);
+
+        return $paginator;
+    }
 }

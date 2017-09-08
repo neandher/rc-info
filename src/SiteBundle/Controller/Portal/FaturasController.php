@@ -24,13 +24,9 @@ class FaturasController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $request->query->add(['sorting' => ['dueDateAt' => 'desc']]);
-        $request->query->add(['num_items' => 6]);
-        $request->query->add(['sent' => true]);
-
         $pagination = $this->get('app.util.pagination')->handle($request, Bill::class);;
 
-        $bills = $this->getDoctrine()->getRepository(Bill::class)->findLatest($pagination);
+        $bills = $this->getDoctrine()->getRepository(Bill::class)->findLatestPortal($pagination);
 
         return $this->render('site/portal/faturas/index.html.twig', [
             'bills' => $bills

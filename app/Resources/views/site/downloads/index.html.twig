@@ -10,47 +10,54 @@
     <div class="clearfix"></div>
 
     <div class="feature_section81">
-        <div class="container">
+    <div class="container">
 
-            {% for d in downloads %}
+    {% set i = 1 %}
+    {% for d in downloads %}
 
-                <div class="one_third {% if loop.index == 3 %}last{% endif %} animate" data-anim-type="fadeIn">
+        <div class="one_third {% if i == 3 %}last{% endif %} animate" data-anim-type="fadeIn">
 
-                    <h4>{{ d.description }}</h4>
+            <h4>{{ d.description }}</h4>
 
-                    <img src="{{ vich_uploader_asset(d, 'imageFile') }}" alt="{{ d.imageName }}" class="img_left1"/>
+            <img src="{{ vich_uploader_asset(d, 'imageFile') }}" alt="{{ d.imageName }}" class="img_left1"/>
 
-                    <p>{{ d.text }}</p>
+            <p>{{ d.text }}</p>
 
-                    <br/>
+            <br/>
 
-                    <a href="{{ d.url }}" class="lfive" target="_blank">
-                        <i class="fa fa-chevron-circle-right"></i>&nbsp;Baixar
-                    </a>
-
-                </div>
-
-            {% endfor %}
-
-            <div class="clearfix divider_dashed9"></div>
-
-            <div class="pagination">
-                <b>Página {{ downloads.currentPageOffsetStart }} de {{ downloads.nbResults }}</b>
-                {{ pagerfanta(downloads, 'pagination_site',{
-                    routeName: 'site_downloads',
-                    routeParams: app.request.query.all
-                }) }}
-                {#<b>Page 2 of 18</b>
-                <a href="#" class="navlinks">&lt; Previous</a>
-                <a href="#" class="navlinks">1</a>
-                <a href="#" class="navlinks current">2</a>
-                <a href="#" class="navlinks">3</a>
-                <a href="#" class="navlinks">4</a>
-                <a href="#" class="navlinks">Next ></a>#}
-            </div><!-- /# end pagination -->
+            <a href="{{ d.url }}" class="but_camera" target="_blank">
+                <i class="fa fa-download"></i>&nbsp;Baixar
+            </a>
 
         </div>
+
+        {% if i == 3 %}
+            {% set i = 0 %}
+            {% if loop.index < downloads.currentPageOffsetEnd %}
+                </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="feature_section81" style="padding: 10px 0px 58px 0px">
+                <div class="container">
+            {% endif %}
+        {% endif %}
+
+        {% set i=i+1 %}
+
+    {% endfor %}
+
+    <div class="clearfix divider_dashed9"></div>
+
+    <div class="pagination">
+        <b>Exibindo {{ downloads.currentPageOffsetStart }} a {{ downloads.currentPageOffsetEnd }}
+            de {{ downloads.nbResults }} registros</b>
+        {{ pagerfanta(downloads, 'pagination_site',{
+            routeName: 'site_downloads',
+            routeParams: app.request.query.all
+        }) }}
+    </div><!-- /# end pagination -->
+
+    </div>
     </div><!-- end features section81 -->
 
-    <div class="clearfix"></div>
 {% endblock %}

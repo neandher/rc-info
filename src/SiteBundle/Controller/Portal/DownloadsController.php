@@ -23,14 +23,9 @@ class DownloadsController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $request->query->add(['sorting' => ['publishedAt' => 'desc']]);
-        $request->query->add(['enabled' => true]);
-        $request->query->add(['publishedOnly' => true]);
-        $request->query->add(['num_items' => 15]);
-
         $pagination = $this->get('app.util.pagination')->handle($request, Downloads::class);
 
-        $downloads = $this->getDoctrine()->getRepository(Downloads::class)->findLatest($pagination);
+        $downloads = $this->getDoctrine()->getRepository(Downloads::class)->findLatestPortal($pagination);
 
         return $this->render('site/portal/downloads/index.html.twig', [
             'downloads' => $downloads

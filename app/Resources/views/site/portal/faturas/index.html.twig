@@ -44,6 +44,17 @@
 
     </div>
 
+    <div class="clearfix divider_dashed9"></div>
+
+    <div class="pagination">
+        <b>Exibindo {{ bills.currentPageOffsetStart }} a {{ bills.currentPageOffsetEnd }}
+            de {{ bills.nbResults }} registros</b>
+        {{ pagerfanta(bills, 'pagination_site',{
+            routeName: 'site_portal_faturas',
+            routeParams: app.request.query.all
+        }) }}
+    </div><!-- /# end pagination -->
+
 {% endblock %}
 
 

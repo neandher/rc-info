@@ -51,4 +51,21 @@ class DownloadsRepository extends BaseRepository
 
         return $paginator;
     }
+
+    public function findLatestPortal(Pagination $pagination)
+    {
+        $routeParams = $pagination->getRouteParams();
+
+        $routeParams['sorting'] = ['publishedAt' => 'desc'];
+        $routeParams['enabled'] = true;
+        $routeParams['publishedOnly'] = true;
+
+        $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryLatest($pagination), false));
+
+        $paginator->setMaxPerPage($routeParams['num_items']);
+        $paginator->setCurrentPage($routeParams['page']);
+
+        return $paginator;
+    }
+
 }

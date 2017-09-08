@@ -63,7 +63,7 @@ class CMSDownloadsRepository extends BaseRepository
         $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryLatest($pagination), false));
 
         //$paginator->setMaxPerPage(3);
-        $paginator->setMaxPerPage(15);
+        $paginator->setMaxPerPage($routeParams['num_items']);
         $paginator->setCurrentPage($routeParams['page']);
 
         return $paginator;

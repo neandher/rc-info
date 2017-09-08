@@ -6,48 +6,55 @@
 
         <h3>Downloads</h3>
 
-        <div class="features_sec20">
-            <div class="_container">
+        <div class="feature_section81">
 
-                <div id="grid-container" class="cbp-l-grid-projects four">
+            {% set i = 1 %}
+            {% for download in downloads %}
 
-                    <ul>
-                        {% for download in downloads %}
-                            <li class="cbp-item graphic">
-                                <div class="cbp-caption">
-                                    <div class="cbp-caption-defaultWrap" style="border: 1px solid #e3e3e3">
-                                        <img src="{{ asset('site/assets/images/downloads-item.jpg') }}" alt=""
-                                             style="cursor: pointer"
-                                             onclick="window.location='{{ path('site_portal_downloads_download', {id: download.id}) }}'"/>
-                                    </div>
-                                    <div class="cbp-caption-activeWrap">
-                                        <div class="cbp-l-caption-alignCenter">
-                                            <div class="cbp-l-caption-body">
-                                                <a href="{{ path('site_portal_downloads_download', {id: download.id}) }}"
-                                                   class="cbp-l-caption-buttonLeft">
-                                                    DOWNLOAD
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="threeborder">
-                                    <div class="cbp-l-grid-projects-title">{{ download.description }}</div>
-                                    <div class="cbp-l-grid-projects-desc">{{ download.publishedAt|date('d/m/Y H:i') }}</div>
-                                </div>
-                            </li>
-                        {% endfor %}
+            <div class="one_third {% if i == 3 %}last{% endif %} animate" data-anim-type="fadeIn">
 
-                    </ul>
-                </div>
-                <div class="cbp-l-loadMore-text">
-                    <div data-href="#" class="cbp-l-loadMore-text-link"></div>
-                </div>
+                <h5>{{ download.description }}</h5>
+
+                <img src="{{ asset('site/assets/images/downloads-item.jpg') }}" alt=""
+                     style="cursor: pointer;" class="img_left1"
+                     onclick="window.location='{{ path('site_portal_downloads_download', {id: download.id}) }}'"/>
+
+                <p>{{ download.publishedAt|date('d/m/Y H:i') }}</p>
+
+                <br/>
+
+                <a href="{{ path('site_portal_downloads_download', {id: download.id}) }}" class="but_camera"
+                   target="_blank">
+                    <i class="fa fa-download"></i>&nbsp;Baixar
+                </a>
 
             </div>
-        </div><!-- end content area -->
 
+            {% if i == 3 %}
+            {% set i = 0 %}
+            {% if loop.index < downloads.currentPageOffsetEnd %}
+        </div>
         <div class="clearfix"></div>
+        <div class="feature_section81" style="padding: 10px 0px 28px 0px">
+            {% endif %}
+            {% endif %}
+
+            {% set i=i+1 %}
+
+            {% endfor %}
+
+        </div><!-- end features section81 -->
+
+        <div class="clearfix divider_dashed9"></div>
+
+        <div class="pagination">
+            <b>Exibindo {{ downloads.currentPageOffsetStart }} a {{ downloads.currentPageOffsetEnd }}
+                de {{ downloads.nbResults }} registros</b>
+            {{ pagerfanta(downloads, 'pagination_site',{
+                routeName: 'site_portal_downloads',
+                routeParams: app.request.query.all
+            }) }}
+        </div><!-- /# end pagination -->
 
     </div>
 
