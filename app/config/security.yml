@@ -79,3 +79,4 @@ security:
         - { path: "%app.security.admin_regex%", role: ROLE_ADMINISTRATION_ACCESS, requires_channel: '%http_protocol%' }
 
         - { path: "%app.security.site_regex%portal", role: ROLE_USER, requires_channel: '%http_protocol%' }
+        - { path: "%app.security.site_regex%", role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: '%http_protocol%' }
