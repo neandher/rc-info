@@ -11,19 +11,15 @@ site:
 site_portal:
     resource: '@SiteBundle/Controller/Portal'
     prefix: /portal
-    schemes:  ['%http_protocol%']
 
 site_user:
     resource: "@SiteBundle/Resources/config/routing_user.yml"
-    schemes:  ['%http_protocol%']
 
 admin:
     resource: '@AdminBundle/Controller'
     type: annotation
     prefix: /admin
-    schemes:  ['%http_protocol%']
 
 admin_user:
     resource: '@AdminBundle/Resources/config/routing_user.yml'
     prefix: /admin
-    schemes:  ['%http_protocol%']
