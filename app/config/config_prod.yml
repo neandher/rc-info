@@ -3,6 +3,7 @@ imports:
 
 parameters:
     email_sender: "postmaster@app6b8d3e36f7864da3b5aac5ce497a6678.mailgun.org"
+    http_protocol: https
 
 doctrine:
     dbal:

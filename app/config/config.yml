@@ -12,6 +12,7 @@ imports:
 parameters:
     locale: pt_BR
     token_ttl: 86400
+    http_protocol: http
 
     email_sender: "noreply@dev.com"
     email_contact_to: "neandher89@gmail.com"
