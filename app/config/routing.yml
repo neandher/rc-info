@@ -26,3 +26,4 @@ admin:
 admin_user:
     resource: '@AdminBundle/Resources/config/routing_user.yml'
     prefix: /admin
+    schemes:  ['%http_protocol%']
