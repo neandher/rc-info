@@ -46,9 +46,7 @@
                     <div class="col-md-6">{{ form_row(form.imageFile, {
                             'label': 'admin.cms_downloads.fields.image_file'|trans ~ ' ' ~ 'admin.cms_downloads.fields.image_file_size'|trans
                         }) }}</div>
-                    <div class="col-md-6">{{ form_row(form.publishedAt, {'attr': {
-                            'value': 'now'|date('d-m-Y H:i')
-                        }}) }}</div>
+                    <div class="col-md-6">{{ form_row(form.publishedAt) }}</div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">{{ form_row(form.text, {'attr': {'rows': '5'}}) }}</div>
