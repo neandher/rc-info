@@ -1,0 +1,78 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block stylesheets %}
+    {% embed 'admin/_partials/_block_stylesheets.html.twig' %}
+
+        {% block page_level_plugins %}
+            <link rel="stylesheet"
+                  href="{{ asset('bower_components/bootstrap-datetimepicker/css/datetimepicker.css') }}">
+        {% endblock %}
+
+    {% endembed %}
+{% endblock %}
+
+{% block page_content %}
+
+    {% embed 'admin/_partials/_default_resource.html.twig' with {'route_index' : 'admin_video_index'} %}
+
+        {% block form_start %}
+            {{ form_start(form, {'action': path('admin_video_edit', {id: video.id}) ~ pagination.buildQuery,
+                'attr' : {'novalidate' : 'true'}}) }}
+        {% endblock %}
+
+        {% block icon_list %}
+            <i class="icon-film font-green-sharp bold"></i>
+        {% endblock %}
+
+        {% block caption_subject %}
+            <span class="caption-subject font-green-sharp bold uppercase">
+                {{ 'admin.video.edit'|trans }}
+            </span>
+        {% endblock %}
+
+        {% block nav_tabs %}
+            <li role="presentation" class="active">
+                <a href="#geral" aria-controls="geral" role="tab" data-toggle="tab">Geral</a>
+            </li>
+        {% endblock %}
+
+        {% block tab_pane %}
+            <div role="tabpanel" class="tab-pane active" id="geral">
+                <div class="row">
+                    <div class="col-md-6">{{ form_row(form.description) }}</div>
+                    <div class="col-md-6">{{ form_row(form.url) }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">{{ form_row(form.publishedAt) }}</div>
+                    <div class="col-md-6">
+                        {{ form_widget(form.isEnabled) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">{{ form_row(form.text, {'attr': {'rows': '10'}}) }}</div>
+                </div>
+            </div>
+        {% endblock %}
+
+    {% endembed %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {% embed 'admin/_partials/_block_javascripts.html.twig' %}
+
+        {% block page_level_plugins %}
+            <script src="{{ asset('admin/assets/global/plugins/moment.min.js') }}"></script>
+            <script src="{{ asset('bower_components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}"
+                    type="text/javascript"></script>
+            <script src="{{ asset('bower_components/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.pt-BR.js') }}"></script>
+        {% endblock %}
+
+        {% block page_level_scripts %}
+            <script src="{{ asset('admin/assets/pages/scripts/components-bootstrap-switch.min.js') }}"
+                    type="text/javascript"></script>
+            <script src="{{ asset('admin/assets/pages/scripts/components-date-time-pickers.js') }}"></script>
+        {% endblock %}
+
+    {% endembed %}
+{% endblock %}

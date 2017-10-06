@@ -120,6 +120,20 @@ admin:
             created_at: Data Envio
             published_at: Publicado Em
 
+    video:
+        title: Vídeos
+        new: Novo Vídeo
+        edit: Editar Vídeo
+        not_found: Nenhum vídeo encontrado
+        fields:
+            description: Título
+            image: Imagem
+            text: Texto
+            url: Url
+            enabled: Ativo
+            created_at: Data Envio
+            published_at: Publicado Em
+
     cms_downloads:
         title: CMS Downloads
         new: Novo Envio

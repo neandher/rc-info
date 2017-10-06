@@ -5695,3 +5695,8 @@ em.invalid {
 	-webkit-transition: all .3s ease-in-out;
 	transition: all .3s ease-in-out;
 }
+
+.feature_section81 .one_third h6{
+	overflow: hidden;
+	max-height: 42px;
+}

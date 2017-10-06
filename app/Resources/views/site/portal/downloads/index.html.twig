@@ -11,9 +11,9 @@
             {% set i = 1 %}
             {% for download in downloads %}
 
-            <div class="one_third {% if i == 3 %}last{% endif %} animate" data-anim-type="fadeIn">
+            <div class="one_third {% if i == 3 %}last{% endif %}">
 
-                <h5>{{ download.description }}</h5>
+                <h6>{{ download.description }}</h6>
 
                 <img src="{{ asset('site/assets/images/downloads-item.jpg') }}" alt=""
                      style="cursor: pointer;" class="img_left1"

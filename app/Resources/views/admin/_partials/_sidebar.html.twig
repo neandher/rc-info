@@ -115,6 +115,18 @@
                     {% if 'admin_downloads' in app.request.attributes.get('_route') %}open{% endif %}"></span>
                 </a>
             </li>
+            <li class="nav-item
+            {% if 'admin_video' in app.request.attributes.get('_route') %}active{% endif %}">
+                <a href="{{ path('admin_video_index') }}" class="nav-link">
+                    <i class="icon-film"></i>
+                    <span class="title">{{ 'admin.video.title'|trans }}</span>
+                    {% if 'admin_video' in app.request.attributes.get('_route') %}
+                        <span class="selected"></span>
+                    {% endif %}
+                    <span class="arrow
+                    {% if 'admin_video' in app.request.attributes.get('_route') %}open{% endif %}"></span>
+                </a>
+            </li>
             <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="icon-layers"></i>
