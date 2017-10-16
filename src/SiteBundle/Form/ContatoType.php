@@ -29,8 +29,8 @@ class ContatoType extends AbstractType
                     new Email()
                 ]
             ])
-            ->add('subject', TextType::class, [
-                'label' => 'Assunto',
+            ->add('tel', TextType::class, [
+                'label' => 'Telefone',
                 'constraints' => [
                     new NotBlank()
                 ]

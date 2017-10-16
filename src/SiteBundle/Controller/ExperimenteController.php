@@ -17,7 +17,9 @@ class ExperimenteController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $form = $this->createForm(ExperimenteType::class);
+        return $this->redirectToRoute('site_homepage');
+
+        /*$form = $this->createForm(ExperimenteType::class);
 
         $form->handleRequest($request);
 
@@ -48,6 +50,6 @@ Mensagem: ' . $data['message'] . '';
 
         return $this->render('site/experimente/index.html.twig', [
             'form' => $form->createView()
-        ]);
+        ]);*/
     }
 }

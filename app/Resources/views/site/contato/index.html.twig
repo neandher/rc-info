@@ -15,9 +15,11 @@
         <div class="container">
 
             <h2 class="caps">
-                Nos envie uma <strong>Mensagem!</strong>
-                <b>Se você tem alguma dúvida ou precisa de mais informações, entre em contato conosco através
-                    do formulário abaixo. Teremos prazer em atendê-lo.</b>
+                Entre em contato e <strong>experimente grátis!</strong>
+                <b>A RC Informática permite que você faça um teste de 10 dias, gratuito e sem compromisso, para conhecer
+                    os benefícios do sistema PAF-RC. <br>
+                    Preencha o formulário abaixo e entraremos em contato em seguida para fornecer o código de ativação e
+                    liberar seu acesso ao sistema.</b>
             </h2>
 
             <div class="clearfix margin_top2"></div>
@@ -54,13 +56,13 @@
                         </section>
                     </div>
                     <section>
-                        {{ form_label(form.subject, null, {
+                        {{ form_label(form.tel, null, {
                             'label_attr': {'class': 'label'}
                         }) }}
                         <label class="input"> <i class="icon-append icon-tag"></i>
-                            {{ form_widget(form.subject) }}
+                            {{ form_widget(form.tel) }}
                         </label>
-                        {{ form_errors(form.subject) }}
+                        {{ form_errors(form.tel) }}
                     </section>
                     <section>
                         {{ form_label(form.message, null, {
@@ -73,7 +75,7 @@
                     </section>
                 </fieldset>
                 <footer>
-                    <button type="submit" class="button">Enviar Mensagem</button>
+                    <button type="submit" class="button">Enviar</button>
                 </footer>
                 <div class="message"><i class="icon-ok"></i>
                     <p>Sua mensagem foi enviada com sucesso!</p>
@@ -129,56 +131,56 @@
             $(function () {
                 // Validation
                 $("#sky-form").validate(
-                        {
-                            // Rules for form validation
-                            rules: {
-                                name: {
-                                    required: true
-                                },
-                                email: {
-                                    required: true,
-                                    email: true
-                                },
-                                subject: {
-                                    required: true
-                                },
-                                message: {
-                                    required: true
-                                }
+                    {
+                        // Rules for form validation
+                        rules: {
+                            name: {
+                                required: true
                             },
-
-                            // Messages for form validation
-                            messages: {
-                                name: {
-                                    required: 'Preencha o campo nome'
-                                },
-                                email: {
-                                    required: 'Preencha o campo e-mail',
-                                    email: 'Insira um e-mail válido'
-                                },
-                                subject: {
-                                    required: 'Preencha o campo assunto'
-                                },
-                                message: {
-                                    required: 'Preencha o campo mensagem'
-                                }
+                            email: {
+                                required: true,
+                                email: true
                             },
-
-                            // Ajax form submition
-                            /*submitHandler: function (form) {
-                             $(form).ajaxSubmit(
-                             {
-                             success: function () {
-                             $("#sky-form").addClass('submited');
-                             }
-                             });
-                             },*/
-
-                            // Do not change code below
-                            errorPlacement: function (error, element) {
-                                error.insertAfter(element.parent());
+                            tel: {
+                                required: true
+                            },
+                            message: {
+                                required: true
                             }
-                        });
+                        },
+
+                        // Messages for form validation
+                        messages: {
+                            name: {
+                                required: 'Preencha o campo nome'
+                            },
+                            email: {
+                                required: 'Preencha o campo e-mail',
+                                email: 'Insira um e-mail válido'
+                            },
+                            tel: {
+                                required: 'Preencha o campo telefone'
+                            },
+                            message: {
+                                required: 'Preencha o campo mensagem'
+                            }
+                        },
+
+                        // Ajax form submition
+                        /*submitHandler: function (form) {
+                         $(form).ajaxSubmit(
+                         {
+                         success: function () {
+                         $("#sky-form").addClass('submited');
+                         }
+                         });
+                         },*/
+
+                        // Do not change code below
+                        errorPlacement: function (error, element) {
+                            error.insertAfter(element.parent());
+                        }
+                    });
             });
 
         })(jQuery);

@@ -27,7 +27,7 @@ class ContatoController extends Controller
 
             $textBody = 'Nome: ' . $data['name'] . ' 
 Email: ' . $data['email'] . ' 
-Assunto: ' . $data['subject'] . ' 
+Telefone: ' . $data['tel'] . ' 
 Mensagem: ' . $data['message'] . '';
 
             $message = \Swift_Message::newInstance()
