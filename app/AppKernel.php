@@ -29,11 +29,11 @@ class AppKernel extends Kernel
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
-            //new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
             new ApiBundle\ApiBundle(),
             new \JMS\SerializerBundle\JMSSerializerBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
+            new Lexik\Bundle\MaintenanceBundle\LexikMaintenanceBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

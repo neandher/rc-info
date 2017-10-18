@@ -90,3 +90,6 @@ services:
 
     app.admin.download_file_.namer:
         class: AdminBundle\VichUpload\DownloadFileNamer
+
+    app.admin.custom_dir_namer:
+        class: AdminBundle\VichUpload\CustomDirNamer

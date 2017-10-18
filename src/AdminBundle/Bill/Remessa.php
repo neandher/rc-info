@@ -103,6 +103,6 @@ class Remessa
 
     public function getRemessaFileName(BillRemessa $billRemessa)
     {
-        return 'remessa_' . $billRemessa->getId() . '.REM';
+        return date('mY') . '/' . 'remessa_' . $billRemessa->getId() . '.REM';
     }
 }

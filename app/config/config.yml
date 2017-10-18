@@ -145,12 +145,24 @@ nelmio_cors:
         origin_regex: false
         forced_allow_origin_value: ~
     paths:
-        "^/apifghfgh/":
+        "^/api/":
             allow_credentials: true
             allow_origin: ["*"]
             allow_headers: ["Authorization","X-Requested-With","X-Custom-Auth","Content-Type","Accept","Origin"]
             allow_methods: ["POST", "PUT", "PATCH", "GET", "DELETE", "OPTIONS"]
             max_age: 3600
+
+lexik_maintenance:
+    authorized:
+        ips: ['127.0.0.1']
+    driver:
+        #ttl: 3600
+        # Database driver:
+        class: 'Lexik\Bundle\MaintenanceBundle\Drivers\DatabaseDriver'
+
+    response:
+        code: 503
+        status: "Service Temporarily Unavailable"
 
 vich_uploader:
     db_driver: orm
@@ -164,6 +176,7 @@ vich_uploader:
             delete_on_update: true
             inject_on_load: true
             namer:  vich_uploader.namer_uniqid
+            directory_namer: app.admin.custom_dir_namer
         cms_downloads_image:
             uri_prefix: "%upload_cms_downloads_image_relative_path%"
             upload_destination: cms_downloads_fs
@@ -171,6 +184,7 @@ vich_uploader:
             delete_on_update: true
             inject_on_load: true
             namer:  vich_uploader.namer_uniqid
+            directory_namer: app.admin.custom_dir_namer
         downloads_file:
             uri_prefix: "%upload_downloads_file_relative_path%"
             upload_destination: downloads_fs
@@ -178,14 +192,7 @@ vich_uploader:
             delete_on_update: true
             inject_on_load: true
             namer: app.admin.download_file_.namer
-
-#knp_snappy:
-#    #temporary_folder: "%kernel.cache_dir%/snappy"
-#    pdf:
-#        enabled:    true
-#        #binary:     /usr/local/bin/wkhtmltopdf #"\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe\"" for Windows users
-#        binary:     "\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe\""
-#        options:    []
+            directory_namer: app.admin.custom_dir_namer
 
 knp_gaufrette:
     stream_wrapper: ~

@@ -139,6 +139,6 @@ class Boleto
     public function getBoletoFileName(Bill $bill)
     {
         $customerName = Urlizer::urlize($bill->getCustomer()->getName(), '_');
-        return $customerName . '_' . $bill->getId() . date('mY') . '.pdf';
+        return date('mY') . '/' . $customerName . '_' . $bill->getId() . '.pdf';
     }
 }
