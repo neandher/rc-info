@@ -9,12 +9,12 @@
         {% endblock %}
 
         {% block caption_subject %}
-            {{ 'admin.video.title'|trans }} ({{ videos.nbResults }} registros)
+            {{ 'admin.video_category.title'|trans }} ({{ videoCategories.nbResults }} registros)
         {% endblock %}
 
         {% block actions %}
-            <a href="{{ path('admin_video_new') ~ pagination.buildQuery }}" class="btn green">
-                <i class="fa fa-plus"></i> {{ 'admin.video.new'|trans }}
+            <a href="{{ path('admin_video_category_new') ~ pagination.buildQuery }}" class="btn green">
+                <i class="fa fa-plus"></i> {{ 'admin.video_category.new'|trans }}
             </a>
         {% endblock %}
 
@@ -29,7 +29,7 @@
                 </button>
             </div>
             <div class="form-group">
-                <a href="{{ path('admin_video_index') }}"
+                <a href="{{ path('admin_video_category_index') }}"
                    class="btn btn-default form-control">
                     <i class="fa fa-times"></i> Limpar
                 </a>
@@ -40,43 +40,34 @@
             <tr>
                 <th>ID</th>
                 <th>
-                    <a href="{{ path('admin_video_index') ~ pagination.buildQuery('sorting')  ~ pagination.sortingFieldQuery('description') }}">
-                        {{ 'admin.video.fields.description'|trans }}
+                    <a href="{{ path('admin_video_category_index') ~ pagination.buildQuery('sorting')  ~ pagination.sortingFieldQuery('description') }}">
+                        {{ 'admin.video_category.fields.description'|trans }}
                     </a>
                 </th>
-                <th>{{ 'admin.video.fields.category'|trans }}</th>
-                <th>{{ 'admin.video.fields.image'|trans }}</th>
-                <th>{{ 'admin.video.fields.url'|trans }}</th>
-                <th>{{ 'admin.video.fields.enabled'|trans }}</th>
+                <th>{{ 'admin.video_category.fields.enabled'|trans }}</th>
                 <th>
-                    <a href="{{ path('admin_video_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('publishedAt') }}">
-                        {{ 'admin.video.fields.published_at'|trans }}
+                    <a href="{{ path('admin_video_category_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('publishedAt') }}">
+                        {{ 'admin.video_category.fields.published_at'|trans }}
                     </a>
                 </th>
                 <th>
-                    <a href="{{ path('admin_video_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('createdAt') }}">
-                        {{ 'admin.video.fields.created_at'|trans }}
+                    <a href="{{ path('admin_video_category_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('createdAt') }}">
+                        {{ 'admin.video_category.fields.created_at'|trans }}
                     </a>
                 </th>
-                <th style="width: 15%">Ações</th>
+                <th>Ações</th>
             </tr>
         {% endblock %}
 
         {% block table_tr_td %}
-            {% for video in videos %}
+            {% for videoCategory in videoCategories %}
+                {% set videoCategory = videoCategory[0] %}
                 <tr>
-                    <td>{{ video.id }}</td>
-                    <td>{{ video.description }}</td>
-                    <td>{% if video.category %}{{ video.category.description }}{% else %}-{% endif %}</td>
-                    <td><img src="{{ video.thumbYoutube }}" alt="{{ video.description }}"></td>
+                    <td>{{ videoCategory.id }}</td>
+                    <td>{{ videoCategory.description }}</td>
                     <td>
-                        <a href="{{ video.url }}">
-                            <span class="label label-sm label-success"><i class="fa fa-link"></i></span>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{{ path('admin_video_enable', {id: video.id}) ~ pagination.buildQuery }}" title="Clique ativar/desativar">
-                            {% if video.isEnabled %}
+                        <a href="{{ path('admin_video_category_enable', {id: videoCategory.id}) ~ pagination.buildQuery }}" title="Clique ativar/desativar">
+                            {% if videoCategory.isEnabled %}
                                 <span class="label label-sm label-success">
                                 <i class="fa fa-check"></i>
                             </span>
@@ -87,12 +78,12 @@
                             {% endif %}
                         </a>
                     </td>
-                    <td>{{ video.publishedAt|date('d/m/Y H:i') }}</td>
-                    <td>{{ video.createdAt|date('d/m/Y H:i') }}</td>
+                    <td>{{ videoCategory.publishedAt|date('d/m/Y H:i') }}</td>
+                    <td>{{ videoCategory.createdAt|date('d/m/Y H:i') }}</td>
                     <td>
                         {% embed 'admin/_partials/_actions_btn_group.html.twig' %}
                             {% block buttons %}
-                                <a href="{{ path('admin_video_edit', { id: video.id }) ~ pagination.buildQuery }}"
+                                <a href="{{ path('admin_video_category_edit', { id: videoCategory.id }) ~ pagination.buildQuery }}"
                                    title="Editar" class="btn btn-default btn-sm">
                                     <span class="glyphicon glyphicon-pencil"></span> Editar
                                 </a>
@@ -105,8 +96,8 @@
                                 <li>
                                     <a href="javascript:;" data-toggle="modal"
                                        data-target="#modalConfirmation"
-                                       data-path="{{ path('admin_video_delete', {id: video.id})|escape }}"
-                                       data-crf="{{ form_widget(delete_forms[video.id]._token)|escape }}"
+                                       data-path="{{ path('admin_video_category_delete', {id: videoCategory.id})|escape }}"
+                                       data-crf="{{ form_widget(delete_forms[videoCategory.id]._token)|escape }}"
                                     >
                                         <i class="fa fa-trash"></i> Deletar
                                     </a>
@@ -119,14 +110,14 @@
         {% endblock %}
 
         {% block list_info %}
-            Exibindo {{ videos.currentPageOffsetStart }} a
-            {{ videos.currentPageOffsetEnd }} de
-            {{ videos.nbResults }} registros
+            Exibindo {{ videoCategories.currentPageOffsetStart }} a
+            {{ videoCategories.currentPageOffsetEnd }} de
+            {{ videoCategories.nbResults }} registros
         {% endblock %}
 
         {% block list_pagination %}
-            {{ pagerfanta(videos, 'twitter_bootstrap3',{
-                routeName: 'admin_video_index',
+            {{ pagerfanta(videoCategories, 'twitter_bootstrap3',{
+                routeName: 'admin_video_category_index',
                 routeParams: app.request.query.all
             }) }}
         {% endblock %}

@@ -23,6 +23,16 @@ trait ToggleableTrait
     }
 
     /**
+     * Get isEnabled
+     *
+     * @return boolean
+     */
+    public function getIsEnabled()
+    {
+        return $this->isEnabled;
+    }
+
+    /**
      * @param bool $isEnabled
      */
     public function setIsEnabled($isEnabled)

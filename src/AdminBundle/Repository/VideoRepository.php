@@ -15,23 +15,28 @@ use Pagerfanta\Pagerfanta;
  */
 class VideoRepository extends BaseRepository
 {
-    protected function queryLatest(Pagination $pagination)
+    protected function queryLatest($routeParams)
     {
-        $routeParams = $pagination->getRouteParams();
-
-        $qb = $this->createQueryBuilder('v');
+        $qb = $this->createQueryBuilder('v')
+            ->leftJoin('v.category', 'category')
+            ->addSelect('category');
 
         if (isset($routeParams['search'])) {
             $qb->andWhere(
                 $qb->expr()->like('v.description', ':search')
-            )->setParameter('search', '%'.$routeParams['search'].'%');
+            )->setParameter('search', '%' . $routeParams['search'] . '%');
         }
 
-        if ( ! empty($routeParams['enabled'])) {
-            $qb->andWhere('v.isEnabled = 1');
+        if (!empty($routeParams['enabled'])) {
+            $qb->andWhere('v.isEnabled = 1')
+                ->andWhere('category.isEnabled = 1');
         }
 
-        if ( ! empty($routeParams['publishedOnly'])) {
+        if (!empty($routeParams['cat'])) {
+            $qb->andWhere('category.id = :cat')->setParameter(':cat', $routeParams['cat']);
+        }
+
+        if (!empty($routeParams['publishedOnly'])) {
             $qb->andWhere(':now >= v.publishedAt')->setParameter('now', new \DateTime());
         }
 
@@ -44,7 +49,7 @@ class VideoRepository extends BaseRepository
     {
         $routeParams = $pagination->getRouteParams();
 
-        $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryLatest($pagination), false));
+        $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryLatest($routeParams), false));
 
         $paginator->setMaxPerPage($routeParams['num_items']);
         $paginator->setCurrentPage($routeParams['page']);
@@ -56,11 +61,11 @@ class VideoRepository extends BaseRepository
     {
         $routeParams = $pagination->getRouteParams();
 
-        $routeParams['sorting']       = ['publishedAt' => 'desc'];
-        $routeParams['enabled']       = true;
+        $routeParams['sorting'] = ['publishedAt' => 'asc'];
+        $routeParams['enabled'] = true;
         $routeParams['publishedOnly'] = true;
 
-        $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryLatest($pagination), false));
+        $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryLatest($routeParams), false));
 
         $paginator->setMaxPerPage($routeParams['num_items']);
         $paginator->setCurrentPage($routeParams['page']);

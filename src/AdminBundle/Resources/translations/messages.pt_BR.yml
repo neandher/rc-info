@@ -127,9 +127,21 @@ admin:
         not_found: Nenhum vídeo encontrado
         fields:
             description: Título
+            category: Categoria
             image: Imagem
             text: Texto
             url: Url
+            enabled: Ativo
+            created_at: Data Envio
+            published_at: Publicado Em
+
+    video_category:
+        title: Vídeos Categoria
+        new: Nova Categoria
+        edit: Editar Categoria
+        not_found: Nenhuma categoria encontrada
+        fields:
+            description: Descrição
             enabled: Ativo
             created_at: Data Envio
             published_at: Publicado Em

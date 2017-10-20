@@ -13,10 +13,10 @@
 
 {% block page_content %}
 
-    {% embed 'admin/_partials/_default_resource.html.twig' with {'route_index' : 'admin_video_index'} %}
+    {% embed 'admin/_partials/_default_resource.html.twig' with {'route_index' : 'admin_video_category_index'} %}
 
         {% block form_start %}
-            {{ form_start(form, {'action': path('admin_video_edit', {id: video.id}) ~ pagination.buildQuery,
+            {{ form_start(form, {'action': path('admin_video_category_edit', {id: videoCategory.id}) ~ pagination.buildQuery,
                 'attr' : {'novalidate' : 'true'}}) }}
         {% endblock %}
 
@@ -26,7 +26,7 @@
 
         {% block caption_subject %}
             <span class="caption-subject font-green-sharp bold uppercase">
-                {{ 'admin.video.edit'|trans }}
+                {{ 'admin.video_category.edit'|trans }}
             </span>
         {% endblock %}
 
@@ -40,19 +40,12 @@
             <div role="tabpanel" class="tab-pane active" id="geral">
                 <div class="row">
                     <div class="col-md-6">{{ form_row(form.description) }}</div>
-                    <div class="col-md-6">{{ form_row(form.category) }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">{{ form_row(form.url) }}</div>
                     <div class="col-md-6">{{ form_row(form.publishedAt) }}</div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         {{ form_widget(form.isEnabled) }}
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">{{ form_row(form.text, {'attr': {'rows': '10'}}) }}</div>
                 </div>
             </div>
         {% endblock %}

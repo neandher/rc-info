@@ -4,33 +4,33 @@
 
     <div class="one_full">
 
-        <h3>Treinamentos - Categorias</h3>
+        <h3>Treinamentos - {{ category }}</h3>
 
         <div class="feature_section81">
 
             {% set i = 1 %}
-            {% for category in categories %}
+            {% for video in videos %}
 
             <div class="one_third {% if i == 3 %}last{% endif %}">
 
-                <h6>{{ category[0].description }}</h6>
-                <img src="{{ asset('site/assets/images/yt-video.jpg') }}" alt="{{ category[0].description }}"
+                <h6>{{ video.description }}</h6>
+                <img src="{{ video.thumbYoutube('mqdefault') }}" alt="{{ video.description }}"
                      style="cursor: pointer; max-width: 268px" class="img_left1"
-                     onclick="window.location='{{ path('site_portal_treinamentos_videos') ~ '?cat=' ~ category[0].id }}'"/>
+                     onclick="window.location='{{ path('site_portal_treinamentos_video', {id: video.id}) }}'"/>
 
-                <p><strong>{{ category['videosCount'] }} vídeos</strong></p>
+                <p>{{ video.publishedAt|date('d/m/Y H:i') }}</p>
 
                 <br/>
 
-                <a href="{{ path('site_portal_treinamentos_videos') ~ '?cat=' ~ category[0].id  }}" class="but_camera">
-                    <i class="fa fa-share"></i>&nbsp;Acessar
+                <a href="{{ path('site_portal_treinamentos_video', {id: video.id}) }}" class="but_camera">
+                    <i class="fa fa-video-camera"></i>&nbsp;Visualizar
                 </a>
 
             </div>
 
             {% if i == 3 %}
             {% set i = 0 %}
-            {% if loop.index < categories.currentPageOffsetEnd %}
+            {% if loop.index < videos.currentPageOffsetEnd %}
         </div>
         <div class="clearfix"></div>
         <div class="feature_section81" style="padding: 10px 0px 28px 0px">
@@ -46,9 +46,9 @@
         <div class="clearfix divider_dashed9"></div>
 
         <div class="pagination">
-            <b>Exibindo {{ categories.currentPageOffsetStart }} a {{ categories.currentPageOffsetEnd }}
-                de {{ categories.nbResults }} registros</b>
-            {{ pagerfanta(categories, 'pagination_site',{
+            <b>Exibindo {{ videos.currentPageOffsetStart }} a {{ videos.currentPageOffsetEnd }}
+                de {{ videos.nbResults }} registros</b>
+            {{ pagerfanta(videos, 'pagination_site',{
                 routeName: 'site_portal_treinamentos',
                 routeParams: app.request.query.all
             }) }}

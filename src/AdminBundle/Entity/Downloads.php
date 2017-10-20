@@ -144,16 +144,6 @@ class Downloads
     }
 
     /**
-     * Get isEnabled
-     *
-     * @return boolean
-     */
-    public function getIsEnabled()
-    {
-        return $this->isEnabled;
-    }
-
-    /**
      * @return \DateTime
      */
     public function getPublishedAt()

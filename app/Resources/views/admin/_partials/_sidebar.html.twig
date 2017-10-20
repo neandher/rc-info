@@ -90,6 +90,14 @@
                     <span class="arrow
                     {% if 'admin_bill' in app.request.attributes.get('_route') %}open{% endif %}"></span>
                 </a>
+                <ul class="sub-menu">
+                    <li class="nav-item">
+                        <a href="{{ path('admin_bill_new') }}" class="nav-link ">
+                            <i class="icon-wallet"></i>
+                            <span class="title">{{ 'admin.bill.new'|trans }}</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li class="nav-item
             {% if 'admin_bill_remessa' in app.request.attributes.get('_route') %}active{% endif %}">
@@ -114,6 +122,14 @@
                     <span class="arrow
                     {% if 'admin_downloads' in app.request.attributes.get('_route') %}open{% endif %}"></span>
                 </a>
+                <ul class="sub-menu">
+                    <li class="nav-item">
+                        <a href="{{ path('admin_downloads_new') }}" class="nav-link ">
+                            <i class="icon-link"></i>
+                            <span class="title">{{ 'admin.downloads.new'|trans }}</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li class="nav-item
             {% if 'admin_video' in app.request.attributes.get('_route') %}active{% endif %}">
@@ -126,6 +142,28 @@
                     <span class="arrow
                     {% if 'admin_video' in app.request.attributes.get('_route') %}open{% endif %}"></span>
                 </a>
+                <ul class="sub-menu">
+                    <li class="nav-item ">
+                        <a href="{{ path('admin_video_new') }}" class="nav-link ">
+                            <i class="icon-film"></i>
+                            <span class="title">{{ 'admin.video.new'|trans }}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a href="{{ path('admin_video_category_index') }}" class="nav-link ">
+                            <i class="icon-film"></i>
+                            <span class="title">{{ 'admin.video_category.title'|trans }}</span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="nav-item ">
+                                <a href="{{ path('admin_video_category_new') }}" class="nav-link ">
+                                    <i class="icon-film"></i>
+                                    <span class="title">{{ 'admin.video_category.new'|trans }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link">

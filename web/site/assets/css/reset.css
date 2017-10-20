@@ -9,13 +9,13 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td {
-margin: 0;
-padding: 0;
-border: 0;
-outline: 0;
-font-size: 100%;
-vertical-align: baseline;
-background: transparent;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
 }
 
 /* body */
@@ -34,7 +34,7 @@ body, input, textarea {
 }
 
 /* Headings */
-h1, 
+h1,
 h2,
 h3,
 h4,
@@ -44,16 +44,16 @@ h6 {
 	font-weight: normal;
 	color: #272727;
 }
-h1 a, 
-h2 a, 
-h3 a, 
-h4 a, 
-h5 a, 
-h6 a { 
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a {
 	color: inherit;
 }
-h1 { 
-	font-size: 40px; 
+h1 {
+	font-size: 40px;
 	line-height: 40px;
 	margin-bottom: 20px;
 	font-style: normal;
@@ -61,7 +61,7 @@ h1 {
 }
 h1 b {
 	display: block;
-	font-size: 18px; 
+	font-size: 18px;
 	line-height: 23px;
 	font-weight: 200;
 	margin-top: 13px;
@@ -70,8 +70,8 @@ h1 b {
 h1.white {
 	color: #fff;
 }
-h2 { 
-	font-size: 35px; 
+h2 {
+	font-size: 35px;
 	line-height: 35px;
 	margin-bottom: 20px;
 	font-style: normal;
@@ -89,7 +89,7 @@ h2 i {
 }
 h2 b {
 	display: block;
-	font-size: 18px; 
+	font-size: 18px;
 	line-height: 23px;
 	font-weight: 200;
 	margin-top: 13px;
@@ -104,8 +104,8 @@ h2.caps b {
 h2.caps strong {
 	font-weight: 500;
 }
-h3 { 
-	font-size: 27px; 
+h3 {
+	font-size: 27px;
 	line-height: 30px;
 	margin-bottom: 18px;
 	font-style: normal;
@@ -113,8 +113,8 @@ h3 {
 h3 strong {
 	font-weight: 600;
 }
-h4 { 
-	font-size: 22px; 
+h4 {
+	font-size: 22px;
 	line-height: 25px;
 	margin-bottom: 18px;
 	font-style: normal;
@@ -131,8 +131,8 @@ h4 b {
 	display: block;
 	font-weight: normal;
 }
-h5 { 
-	font-size: 18px; 
+h5 {
+	font-size: 18px;
 	line-height: 23px;
 	margin-bottom: 16px;
 	font-style: normal;
@@ -159,8 +159,8 @@ h5.sitec {
 h5.white {
 	color: #fff;
 }
-h6 { 
-	font-size: 16px; 
+h6 {
+	font-size: 16px;
 	line-height: 21px;
 	margin-bottom: 14px;
 	font-style: normal;
@@ -168,7 +168,6 @@ h6 {
 h6.grayc {
 	color: #999;
 }
-
 
 
 /* Text elements */
@@ -315,36 +314,35 @@ a.lfive:hover {
 	color: #454545;
 }
 
-
 blockquote, q {
-quotes: none;
+	quotes: none;
 }
 blockquote:before, blockquote:after,
 q:before, q:after {
-content: '';
-content: none;
+	content: '';
+	content: none;
 }
 /* remember to define focus styles! */
 :focus {
-outline: 0;
+	outline: 0;
 }
 /* remember to highlight inserts somehow! */
 ins {
-text-decoration: none;
+	text-decoration: none;
 }
 del {
-text-decoration: line-through;
+	text-decoration: line-through;
 }
 
 /* Clear Fix Styles */
 
 .clearfix:after {
-visibility: hidden;
-display: block;
-font-size: 0;
-content: " ";
-clear: both;
-height: 0;
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
 }
 .clearfix { display: inline-block; }
 /* start commented backslash hack \*/

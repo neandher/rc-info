@@ -15,10 +15,8 @@ use Pagerfanta\Pagerfanta;
  */
 class BillRepository extends BaseRepository
 {
-    protected function queryLatest(Pagination $pagination)
+    protected function queryLatest($routeParams)
     {
-        $routeParams = $pagination->getRouteParams();
-
         $qb = $this->createQueryBuilder('bill')
             ->innerJoin('bill.billStatus', 'billStatus')
             ->addSelect('billStatus')
@@ -70,7 +68,7 @@ class BillRepository extends BaseRepository
     {
         $routeParams = $pagination->getRouteParams();
 
-        $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryLatest($pagination), false));
+        $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryLatest($routeParams), false));
 
         $paginator->setMaxPerPage($routeParams['num_items']);
         $paginator->setCurrentPage($routeParams['page']);
@@ -117,7 +115,7 @@ class BillRepository extends BaseRepository
         $routeParams['num_items'] = 6;
         $routeParams['sent'] = true;
 
-        $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryLatest($pagination), false));
+        $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryLatest($routeParams), false));
 
         $paginator->setMaxPerPage($routeParams['num_items']);
         $paginator->setCurrentPage($routeParams['page']);

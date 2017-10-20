@@ -1,6 +1,7 @@
 <header id="header">
-    <div id="trueHeader">
-        <div class="wrapper">
+    <div id="topHeader">
+
+        {#<div class="wrapper">
             <div class="logoarea">
                 <div class="container">
 
@@ -33,13 +34,59 @@
                     </div><!-- end right links -->
 
                 </div>
-            </div>
+            </div>#}
 
-            <!-- Menu -->
-            <div class="menu_main">
+        <div class="wrapper">
 
+            <div class="top_nav">
                 <div class="container">
 
+                    <div class="right">
+
+                        <ul>
+                            <li class="link">
+                                <a class="" href="#">
+                                    <i class="fa fa-envelope"></i> atendimento1@rcinformatica.net.br
+                                </a>
+                            </li>
+                            <li class="link">
+                                <a class="" href="#">
+                                    <i class="fa fa-phone"></i> 027 3349-9130
+                                </a>
+                            </li>
+                            {% if app.user %}
+                                <li class="link">
+                                    <a href="{{ path('site_portal') }}">
+                                        <i class="fa fa-user-o"></i> Bem vindo, {{ app.user.customer.name }}
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="link">
+                                    <a class="" href="{{ path('site_portal') }}">
+                                        <i class="fa fa-user"></i> Acesso do Cliente
+                                    </a>
+                                </li>
+                            {% endif %}
+                            <li class="social"><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        </ul>
+
+                    </div><!-- end right social links -->
+
+                </div>
+            </div>
+
+        </div>
+    </div><!-- end top navigation -->
+
+    <div id="trueHeader">
+        <div class="wrapper">
+            <div class="container">
+
+                <!-- Logo -->
+                <div class="logo"><a href="index.html" id="logo"></a></div>
+
+                <!-- Menu -->
+                <div class="menu_main">
                     <div class="navbar yamm navbar-default">
 
                         <div class="container">
@@ -50,26 +97,26 @@
                                 </div>
                             </div>
 
-                            <div id="navbar-collapse-1" class="navbar-collapse collapse">
+                            <div id="navbar-collapse-1" class="navbar-collapse collapse pull-right">
 
                                 <ul class="nav navbar-nav">
 
                                     <li>
                                         <a href="{{ path('site_homepage') }}"
                                            class="{% if app.request.attributes.get('_route') == 'site_homepage' %}active{% endif %}">
-                                            Home
+                                            <i class="fa fa-home"></i> Home
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{ path('site_sobre') }}"
                                            class="{% if app.request.attributes.get('_route') == 'site_sobre' %}active{% endif %}">
-                                            Sobre
+                                            <i class="fa fa-group"></i> Sobre
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{ path('site_produtos') }}"
                                            class="{% if app.request.attributes.get('_route') == 'site_produtos' %}active{% endif %}">
-                                            Produtos
+                                            <i class="fa fa-handshake-o"></i> Produtos
                                         </a>
                                     </li>
                                     {#<li>
@@ -81,13 +128,13 @@
                                     <li>
                                         <a href="{{ path('site_downloads') }}"
                                            class="{% if app.request.attributes.get('_route') == 'site_downloads' %}active{% endif %}">
-                                            Downloads
+                                            <i class="fa fa-download"></i> Downloads
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{ path('site_contato') }}"
                                            class="{% if app.request.attributes.get('_route') == 'site_contato' %}active{% endif %}">
-                                            Contato
+                                            <i class="fa fa-phone"></i> Contato
                                         </a>
                                     </li>
 
@@ -103,14 +150,11 @@
                             </div>
                         </div>
                     </div>
+                </div><!-- end menu -->
 
-                </div>
-            </div><!-- end menu -->
-
+            </div>
         </div>
-
     </div>
-
 </header>
 
 

@@ -2,7 +2,6 @@
 
 namespace AdminBundle\Entity;
 
-use ApiBundle\Util\GlobalsHelper;
 use AppBundle\Resource\Model\TimestampableTrait;
 use AppBundle\Resource\Model\ToggleableTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -51,6 +50,13 @@ class Video
      * @Assert\DateTime(format="d-m-Y - H:i")
      */
     private $publishedAt;
+
+    /**
+     * @var VideoCategory
+     *
+     * @ORM\ManyToOne(targetEntity="AdminBundle\Entity\VideoCategory", inversedBy="videos")
+     */
+    private $category;
 
     /**
      * Get id
@@ -131,16 +137,6 @@ class Video
     }
 
     /**
-     * Get isEnabled
-     *
-     * @return boolean
-     */
-    public function getIsEnabled()
-    {
-        return $this->isEnabled;
-    }
-
-    /**
      * @return \DateTime
      */
     public function getPublishedAt()
@@ -167,11 +163,11 @@ class Video
     {
         $parts = parse_url($this->url);
 
-        if ( ! empty($parts['query'])) {
+        if (!empty($parts['query'])) {
             parse_str($parts['query'], $query);
         }
 
-        return ! empty($query['v']) ? $query['v'] : '';
+        return !empty($query['v']) ? $query['v'] : '';
     }
 
     /**
@@ -187,6 +183,24 @@ class Video
      */
     public function getThumbYoutube($res = 'default')
     {
-        return 'https://img.youtube.com/vi/'.$this->getIdUrlYoutube().'/'.$res.'.jpg';
+        return 'https://img.youtube.com/vi/' . $this->getIdUrlYoutube() . '/' . $res . '.jpg';
+    }
+
+    /**
+     * @return VideoCategory
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param VideoCategory $category
+     * @return Video
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+        return $this;
     }
 }
