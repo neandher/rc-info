@@ -1,5 +1,5 @@
 #!/usr/local/bin/php
-<?php
+<?php #!/usr/bin/env /usr/bin/php
 
 $path = "cd /var/www/html/rcinformatica.net.br/web";
 
