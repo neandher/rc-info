@@ -9,6 +9,4 @@ $commands .= " && php bin/console cache:clear --env=prod --no-debug --no-warmup"
 $commands .= " && php bin/console cache:warmup --env=prod";
 $commands .= " && php bin/console doctrine:migrations:migrate -n";
 
-shell_exec("{$path} {$commands}");
-
-echo "All done!";
+exec("/var/www/html/rcinformatica.net.br/web/web/master_deploy.sh");
