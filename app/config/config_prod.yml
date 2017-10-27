@@ -3,27 +3,8 @@ imports:
 
 parameters:
     email_sender: "postmaster@app6b8d3e36f7864da3b5aac5ce497a6678.mailgun.org"
-    http_protocol: https
-
-doctrine:
-    dbal:
-        url: "%env(CLEARDB_DATABASE_URL)%"
-        #host: "%env(DATABASE_HOST)%"
-        #port: "%env(DATABASE_PORT)%"
-        #dbname: "%env(DATABASE_NAME)%"
-        #user: "%env(DATABASE_USER)%"
-        #password: "%env(DATABASE_PASS)%"
-    orm:
-        metadata_cache_driver: apc
-        result_cache_driver: apc
-        query_cache_driver: apc
-
-swiftmailer:
-    host: "%env(MAILGUN_SMTP_SERVER)%"
-    username: "%env(MAILGUN_SMTP_LOGIN)%"
-    password: "%env(MAILGUN_SMTP_PASSWORD)%"
-    port: "%env(MAILGUN_SMTP_PORT)%"
-    sender_address: "%env(MAILGUN_SMTP_LOGIN)%"
+    email_contact_to: "neandher89@gmail.com"
+    http_protocol: http
 
 monolog:
     handlers:
@@ -33,8 +14,7 @@ monolog:
             handler: nested
         nested:
             type: stream
-            #path: '%kernel.logs_dir%/%kernel.environment%.log'
-            path: 'php://stderr' # to heroku
+            path: '%kernel.logs_dir%/%kernel.environment%.log'
             level: debug
         console:
             type: console
@@ -42,4 +22,4 @@ monolog:
 
 lexik_maintenance:
     authorized:
-        ips: ['172.123.10.14']
+        ips: ['177.137.232.50']
