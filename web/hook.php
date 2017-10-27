@@ -1,3 +1,4 @@
+#!/usr/local/bin/php
 <?php
 
 $path = "cd /var/www/html/rcinformatica.net.br/web";
