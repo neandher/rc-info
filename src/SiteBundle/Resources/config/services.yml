@@ -54,3 +54,8 @@ services:
         arguments:
             - "@app.site_template.pagination_site"
         tags: [{ name: pagerfanta.view, alias: pagination_site }]
+
+    app.twig.file_get_contents:
+        class: SiteBundle\Twig\FileGetContents
+        tags:
+            - { name: twig.extension }

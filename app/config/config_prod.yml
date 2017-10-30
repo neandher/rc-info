@@ -2,8 +2,7 @@ imports:
     - { resource: config.yml }
 
 parameters:
-    email_sender: "postmaster@app6b8d3e36f7864da3b5aac5ce497a6678.mailgun.org"
-    email_contact_to: "neandher89@gmail.com"
+    email_contact_to: "%mailer_user%"
     http_protocol: http
 
 monolog:

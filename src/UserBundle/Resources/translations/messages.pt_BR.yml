@@ -27,9 +27,6 @@ user:
                     Olá, %full_name%!
 
                     Para redefinir sua senha, clique no link: %url%
-
-                    Atenciosamente,
-                    a Equipe.
         reset:
             title: Resetar Senha
             btns:

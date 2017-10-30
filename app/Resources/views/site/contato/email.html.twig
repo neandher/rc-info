@@ -1,0 +1,52 @@
+{% extends 'site/base.html.twig' %}
+
+{% block stylesheets %}
+    {% embed 'site/_partials/_block_stylesheets_email.html.twig' %}{% endembed %}
+{% endblock %}
+
+{% block subject %}
+    {% autoescape false %}
+        Novo contato feito pelo site
+    {% endautoescape %}
+{% endblock %}
+
+{% block body_text %}{% endblock %}
+
+{% block body %}
+    {% block body_html %}
+
+        <style type="text/css">
+
+        </style>
+
+        <body>
+
+        <div class="site_wrapper">
+            <div class="container">
+                <div class="content_fullwidth">
+
+                    <blockquote style="margin: 0">
+                        <h2>Rc Informática</h2>
+                        <p><strong>Envio de Contato</strong></p>
+                        <br>
+                        <div class="clearfix divider_dashed10"></div>
+                        <div style="line-height: 2em">
+                            Nome: {{ name }}<br>
+                            Email: {{ email }}<br>
+                            Telefone: {{ tel }}<br>
+                            Mensagem: {{ message }}<br>
+                        </div>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scripts -->
+        {% block javascripts %}
+            {% embed 'site/_partials/_block_javascripts.html.twig' %}{% endembed %}
+        {% endblock %}
+
+        </body>
+
+    {% endblock %}
+{% endblock %}
