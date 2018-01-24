@@ -41,8 +41,7 @@
         "symfony/symfony": "3.3.*",
         "twig/twig": "^1.0||^2.0",
         "vich/uploader-bundle": "^1.5",
-        "white-october/pagerfanta-bundle": "^1.0",
-        "lexik/maintenance-bundle": "dev-master"
+        "white-october/pagerfanta-bundle": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

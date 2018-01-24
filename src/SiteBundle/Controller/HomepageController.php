@@ -2,6 +2,7 @@
 
 namespace SiteBundle\Controller;
 
+use SiteBundle\Entity\Customer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -12,6 +13,13 @@ class HomepageController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('site/homepage/index.html.twig');
+        $customers = $this->getDoctrine()->getRepository(Customer::class)->findAllCms([
+            'logo' => true,
+            'limit' => 10
+        ]);
+
+        return $this->render('site/homepage/index.html.twig', [
+            'customers' => $customers
+        ]);
     }
 }

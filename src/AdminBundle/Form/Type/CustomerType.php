@@ -5,7 +5,10 @@ namespace AdminBundle\Form\Type;
 use SiteBundle\Entity\Customer;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use UserBundle\Form\Type\PlainPasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -45,6 +48,19 @@ class CustomerType extends PlainPasswordType
                 'label' => 'admin.customerAddresses.title',
                 'label_attr' => ['class' => 'hide'],
                 'attr' => ['class' => 'hide'],
+            ])
+            ->add('url', UrlType::class, [
+                'label' => 'admin.customers.fields.url',
+                'attr' => ['class' => 'form-control']
+            ])
+            ->add('imageFile', FileType::class, ['label' => 'admin.customers.fields.image'])
+            ->add('text', TextareaType::class, [
+                'label' => 'admin.customers.fields.text',
+                'attr' => ['rows' => '10']
+            ])
+            ->add('publishedAt', DateTimePickerType::class, [
+                'label' => 'admin.customers.fields.published_at',
+                'attr' => ['readonly' => true, 'class' => 'form_datetime']
             ]);
     }
 

@@ -2,12 +2,14 @@
 
 namespace SiteBundle\Entity;
 
-use AppBundle\Resource\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Customer
@@ -16,6 +18,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\Entity(repositoryClass="SiteBundle\Repository\CustomerRepository")
  * @UniqueEntity(fields={"email"}, message="user.email.already_exists")
  * @UniqueEntity(fields={"cnpj"})
+ * @Vich\Uploadable()
  */
 class Customer
 {
@@ -84,6 +87,45 @@ class Customer
      * @Assert\LessThan(value="99999999.99")
      */
     private $billAmount;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\Url()
+     */
+    private $url;
+
+    /**
+     * @Vich\UploadableField(mapping="customer_image", fileNameProperty="imageName")
+     *
+     * @var File
+     * @Assert\File(
+     *     mimeTypes = {"image/png", "image/jpg", "image/jpeg"}
+     * )
+     */
+    private $imageFile;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true, length=255)
+     */
+    private $imageName;
+
+    /**
+     * @ORM\Column(type="string", nullable=true, length=255)
+     * @Assert\Length(max="255")
+     */
+    private $text;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\DateTime(format="d-m-Y - H:i")
+     */
+    private $publishedAt;
 
     /**
      * @var SiteUser
@@ -366,6 +408,101 @@ class Customer
     public function setBillAmount($billAmount)
     {
         $this->billAmount = $billAmount;
+        return $this;
+    }
+
+    /**
+     * @return File
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File $imageFile
+     * @return $this
+     */
+    public function setImageFile(File $imageFile = null)
+    {
+        $this->imageFile = $imageFile;
+
+        if ($imageFile instanceof UploadedFile) {
+            $this->getSiteUser()->setUpdatedAt(new \DateTime());
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageName()
+    {
+        return $this->imageName;
+    }
+
+    /**
+     * @param string $imageName
+     * @return $this
+     */
+    public function setImageName($imageName)
+    {
+        $this->imageName = $imageName;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param string $url
+     * @return $this
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    /**
+     * @param string $text
+     * @return $this
+     */
+    public function setText($text)
+    {
+        $this->text = $text;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getPublishedAt()
+    {
+        return $this->publishedAt;
+    }
+
+    /**
+     * @param \DateTime $publishedAt
+     * @return $this
+     */
+    public function setPublishedAt($publishedAt)
+    {
+        $this->publishedAt = $publishedAt;
         return $this;
     }
 }

@@ -44,10 +44,16 @@
                         Nome
                     </a>
                 </th>
+                <th>Logo</th>
                 <th>E-mail</th>
                 <th>CNPJ</th>
                 <th>Ativo</th>
                 <th>Último Login</th>
+                <th>
+                    <a href="{{ path('admin_customer_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('publishedAt') }}">
+                        Publicado Em
+                    </a>
+                </th>
                 <th>
                     <a href="{{ path('admin_customer_index') ~ pagination.buildQuery('sorting') ~ pagination.sortingFieldQuery('createdAt') }}">
                         Criado em
@@ -62,6 +68,12 @@
                 <tr>
                     <td>{{ customer.id }}</td>
                     <td>{{ customer.name }}</td>
+                    <td>{% if customer.imageName is not null %}
+                            <img src="{{ vich_uploader_asset(customer, 'imageFile') }}" alt="{{ customer.imageName }}"
+                                 style="max-width: 100px"/>
+                        {% else %}
+                            -
+                        {% endif %}</td>
                     <td>{{ customer.email }}</td>
                     <td>{{ customer.cnpj }}</td>
                     <td>
@@ -77,6 +89,11 @@
                     </td>
                     <td>{% if customer.siteUser.lastLoginAt is not null %}
                             {{ customer.siteUser.lastLoginAt|date('d/m/Y H:i') }}
+                        {% else %}
+                            -
+                        {% endif %}</td>
+                    <td>{% if customer.publishedAt is not null %}
+                            {{ customer.publishedAt|date('d/m/Y H:i') }}
                         {% else %}
                             -
                         {% endif %}</td>

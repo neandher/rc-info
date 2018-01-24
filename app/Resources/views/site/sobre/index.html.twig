@@ -56,7 +56,6 @@
                         <ul class="slides">
 
                             <li>
-
                                 <div class="one_half">
                                     <div class="pesbox">
                                         <h5>"Tudo bem prático, sem burocracia. O nível de conhecimento da equipe de
@@ -66,7 +65,6 @@
                                         <img src="{{ asset('site/assets/images/client.png') }}" alt=""/>
                                     </div>
                                 </div>
-
                                 <div class="one_half last">
                                     <div class="pesbox">
                                         <h5>"Nota 1000. Tudo 100% integrado. Facilita a informação de forma rápida e
@@ -77,11 +75,8 @@
                                         <img src="{{ asset('site/assets/images/client.png') }}" alt=""/>
                                     </div>
                                 </div>
-
                             </li><!-- end section -->
-
                             <li>
-
                                 <div class="one_half">
                                     <div class="pesbox">
                                         <h5>"O atendimento da RC é muito bom, os funcionários demonstram muito interesse
@@ -92,7 +87,6 @@
                                         <img src="{{ asset('site/assets/images/client.png') }}" alt=""/>
                                     </div>
                                 </div>
-
                                 <div class="one_half last">
                                     <div class="pesbox">
                                         <h5>"Nossa parceria começou há pouco tempo, mas já percebo a qualidade nos
@@ -103,8 +97,26 @@
                                         <img src="{{ asset('site/assets/images/client.png') }}" alt=""/>
                                     </div>
                                 </div>
-
                             </li><!-- end section -->
+
+                            {#<li>
+                                {% set i = 0 %}
+                                {% for customer in customersTestimonials %}
+                                {% set i = i+1 %}
+                                <div class="one_half {% if i % 2 == 0 %}last{% endif %}">
+                                    <div class="pesbox">
+                                        <h5>"{{ customer.text|nl2br }}"</h5>
+                                    </div>
+                                    <div class="pesimg"> &nbsp; <strong> Cliente: {{ customer.name }}</strong>&nbsp;
+                                        <img src="{{ asset('site/assets/images/client.png') }}" alt=""/>
+                                    </div>
+                                </div>
+                                {% if i % 2 == 0 and loop.last != customersTestimonials|length %}
+                            </li>
+                            <li>
+                                {% endif %}
+                                {% endfor %}
+                            </li>#}
 
                         </ul>
                     </div>
@@ -131,6 +143,14 @@
                 <li><img src="{{ asset('site/assets/images/clientes_logos/logo_st.png') }}" alt=""></li>
                 <li><img src="{{ asset('site/assets/images/clientes_logos/logocopitec.png') }}" alt=""></li>
                 <li><img src="{{ asset('site/assets/images/clientes_logos/logomineirao.png') }}" alt=""></li>
+                {#{% for customer in customersLogos %}
+                    <li>
+                        <a href="{% if customer.url is not null %}{{ customer.url }}{% else %}#{% endif %}"
+                           target="_blank">
+                            <img src="{{ vich_uploader_asset(customer, 'imageFile') }}" alt="">
+                        </a>
+                    </li>
+                {% endfor %}#}
             </ul>
         </div>
 

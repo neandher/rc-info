@@ -33,7 +33,6 @@ class AppKernel extends Kernel
             new ApiBundle\ApiBundle(),
             new \JMS\SerializerBundle\JMSSerializerBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
-            new Lexik\Bundle\MaintenanceBundle\LexikMaintenanceBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

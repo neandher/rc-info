@@ -101,6 +101,24 @@
                             src="{{ asset('site/assets/images/clientes_logos/logomineirao.png') }}" alt=""/></li>
             </ul>
 
+            {#<ul>
+                {% set i = 0 %}
+                {% for customer in customers %}
+                {% set i = i+1 %}
+                <li class="animate" data-anim-type="zoomIn" data-anim-delay="{{ i }}00">
+                    <a href="{% if customer.url is not null %}{{ customer.url }}{% else %}#{% endif %}" target="_blank">
+                        <img src="{{ vich_uploader_asset(customer, 'imageFile') }}" alt=""
+                             style="max-width: 188px; height: 50px"/>
+                    </a>
+                </li>
+                {% if i % 5 == 0 and loop.last != customers|length %}
+            </ul>
+            <div class="clearfix margin_top1"></div>
+            <ul>
+                {% endif %}
+                {% endfor %}
+            </ul>#}
+
         </div>
     </div>
 
@@ -117,7 +135,8 @@
                 compromisso!
             </h4>
             <br>
-            <a href="{{ path('site_contato') }}" class="readmore_but9 animate zoomIn" data-anim-type="zoomIn" data-anim-delay="750">
+            <a href="{{ path('site_contato') }}" class="readmore_but9 animate zoomIn" data-anim-type="zoomIn"
+               data-anim-delay="750">
                 <i class="fa fa-check"></i> <strong>ENTRE EM CONTATO</strong>
             </a> &nbsp;&nbsp;&nbsp;
 

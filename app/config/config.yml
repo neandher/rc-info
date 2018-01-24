@@ -35,12 +35,14 @@ parameters:
     upload_banner_image_path: "%kernel.project_dir%/web/uploads/banner_images"
     upload_cms_downloads_image_path: "%kernel.project_dir%/web/uploads/cms_downloads_images"
     upload_downloads_file_path: "%kernel.project_dir%/web/uploads/downloads_files"
+    upload_customer_image_path: "%kernel.project_dir%/web/uploads/customer_images"
 
     ### uploads relative path to web ###
     upload_cache_relative_path: "/uploads/cache"
     upload_banner_image_relative_path: "/uploads/banner_images"
     upload_cms_downloads_image_relative_path: "/uploads/cms_downloads_images"
     upload_downloads_file_relative_path: "/uploads/downloads_files"
+    upload_customer_image_relative_path: "/uploads/customer_images"
 
     ### boletos path ###
     boletos_path: "%kernel.project_dir%/web/files/boletos_pdf"
@@ -153,18 +155,6 @@ nelmio_cors:
             allow_methods: ["POST", "PUT", "PATCH", "GET", "DELETE", "OPTIONS"]
             max_age: 3600
 
-lexik_maintenance:
-    authorized:
-        ips: ['127.0.0.1']
-    driver:
-        #ttl: 3600
-        # Database driver:
-        class: 'Lexik\Bundle\MaintenanceBundle\Drivers\DatabaseDriver'
-
-    response:
-        code: 503
-        status: "Service Temporarily Unavailable"
-
 vich_uploader:
     db_driver: orm
     storage:   gaufrette
@@ -194,10 +184,17 @@ vich_uploader:
             inject_on_load: true
             namer: app.admin.download_file_.namer
             directory_namer: app.admin.custom_dir_namer
+        customer_image:
+            uri_prefix: "%upload_customer_image_relative_path%"
+            upload_destination: customer_fs
+            delete_on_remove: true
+            delete_on_update: true
+            inject_on_load: true
+            namer:  vich_uploader.namer_uniqid
+            directory_namer: app.admin.custom_dir_namer
 
 knp_gaufrette:
     stream_wrapper: ~
-
     adapters:
         boletos:
             local:
@@ -214,6 +211,9 @@ knp_gaufrette:
         cms_downloads:
             local:
                 directory: "%upload_cms_downloads_image_path%"
+        customer:
+            local:
+                directory: "%upload_customer_image_path%"
 
     filesystems:
         boletos_fs:
@@ -226,3 +226,5 @@ knp_gaufrette:
             adapter: banner
         cms_downloads_fs:
             adapter: cms_downloads
+        customer_fs:
+            adapter: customer

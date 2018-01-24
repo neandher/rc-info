@@ -16,6 +16,10 @@ admin:
             billAmount: Valor Mensal
             last_login: Último Login
             created_at: Data Criação
+            url: Url do Site
+            image: Logo
+            text: Depoimento
+            published_at: Publicado Em
         impersonate: Cliente %name% logado com sucesso
 
     customerAddresses:

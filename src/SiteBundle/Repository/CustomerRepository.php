@@ -67,4 +67,28 @@ class CustomerRepository extends BaseRepository
             ->addSelect('uf')
             ->orderBy('c.name', 'asc')->getQuery()->getResult();
     }
+
+    public function findAllCms($params = [])
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb
+            ->innerJoin('c.siteUser', 'site_user')
+            ->addSelect('site_user')
+            ->where('site_user.isEnabled = true')
+            ->orderBy('c.publishedAt', 'desc');
+
+        if (isset($params['logo'])) {
+            $qb->andWhere('c.imageName is not null');
+        }
+
+        if (isset($params['text'])) {
+            $qb->andWhere('c.text is not null');
+        }
+
+        if (isset($params['limit'])) {
+            $qb->setMaxResults($params['limit']);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }
