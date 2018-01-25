@@ -43,4 +43,14 @@ class BannerRepository extends BaseRepository
 
         return $paginator;
     }
+
+    public function findLatestCms()
+    {
+        return $this->createQueryBuilder('b')
+            ->where('b.isEnabled = true')
+            ->andWhere(':now >= b.publishedAt')->setParameter('now', new \DateTime())
+            ->orderBy('b.publishedAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }
