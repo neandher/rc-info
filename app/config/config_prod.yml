@@ -18,7 +18,3 @@ monolog:
         console:
             type: console
             process_psr_3_messages: false
-
-lexik_maintenance:
-    authorized:
-        ips: ['177.137.232.50']
