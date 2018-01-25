@@ -17,7 +17,7 @@
 
         {% block form_start %}
             {{ form_start(form, {'action': path('admin_banner_new') ~ pagination.buildQuery,
-                'attr' : {'class' : '_form-horizontal'}}) }}
+                'attr' : {'novalidate' : 'true'}}) }}
         {% endblock %}
 
         {% block icon_list %}
