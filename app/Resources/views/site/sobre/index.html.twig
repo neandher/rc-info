@@ -55,7 +55,7 @@
                     <div class="flexslider carousel">
                         <ul class="slides">
 
-                            <li>
+                            {#<li>
                                 <div class="one_half">
                                     <div class="pesbox">
                                         <h5>"Tudo bem prático, sem burocracia. O nível de conhecimento da equipe de
@@ -97,9 +97,9 @@
                                         <img src="{{ asset('site/assets/images/client.png') }}" alt=""/>
                                     </div>
                                 </div>
-                            </li><!-- end section -->
+                            </li><!-- end section -->#}
 
-                            {#<li>
+                            <li>
                                 {% set i = 0 %}
                                 {% for customer in customersTestimonials %}
                                 {% set i = i+1 %}
@@ -116,7 +116,7 @@
                             <li>
                                 {% endif %}
                                 {% endfor %}
-                            </li>#}
+                            </li>
 
                         </ul>
                     </div>
@@ -133,7 +133,7 @@
 
         <div class="container">
             <ul id="mycarouselthree" class="jcarousel-skin-tango">
-                <li><img src="{{ asset('site/assets/images/clientes_logos/logo_alcar.png') }}" alt=""></li>
+                {#<li><img src="{{ asset('site/assets/images/clientes_logos/logo_alcar.png') }}" alt=""></li>
                 <li><img src="{{ asset('site/assets/images/clientes_logos/logo_auto_vila.png') }}" alt=""></li>
                 <li><img src="{{ asset('site/assets/images/clientes_logos/logo_bia_papelaria.png') }}" alt=""></li>
                 <li><img src="{{ asset('site/assets/images/clientes_logos/logo_elcmar.png') }}" alt=""></li>
@@ -142,15 +142,15 @@
                 <li><img src="{{ asset('site/assets/images/clientes_logos/logo_oticas_confianca.png') }}" alt=""></li>
                 <li><img src="{{ asset('site/assets/images/clientes_logos/logo_st.png') }}" alt=""></li>
                 <li><img src="{{ asset('site/assets/images/clientes_logos/logocopitec.png') }}" alt=""></li>
-                <li><img src="{{ asset('site/assets/images/clientes_logos/logomineirao.png') }}" alt=""></li>
-                {#{% for customer in customersLogos %}
+                <li><img src="{{ asset('site/assets/images/clientes_logos/logomineirao.png') }}" alt=""></li>#}
+                {% for customer in customersLogos %}
                     <li>
                         <a href="{% if customer.url is not null %}{{ customer.url }}{% else %}#{% endif %}"
                            target="_blank">
                             <img src="{{ vich_uploader_asset(customer, 'imageFile') }}" alt="">
                         </a>
                     </li>
-                {% endfor %}#}
+                {% endfor %}
             </ul>
         </div>
 

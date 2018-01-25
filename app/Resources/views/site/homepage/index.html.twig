@@ -75,7 +75,7 @@
 
             <div class="margin_top3"></div>
 
-            <ul>
+            {#<ul>
                 <li class="animate" data-anim-type="zoomIn" data-anim-delay="100"><img
                             src="{{ asset('site/assets/images/clientes_logos/logo_alcar.png') }}" alt=""/></li>
                 <li class="animate" data-anim-type="zoomIn" data-anim-delay="200"><img
@@ -99,9 +99,9 @@
                             src="{{ asset('site/assets/images/clientes_logos/logocopitec.png') }}" alt=""/></li>
                 <li class="animate" data-anim-type="zoomIn" data-anim-delay="1000"><img
                             src="{{ asset('site/assets/images/clientes_logos/logomineirao.png') }}" alt=""/></li>
-            </ul>
+            </ul>#}
 
-            {#<ul>
+            <ul>
                 {% set i = 0 %}
                 {% for customer in customers %}
                 {% set i = i+1 %}
@@ -117,7 +117,7 @@
             <ul>
                 {% endif %}
                 {% endfor %}
-            </ul>#}
+            </ul>
 
         </div>
     </div>
