@@ -21,7 +21,7 @@ class DownloadFileNamer implements NamerInterface
             "",
             $mapping->getFile($object)->getClientOriginalName()
         );
-        return Urlizer::urlize($str, '_') . '.' . $mapping->getFile($object)->getClientOriginalExtension();
+        return date('mY') . '/' . Urlizer::urlize($str, '_') . '.' . $mapping->getFile($object)->getClientOriginalExtension();
     }
 
 }

@@ -166,16 +166,14 @@ vich_uploader:
             delete_on_remove: true
             delete_on_update: true
             inject_on_load: true
-            namer:  vich_uploader.namer_uniqid
-            directory_namer: app.admin.custom_dir_namer
+            namer:  app.admin.custom_file_namer
         cms_downloads_image:
             uri_prefix: "%upload_cms_downloads_image_relative_path%"
             upload_destination: cms_downloads_fs
             delete_on_remove: true
             delete_on_update: true
             inject_on_load: true
-            namer:  vich_uploader.namer_uniqid
-            directory_namer: app.admin.custom_dir_namer
+            namer:  app.admin.custom_file_namer
         downloads_file:
             uri_prefix: "%upload_downloads_file_relative_path%"
             upload_destination: downloads_fs
@@ -183,15 +181,13 @@ vich_uploader:
             delete_on_update: true
             inject_on_load: true
             namer: app.admin.download_file_.namer
-            directory_namer: app.admin.custom_dir_namer
         customer_image:
             uri_prefix: "%upload_customer_image_relative_path%"
             upload_destination: customer_fs
             delete_on_remove: true
             delete_on_update: true
             inject_on_load: true
-            namer:  vich_uploader.namer_uniqid
-            directory_namer: app.admin.custom_dir_namer
+            namer:  app.admin.custom_file_namer
 
 knp_gaufrette:
     stream_wrapper: ~
