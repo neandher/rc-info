@@ -13,6 +13,12 @@ security:
             id: app.admin_user_provider.email_or_name_based
         site_user_provider:
             id: app.site_user_provider.cnpj_or_email_based
+        in_memory_admin:
+            memory:
+                users:
+                    admin:
+                        password: '@123#rci$'
+                        roles: [ROLE_ADMINISTRATION_ACCESS]
     
     encoders:
         UserBundle\Model\User: bcrypt
